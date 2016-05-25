@@ -1,0 +1,184 @@
+---
+layout: topic
+title: Reshaping and joining with dplyr
+output: html_document
+author: Lindsay Brin
+---
+-----------
+
+```{r, eval = TRUE, echo=FALSE, message=FALSE}
+library("dplyr")   ## This would theoretically already be loaded from a previous lesson, but it needs to be loaded here if not.
+```
+
+# Motivation
+
+Sometimes you may have several different data frames with data on the same set of samples, and you'd like to put them together into one data frame. If these separate data frames are set up differently from each other, you may need to restructure one or both to more easily align them.   
+
+Using functions to accomplish this is much more efficient than trying to match entries manually!   
+
+Here we will introduce you to reshaping functions from the package `tidyr` and join functions from the package `plyr`, to which you've already been introduced. These functions will help you organize your data for analysis both in terms of making your data "tidy" as well as putting all observations or variables into the same data frame.   
+
+Let's start by installing the package `tidyr`.  
+
+
+```{r, eval = FALSE}
+install.packages("tidyr")   ## install the package
+```
+
+```{r, eval = TRUE}
+library("tidyr")   ## load the package
+```
+
+
+# Data formats and tidy data
+
+Data frames can be in either long format or wide format.   
+
+To demonstrate, let's create a data frame in long format. There are three different measurements for each sample: ammonium, nitrate, and nitrite. All of the values are in a single column, and the measurement is specified by a value in a second column. In `tidyr` and other similar packages, this variable (`Nutrient`) is called the *key*.  
+
+```{r}
+nutrients_long <- data.frame(SampleID = rep(c(1, 2, 3), 3)
+                        ,Nutrient = c(rep("Ammonium",3), rep("Nitrate",3), rep("Nitrite",3)) 
+                        ,Concentration = c(8.2, 6.9, 12.1, 1.7, 3.6, 2.8, 0.4, 1.5, 0.8)
+                        )
+nutrients_long
+```
+
+Here is the same data frame, using color to help you visualize the structure:
+
+```{r, echo=FALSE, out.width = 360, fig.align='center'}
+knitr::include_graphics("../Images/DataBlocks_long.pdf")
+```
+
+But what if we want all of the data from one sample to be in a single row, with each nutrient in a separate column?  This would be called wide format, and it would look like this:   
+
+```{r, echo=FALSE, out.width = 480, fig.align='center'}
+knitr::include_graphics("../Images/DataBlocks_wide.pdf")
+```
+
+This is an example of "tidy" data ([Wickham 2014](https://www.jstatsoft.org/article/view/v059i10)).  It has the following characteristics:
+
+1. Each variable forms a column.
+2. Each observation forms a row.
+
+Formatting your data in this way can streamline downstream analyses. A consistent data format makes it easier to pass data to functions and analyses.  
+
+Of course, there are other structures and formats that may be more convenient for other purposes, but this one tends to be the most effective for analysis in R.   
+
+The data you work with is likely more complex than in this example, and it can take some thought to decide what constitutes a variable.   
+
+If the structure of your experiment involves groups between which you want to compare aggregate data (mean, maximum, etc.), these groups should usually be specified by a variable (i.e., a column), with each sample in each group in a separate row. For example, say you have two treatments applied to each `SampleID`, and you want to compare nutrient concentrations between treatments. Ideally, you would include a `Treatment` variable in your data frame, and each `SampleID` would be associated with 2 rows, one for each `Treatment`. The structure would be the same if you had multiple sampling dates instead of multiple treatments. It would also be similar if you had two `Treatments` that each had 3 replicates, with the variable name `Replicate` replacing `SampleID`. 
+
+```{r, echo=FALSE, out.width = 600, fig.align='center'}
+knitr::include_graphics("../Images/DataBlocks_wide_reps.pdf")
+```
+
+For more on tidy data, here is Hadley Wickham's informal version of his full tidy data paper: [https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)  
+  
+  
+# Converting between long and wide formats
+
+Depending on the initial format of the data that you are working with, it may be necessary to convert it between long and wide format (and possibly in both directions) to make it tidy.
+
+A simple way to convert your data from long to wide format is to use the function `spread` in `tidyr`. Here, we'll start with the data frame `nutrients_long` and convert it to wide format. As a reminder, here is the `nutrients_long` data frame:    
+
+```{r echo=FALSE}
+nutrients_long
+```
+
+```{r}
+nutrients_wide <- nutrients_long %>% 
+  spread(key = Nutrient, value = Concentration)
+
+nutrients_wide
+```
+
+In the function `spread`, the `key` argument is the name of the column that contains a list of the data descriptors (or measurement names) that we want to separate, and these descriptors will become column names in wide format. The `value` argument indicates the values that will populate the data frame.   
+
+Tip: When you're figuring out how to restructure your data for a downstream analysis, it can be helpful to write out a quick sketch of how you want the data to be organized, in terms of the names of the variables and the observations. This may help you figure out what input to give to each argument in the reshaping function.   
+
+We can convert wide format data back to long format using the function `gather`.   
+
+```{r}
+nutrients_wide %>%
+  gather(key = "Nutrient", value = "Concentration", Ammonium, Nitrate, Nitrite)
+```
+
+In this case, the argument `key` gives the *name* of the column that will have the data descriptors in it (here, "Nutrient"), and the argument `value` has the *name* of the column with the values (here, "Concentration"). The remaining input tells the function which variables to gather. In this case, this is a list of columns. For each column, the column name will be used to populate the named key column, and the values will be used to populate the named value column. SampleID is not listed and is maintained as an identifier for each observation - i.e., it is not gathered.   
+
+You can accomplish the same task by telling R that you want to gather all of the columns besides SampleID, as follows:
+
+```{r, eval=FALSE}
+nutrients_wide %>%
+  gather(key = "Nutrient", value = "Concentration", -SampleID)
+```
+
+You can also specify these columns using column numbers. Try these yourself to demonstrate that they give the same output.
+
+```{r, eval=FALSE}
+nutrients_wide %>%
+  gather(key = "Nutrient", value = "Concentration", 2:4)
+
+nutrients_wide %>%
+  gather(key = "Nutrient", value = "Concentration", 2, 3, 4)
+```
+
+What happens if you only select two of the three columns of data?   
+
+## Challenge
+
+PUT CHALLENGES HERE!!!
+
+# Joining data frames
+
+Sometimes you may want to conduct analyses with data that are in separate data frames, and you need to combine the data frames into one to do so. This often happens when you run multiple analyses on the same set of samples.  
+
+There are multiple ways to join two data frames, depending on variables and information we want to include in the resulting data frame. The package `dplyr` has multiple functions for joining data, and these functions fall into two categories, mutating joins and filtering joins.   
+
+* **Mutating joins** add new variables from one table to matching observations in another table.
+* **Filtering joins** retain observations in one table based on whether or not they match the observations in another table.
+
+We will demonstrate joins from both categories below. For more observations, see the dplyr (Two-table verbs vignette)[https://cran.r-project.org/web/packages/dplyr/vignettes/two-table.html].
+
+## Mutating joins
+
+Let's start with the hypothetical data frame described above, containing nutrient concentrations for 3 replicates for each of 2 treatments. We also have measurements of extractable organic carbon from the same samples, except that replicate 2 of treatment 1 was lost, and the carbon data file contains data for another treatment, treatment 3.  
+
+We'll read in the data from .csv files.
+
+```{r, eval=FALSE}
+nutrients <- read.csv(file="Data/Experiment_nutrients.csv")
+nutrients
+```
+
+```{r, echo=FALSE}
+## The above code chunk shows how I'd like it to look, but this structure is necessary because the markdown file is in a subdirectory of the working directory.
+nutrients <- read.csv(file="../Data/Experiment_nutrients.csv")
+nutrients
+```
+
+```{r, eval=FALSE}
+carbon <- read.csv(file="Data/Experiment_carbon.csv")
+carbon
+```
+
+```{r, echo=FALSE}
+## Same pattern as above
+carbon <- read.csv(file="../Data/Experiment_carbon.csv")
+carbon
+```
+
+Let's say that we want to keep all of the data in the `nutrients` data frame, and add another variable, `Carbon`, that contains carbon data when present and `NA` when values are missing. To do this, we can use the function `left_join`.
+
+```{r}
+nutrients %>% 
+  left_join(y=carbon, by=c("Treatment","Replicate"))
+```
+
+The argument `y` specifies the data frame from which to find data to add to `nutrients`. You can specify `x` as the data frame to act on, which would be `nutrients`, but we have passed it via `%>%` instead. The last agrument, `by`, specifies which columns to join by. The default is to do a natural join, which means that the function will use all columns that are present in both data frames.  
+
+To explore this further, let's try a join using only one of the `by` variables specified above.
+
+
+
+For example, do we want to keep only the samples and replicates that have measurements for carbon and all nutrients? This would not include data for `Replicate` 2 of `Treatment` 1 in the nutrients data, nor would it include any data for `Treatment` 3 in the carbon data. This might be ideal if we want a data frame with no `NA` values. This sort of 
