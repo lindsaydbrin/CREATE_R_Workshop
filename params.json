@@ -1,0 +1,6 @@
+{
+  "name": "CREATE R Workshop",
+  "tagline": "Introduction to R for Ecological Data Analysis workshop at the Canadian Rivers Institute of the University of New Brunswick.",
+  "body": "# README\r\nLindsay Brin  \r\n\r\nMaterials for the **Introduction to R for Ecological Data Analysis** workshop at the Canadian Rivers Institute of the University of New Brunswick.\r\n\r\n<a href=\"/Lessons_Rmd/Lessons_Outline.html\">\"Lessons_Outline\"</a> gives an outline of the workshop flow, which includes lessons based on Data Carpentry materials as well as lessons that I developed.\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
