@@ -1,12 +1,20 @@
 # Reshaping data frames with dplyr
-Lindsay Brin  
-`r format(Sys.Date())`  
-
------------
+CRI R Workshop  
 
 
 
-# Why, and what?
+___
+
+* [What, and why?](#motivation)   
+* [Data formats and tidy data](#tidydata) 
+* [Converting between long and wide formats](#proselytize)
+	+ *[Challenge](#challengeDataFormat)*
+* [Resources](#resources)
+
+___
+
+
+# Why, and what? {#motivation}
 
 Sometimes you may have several different data frames with data on the same set of samples, and you'd like to put them together into one data frame. If these separate data frames are set up differently from each other, you may need to restructure one or both to more easily align them. Or, your data may be in one data frame, but not in a form that works with the analysis functions that you want to use (e.g., for statistics).    
 
@@ -26,7 +34,7 @@ library("tidyr")   ## load the package
 ```
 
 
-# Data formats and tidy data
+# Data formats and tidy data {#tidydata}
 
 Data frames can be in either long format or wide format.   
 
@@ -56,11 +64,11 @@ nutrients_long
 
 Here is the same data frame, using color to help you visualize the structure:
 
-<img src="../Images/DataBlocks_long.pdf" width="360" style="display: block; margin: auto;" />
+<img src="../Images/DataBlocks_long.pdf" width="360pt" style="display: block; margin: auto;" />
 
 But what if we want all of the data from one sample to be in a single row, with each nutrient in a separate column?  This would be called wide format, and it would look like this:   
 
-<img src="../Images/DataBlocks_wide.pdf" width="480" style="display: block; margin: auto;" />
+<img src="../Images/DataBlocks_wide.pdf" width="480pt" style="display: block; margin: auto;" />
 
 This is an example of "tidy" data ([Wickham 2014](https://www.jstatsoft.org/article/view/v059i10)).  It has the following characteristics:
 
@@ -75,18 +83,18 @@ The data you work with is likely more complex than in this example, and it can t
 
 If the structure of your experiment involves groups between which you want to compare aggregate data (mean, maximum, etc.), these groups should usually be specified by a variable (i.e., a column), with each sample in each group in a separate row. For example, say you have two treatments applied to each `SampleID`, and you want to compare nutrient concentrations between treatments. Ideally, you would include a `Treatment` variable in your data frame, and each `SampleID` would be associated with 2 rows, one for each `Treatment`. The structure would be the same if you had multiple sampling dates instead of multiple treatments. It would also be similar if you had two `Treatments` that each had 3 replicates, with the variable name `Replicate` replacing `SampleID`. 
 
-<img src="../Images/DataBlocks_wide_reps.pdf" width="600" style="display: block; margin: auto;" />
+<img src="../Images/DataBlocks_wide_reps.pdf" width="600pt" style="display: block; margin: auto;" />
 
 This is a tidy dataset!  
 
 In contrast, the following "messy" dataset has separate columns for different replicates of each treatment. This will make things much more difficult later and should be avoided. However, if your data comes this way, e.g. as output from an analytical instrument, it is straightforward to use reshaping functions to put it into a tidier form!
 
-<img src="../Images/DataBlocks_wide_awful.pdf" width="900" style="display: block; margin: auto;" />
+<img src="../Images/DataBlocks_wide_awful.pdf" width="900pt" style="display: block; margin: auto;" />
 
 For more on tidy data, here is Hadley Wickham's informal version of his full tidy data paper: [https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)  
   
   
-# Converting between long and wide formats
+# Converting between long and wide formats {#proselytize}
 
 Depending on the initial format of the data that you are working with, it may be necessary to convert it between long and wide format (and possibly in both directions) to make it tidy.
 
@@ -169,7 +177,7 @@ nutrients_wide %>%
 
 What happens if you only select two of the three columns of data?   
 
-## Challenge
+#### Challenge {#challengeDataFormat}
 
 * If a column of a dataset is a character vector that includes information on two different variables, you can separate the information using the `separate` function. Use `gather`, `spread`, and `separate` to tidy the following "messy" data set so that it looks like the tidy dataset pictured above, i.e., `nutrients_wide` with separate rows for each replicate. (Look at the help file for `separate` - paying attention to the arguments `col`, `into`, and `sep` - to learn how to use it.)
 
@@ -190,4 +198,12 @@ nutrients_messy
 
 
 
+___
 
+# Resources {#resources}
+
+* [Hadley Wickham on tidy data](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)
+
+<br>
+<hr>
+<br>

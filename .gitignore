@@ -1,2 +1,9 @@
 # Ignore automatic Mac folder metadata files
 .DS_Store
+
+# Ignore certain directories
+Writing/
+Logistics/
+
+# Ignore .pages file(s)
+*.pages
