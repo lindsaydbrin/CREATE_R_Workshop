@@ -8,7 +8,8 @@ ___
 * [What, and why?](#motivation)   
 * [Data formats and tidy data](#tidydata) 
 * [Converting between long and wide formats](#proselytize)
-	+ *[Challenge](#challengeDataFormat)*
+	+ [One more trick: `separate`](#separate)
+		- *[Challenge](#challengeDataFormat)*
 * [Resources](#resources)
 
 ___
@@ -18,7 +19,7 @@ ___
 
 Sometimes you may have several different data frames with data on the same set of samples, and you'd like to put them together into one data frame. If these separate data frames are set up differently from each other, you may need to restructure one or both to more easily align them. Or, your data may be in one data frame, but not in a form that works with the analysis functions that you want to use (e.g., for statistics).    
 
-In the next two lessons, we will introduce you to reshaping functions from the package `tidyr` and join functions from the package `plyr`, which you've already had some experience with. These functions will help you organize your data for analysis both in terms of making your data "tidy" as well as putting all observations or variables into the same data frame.   
+In the next two lessons, we will introduce you to reshaping functions from the package `tidyr` and join functions from the package `dplyr`, which you've already had some experience with. These functions will help you organize your data for analysis both in terms of making your data "tidy" as well as putting all observations or variables into the same data frame.   
 
 Let's start by installing the package `tidyr`.  
 
@@ -38,14 +39,21 @@ library("tidyr")   ## load the package
 
 Data frames can be in either long format or wide format.   
 
-To demonstrate, let's create a data frame in long format. There are three different measurements for each sample: ammonium, nitrate, and nitrite. All of the values are in a single column, and the measurement is specified by a value in a second column. In `tidyr` and other similar packages, this variable (`Nutrient`) is called the *key*.  
+To demonstrate, let's read in a data frame in long format: `nutrients_long`. There are three different measurements for each sample: ammonium, nitrate, and nitrite. All of the values are in a single column, `Concentration`, and the measurement is specified by a value in a second column, `Nutrient`. In `tidyr` and other similar packages, this variable (`Nutrient`) is called the *key*.  
 
-
-```r
+<!--
+## Originally written out, but it seemed unnecessarily time consuming, so now it's read in.
+## This is here to re-create it if I'd like to.
 nutrients_long <- data.frame(SampleID = rep(c(1, 2, 3), 3)
                         ,Nutrient = c(rep("Ammonium",3), rep("Nitrate",3), rep("Nitrite",3)) 
                         ,Concentration = c(8.2, 6.9, 12.1, 1.7, 3.6, 2.8, 0.4, 1.5, 0.8)
                         )
+write.csv(nutrients_long,"Data/nutrients_long.csv", row.names=FALSE)
+-->
+
+
+```r
+nutrients_long <- read.csv("../Data/nutrients_long.csv")
 nutrients_long
 ```
 
@@ -61,6 +69,7 @@ nutrients_long
 ## 8        2  Nitrite           1.5
 ## 9        3  Nitrite           0.8
 ```
+
 
 Here is the same data frame, using color to help you visualize the structure:
 
@@ -175,11 +184,86 @@ nutrients_wide %>%
   gather(key = "Nutrient", value = "Concentration", 2, 3, 4)
 ```
 
-What happens if you only select two of the three columns of data?   
+What happens if you only select two of the three columns of data?  
+
+## One more trick: `separate` {#separate}
+
+Sometimes a variable may contain information that really makes up two variables.  For example, the following data frame has one column that indicates both the nutrient analyzed and the sample replicate.
+
+
+```r
+nutrients_dbl <- read.csv("../Data/nutrients_dbl.csv")
+nutrients_dbl
+```
+
+```
+##    Treatment Nutrient_Rep Concentration
+## 1          1   Ammonium_1           8.2
+## 2          2   Ammonium_1          10.5
+## 3          1    Nitrate_1           1.7
+## 4          2    Nitrate_1           0.4
+## 5          1    Nitrite_1           0.4
+## 6          2    Nitrite_1           0.7
+## 7          1   Ammonium_2           6.9
+## 8          2   Ammonium_2           8.6
+## 9          1    Nitrate_2           3.6
+## 10         2    Nitrate_2           2.7
+## 11         1    Nitrite_2           1.5
+## 12         2    Nitrite_2           1.2
+## 13         1   Ammonium_3          12.1
+## 14         2   Ammonium_3           7.8
+## 15         1    Nitrate_3           2.8
+## 16         2    Nitrate_3           4.1
+## 17         1    Nitrite_3           0.8
+## 18         2    Nitrite_3           0.9
+```
+
+We can separate that one variable into two new variables using the function `separate`. We will use `col` to specify which column to separate, `sep` to specify what character to separate on (i.e., the one that currently joins the two variables), and `into` to specify the names of the new columns.
+
+
+```r
+nutrients_dbl %>% separate(col=Nutrient_Rep, sep="_", into=c("Nutrient", "Rep")) 
+```
+
+```
+##    Treatment Nutrient Rep Concentration
+## 1          1 Ammonium   1           8.2
+## 2          2 Ammonium   1          10.5
+## 3          1  Nitrate   1           1.7
+## 4          2  Nitrate   1           0.4
+## 5          1  Nitrite   1           0.4
+## 6          2  Nitrite   1           0.7
+## 7          1 Ammonium   2           6.9
+## 8          2 Ammonium   2           8.6
+## 9          1  Nitrate   2           3.6
+## 10         2  Nitrate   2           2.7
+## 11         1  Nitrite   2           1.5
+## 12         2  Nitrite   2           1.2
+## 13         1 Ammonium   3          12.1
+## 14         2 Ammonium   3           7.8
+## 15         1  Nitrate   3           2.8
+## 16         2  Nitrate   3           4.1
+## 17         1  Nitrite   3           0.8
+## 18         2  Nitrite   3           0.9
+```
+
+Voilà! One column has become two.  Now we are in a position to further tidy the data frame, as we will see below.
 
 #### Challenge {#challengeDataFormat}
 
-* If a column of a dataset is a character vector that includes information on two different variables, you can separate the information using the `separate` function. Use `gather`, `spread`, and `separate` to tidy the following "messy" data set so that it looks like the tidy dataset pictured above, i.e., `nutrients_wide` with separate rows for each replicate. (Look at the help file for `separate` - paying attention to the arguments `col`, `into`, and `sep` - to learn how to use it.)
+* The `trees` data frame is in long format: every observation (count) is in its own row, and the tree species is specified by the variable `Species`. Convert this data frame to wide format, with counts for different species in different columns.
+
+
+
+* Similarly, convert the original `trees` data frame to wide format, but with data from different plot replicates (specified by `Plot`) in different columns.
+
+
+
+* Sometimes it may take multiple steps to tidy a dataset!  Above, we used `separate` to start to put `nutrients_dbl` into a tidier form. Do this again, but now convert the new, `separate`d data frame into a tidy data frame in wide format, with concentrations of different nutrients in different columns.
+
+
+
+* Let's start one step back! Use `gather`, `spread`, and `separate` to tidy the following "messy" data set into a tidy one, i.e., by converting it to `nutrients_dbl` and then tidying it as above. 
 
 
 ```r

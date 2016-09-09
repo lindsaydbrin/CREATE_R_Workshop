@@ -74,11 +74,13 @@ For linear regression in R, we use the function `lm`. We call the function, and 
 
 
 ```r
-model <- lm(dataset$y.variable ~ dataset$x.variable) # Linear regression of y variable versus x variable
+# Linear regression of y variable versus x variable
+	model <- lm(dataset$y.variable ~ dataset$x.variable) 
 
 # OR
 
-model <- lm(y.variable ~ x.variable, data=dataset) # Same result, cleaner syntax
+# Same result, cleaner syntax
+	model <- lm(y.variable ~ x.variable, data=dataset) 
 ```
 
 So, for the Inverts data:
@@ -133,7 +135,7 @@ summary(Inverts.lm)
 ## F-statistic: 687.3 on 1 and 22 DF,  p-value: < 2.2e-16
 ```
 
-Take a look at the `Coefficients` section of the output. The `Estimate` column tells us the intercept of the regression, as well as the slope of the relationship of Richness with TOC. The standard errors of these estimates is given in the next column over, `Std. Error`. The last column, `Pr(>|t|)` gives us the p-values, or probabilities that the null hypothesis is correct (that the coefficients have values equal to 0). These p-values are based on the t-statistic given in the `t value` column.   
+Take a look at the `Coefficients` section of the output. The `Estimate` column tells us the intercept of the regression, as well as the slope of the relationship of Richness with TOC. The standard errors of these estimates is given in the next column over, `Std. Error`. The last column, `Pr(>|t|)`, gives us the p-values. A p-value indicates significance by indicating the likelihood of your data given the null hypothesis (that the coefficients have values equal to 0). Specifically, it is the probability of finding the observed (or a "more extreme") result if, in fact, the null hypothesis is correct. These p-values are based on the t-statistic given in the `t value` column.    
 
 From the p-values (and the asterisks next to them), we can see that both the intercept and the slope are significant, the latter indicating that richness is significantly dependent on total organic carbon.
 
@@ -316,14 +318,31 @@ For simple regression, the t-value and p-value for the linear fit between the tw
 ```
 
 ```
-## [1] 0
+## [1] 4.359055e-18
 ```
 
 #### Challenge {#challengelm}
 
-* Write a function that returns the slope and intercept of a linear regression model.
+* Use a simple linear regression to look at whether species richness is dependent on mean stream temperature in the `Inverts` data frame.
 
-* Use a simple linear regression to look at whether species richness is dependent on mean stream temperature.
+
+
+* Read in the `genes.csv` data file from the lesson on joining data frames. Examine the relationship between the abundance of nirS and the abundance of nosZ by plotting the data and then fitting a linear regression model. What are the p-value and the adjusted r^2^ of the overall model? Is the linear relationship significant?
+
+
+
+* Read in the `climates.csv` data file from the lesson on joining data frames. Examine the relationship between mean annual precipitation (MAP) and mean annual temperature (MAT) by plotting the data and then fitting a linear regression model. What are the p-value and the adjusted r^2^ of the overall model? Is the linear relationship significant?
+
+
+
+* Extract the slope, intercept, p-value, and adjusted r^2^ of the linear regression model of the relationship between MAP and MAT.
+
+
+
+* Write a function that returns a vector with the slope and intercept of a simple linear regression model.
+
+
+
 
 ## Looking at your regression {#lookAtlm}
 
@@ -331,24 +350,26 @@ Once you've run a linear regression, you can plot it on a scatterplot. The simpl
 
 
 ```r
-plot(Richness ~ TOC, data=Inverts, pch=19, xlim=c(0, 1.6), ylim=c(0, 120), axes=F, ann=F)  # Plot without axes
-	axis(1, pos=0, at=seq(0, 1.6, by=0.4), cex.axis=1.2)  # Add x-axis, and place it at y = 0
+plot(Richness ~ TOC, data=Inverts, pch=19, xlim=c(0, 1.6), ylim=c(0, 120)
+		 , axes=F, ann=F)  # Plot without axes
+	axis(1, pos=0, at=seq(0, 1.6, by=0.4), cex.axis=1.2)  # Add x-axis; place it at y = 0
 		mtext(side=1, line=2, text="Total organic carbon (%)", cex=1.2)
-	axis(2, pos=0, las=1, cex.axis=1.2)  # Add y-axis, and place it at x = 0
+	axis(2, pos=0, las=1, cex.axis=1.2)  # Add y-axis; place it at x = 0
 		mtext(side=2, line=2, text="Species richness", cex=1.2)
 abline(Inverts.lm) # Plot linear regression
 ```
 
-<img src="Lesson_-_Linear_regression_files/figure-html/unnamed-chunk-18-1.png" width="500pt" style="display: block; margin: auto;" />
+<img src="Lesson_-_Linear_regression_files/figure-html/unnamed-chunk-23-1.png" width="500pt" style="display: block; margin: auto;" />
 
-However, you can see that the line extends to the end of the plot margins, which can look awkward if you've specified the placement of your axes. An alternative approach is to draw a line with x and y coordinates of your choosing. For this plot, we might want to use x = 0.3 and 1.4. To calculate the appropriate y-values, we can use the `predict` function. This function uses the linear regression to calculate modeled values for the response variable based on given values for the explanatory variable. Once we have the y values, we can use the function `lines` to draw a line with specified x and y coordinates. We can use many of the same `par` arguments for `lines` as we can with `points`.
+However, you can see that the line extends to the end of the plot margins, which can look awkward if you've specified the placement of your axes. An alternative approach is to draw a line with x and y coordinates of your choosing. For this plot, we might want to use x = 0.3 and 1.4. To calculate the appropriate y-values, we can use the `predict` function. This function uses the linear regression to calculate modeled values for the response variable based on the selected values for the explanatory variable. Once we have the y values, we can use the function `lines` to draw a line with specified x and y coordinates. We can use many of the same `par` arguments for `lines` as we can with `points`.
 
 
 ```r
-plot(Richness ~ TOC, data=Inverts, pch=19, xlim=c(0, 1.6), ylim=c(0, 120), axes=F, ann=F)  # Plot without axes
-	axis(1, pos=0, at=seq(0, 1.6, by=0.4), cex.axis=1.2)  # Add x-axis, and place it at y = 0
+plot(Richness ~ TOC, data=Inverts, pch=19, xlim=c(0, 1.6), ylim=c(0, 120)
+		 , axes=F, ann=F)  # Plot without axes
+	axis(1, pos=0, at=seq(0, 1.6, by=0.4), cex.axis=1.2)  # Add x-axis; place it at y = 0
 		mtext(side=1, line=2, text="Total organic carbon (%)", cex=1.2)
-	axis(2, pos=0, las=1, cex.axis=1.2)  # Add y-axis, and place it at x = 0
+	axis(2, pos=0, las=1, cex.axis=1.2)  # Add y-axis; place it at x = 0
 		mtext(side=2, line=2, text="Species richness", cex=1.2)
 
 # Calculate y values given specified x values, then plot x and y values
@@ -356,7 +377,7 @@ yvals <- predict(Inverts.lm, newdata=data.frame(TOC = c(0.3, 1.4)))
 lines(x = c(0.3, 1.4), y = yvals, col="mediumorchid", lwd=2)
 ```
 
-<img src="Lesson_-_Linear_regression_files/figure-html/unnamed-chunk-19-1.png" width="500pt" style="display: block; margin: auto;" />
+<img src="Lesson_-_Linear_regression_files/figure-html/unnamed-chunk-24-1.png" width="500pt" style="display: block; margin: auto;" />
 
 # Multiple regression {#multipleRegression}
 
@@ -371,9 +392,9 @@ Again, it's a good idea to look at your data!  Let's look at the relationship be
 plot(Richness ~ CurrentVariability, data=Inverts, pch=19, las=1)
 ```
 
-<img src="Lesson_-_Linear_regression_files/figure-html/unnamed-chunk-20-1.png" width="500pt" style="display: block; margin: auto;" />
+<img src="Lesson_-_Linear_regression_files/figure-html/unnamed-chunk-25-1.png" width="500pt" style="display: block; margin: auto;" />
 
-It really doesn't look like there's a relationship between these two variables, does it - linear or otherwise.  We'll proceed with the multiple regression nonetheless, to demonstrate.
+It really doesn't look like there's a relationship between these two variables, does it - linear or otherwise.  Nonetheless, we'll proceed with a multiple regression model, to demonstrate the process.
 
 ## Fit the model {#fitModel2}
 To do a multiple linear regression, we add variables to the formula in the `lm ` function. As an example, let's look at the relationship between the response variable `Richness` and the explanatory variables `TOC` and `CurrentVariability`. As with simple regression, we can look at the model with `summary`.
@@ -412,8 +433,11 @@ If we replaced the `+` with `*`, the model would include both explanatory variab
 
 
 ```r
-lm(Richness ~ TOC * CurrentVariability, data=Inverts)  # Specify main effects and interaction with one operator
-lm(Richness ~ TOC + CurrentVariability + TOC:CurrentVariability)  # Specify main effects separately from the interaction
+# Specify main effects and interaction with one operator
+	lm(Richness ~ TOC * CurrentVariability, data=Inverts)  
+
+# Specify main effects separately from the interaction
+	lm(Richness ~ TOC + CurrentVariability + TOC:CurrentVariability)  
 ```
 
 Let's go back to the original model. If you want to do an F-test and compare F-values rather than t-values, you can use the `drop1` function, which looks at the effect on the entire model of adding the specified variable last. This will be more important in the next lesson on ANOVA. In short, for a linear regression, you get the same p-values as you do using `summary`, but `drop1` lets you pull out the F-values if you need them. In the function call, you give as arguments the original model, an argument specifying the terms to be considered for adding or dropping (`.~.` for all terms), and the test statistic of interest.
@@ -444,25 +468,33 @@ We will check the residuals similarly to above, but with our multiple regression
 
 
 ```r
-par(mfrow=c(1,2), mar=c(8,5,7,2))  # Set plot layout and margins
-	hist(resid(Inverts2.lm))  # Plot histogram
-	qqnorm(resid(Inverts2.lm))  # Make QQ plot to check normality
+# Set plot layout and margins
+	par(mfrow=c(1,2), mar=c(8,5,7,2))
+# Plot histogram
+	hist(resid(Inverts2.lm))  
+# Make QQ plot to check normality
+	qqnorm(resid(Inverts2.lm))  
 	qqline(resid(Inverts2.lm))
 ```
 
-<img src="Lesson_-_Linear_regression_files/figure-html/unnamed-chunk-24-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Lesson_-_Linear_regression_files/figure-html/unnamed-chunk-29-1.png" width="600pt" style="display: block; margin: auto;" />
 
 ```r
-par(mfrow=c(2,2), mar=c(5,5,2,2))  # Set plot layout and margins
-	plot(Inverts$TOC, resid(Inverts2.lm), pch=19, las=1)  # Plot residuals against TOC (explanatory variable)
-	plot(Inverts$CurrentVariability, resid(Inverts2.lm), pch=19, las=1)  # Plot residuals against Current Variability (explanatory variable)
-	plot(fitted(Inverts2.lm), resid(Inverts2.lm), pch=19, las=1)  # Plot residuals against fitted values
-par(mfrow=c(1,1), mar=c(5,5,2,2))  # Reset plot layout and margins
+# Set plot layout and margins
+	par(mfrow=c(2,2), mar=c(5,5,2,2))  
+# Plot residuals against TOC (explanatory variable)
+	plot(Inverts$TOC, resid(Inverts2.lm), pch=19, las=1)  
+# Plot residuals against Current Variability (explanatory variable)
+	plot(Inverts$CurrentVariability, resid(Inverts2.lm), pch=19, las=1)
+# Plot residuals against fitted values
+	plot(fitted(Inverts2.lm), resid(Inverts2.lm), pch=19, las=1)  
+# Reset plot layout and margins
+	par(mfrow=c(1,1), mar=c(5,5,2,2))  
 ```
 
-<img src="Lesson_-_Linear_regression_files/figure-html/unnamed-chunk-24-2.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Lesson_-_Linear_regression_files/figure-html/unnamed-chunk-29-2.png" width="600pt" style="display: block; margin: auto;" />
 
-The residuals look a little skewed in the histogram, but the QQ plot suggest that you don't have to worry about normality, and the plots of residuals against fitted values and explanatory variables suggests homogeneity. So you can safely report your conclusion that species richness is significantly related to organic carbon and not to current variability.   
+The residuals look a little skewed in the histogram, but the QQ plot suggests that they are reasonably normal, and the plots of residuals against fitted values and explanatory variables suggests homogeneity. (Keep in mind that even with normally distributed data, these plots can look a little funny when _n_, sample size, is low.) So you can safely report your conclusion that species richness is significantly related to organic carbon and not to current variability.   
 
 Realistically, though, you'd likely want to drop `CurrentVariability` from the model, since it is not adding any explanatory power. However, there is much discussion around the process of adding and removing model terms, and we will swiftly move on to ANOVA and not add to the debate! 
 
@@ -474,7 +506,7 @@ ___
 
 
 ___
-<!-- For making normally and looking at distributed fake data:
+<!-- For making and looking at normally distributed fake data:
 test <- rnorm(c(1:25), sd=5)+seq(from=30, length.out=25, by=01)
 plot(1:25, test, xlim=c(0, 25), ylim=c(0, 60)) -->
 

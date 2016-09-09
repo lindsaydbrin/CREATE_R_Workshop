@@ -1,0 +1,301 @@
+"Province","Site","Plot","Species","Count"
+"Ontario","Ottawa",1,"Pinus strobus",11
+"Ontario","Ottawa",1,"Acer rubrum",18
+"Ontario","Ottawa",1,"Cornus florida",28
+"Ontario","Ottawa",1,"Quercus alba",15
+"Ontario","Ottawa",1,"Liriodendrum tulipifera",18
+"Ontario","Ottawa",1,"Tsuga canadensis",30
+"Ontario","Ottawa",2,"Pinus strobus",30
+"Ontario","Ottawa",2,"Acer rubrum",23
+"Ontario","Ottawa",2,"Cornus florida",37
+"Ontario","Ottawa",2,"Quercus alba",20
+"Ontario","Ottawa",2,"Liriodendrum tulipifera",31
+"Ontario","Ottawa",2,"Tsuga canadensis",19
+"Ontario","Ottawa",3,"Pinus strobus",4
+"Ontario","Ottawa",3,"Acer rubrum",29
+"Ontario","Ottawa",3,"Cornus florida",7
+"Ontario","Ottawa",3,"Quercus alba",7
+"Ontario","Ottawa",3,"Liriodendrum tulipifera",31
+"Ontario","Ottawa",3,"Tsuga canadensis",25
+"Ontario","Ottawa",4,"Pinus strobus",13
+"Ontario","Ottawa",4,"Acer rubrum",42
+"Ontario","Ottawa",4,"Cornus florida",15
+"Ontario","Ottawa",4,"Quercus alba",28
+"Ontario","Ottawa",4,"Liriodendrum tulipifera",14
+"Ontario","Ottawa",4,"Tsuga canadensis",8
+"Ontario","Ottawa",5,"Pinus strobus",31
+"Ontario","Ottawa",5,"Acer rubrum",31
+"Ontario","Ottawa",5,"Cornus florida",27
+"Ontario","Ottawa",5,"Quercus alba",39
+"Ontario","Ottawa",5,"Liriodendrum tulipifera",19
+"Ontario","Ottawa",5,"Tsuga canadensis",15
+"Ontario","Kingston",1,"Pinus strobus",21
+"Ontario","Kingston",1,"Acer rubrum",17
+"Ontario","Kingston",1,"Cornus florida",20
+"Ontario","Kingston",1,"Quercus alba",25
+"Ontario","Kingston",1,"Liriodendrum tulipifera",2
+"Ontario","Kingston",1,"Tsuga canadensis",21
+"Ontario","Kingston",2,"Pinus strobus",44
+"Ontario","Kingston",2,"Acer rubrum",32
+"Ontario","Kingston",2,"Cornus florida",33
+"Ontario","Kingston",2,"Quercus alba",8
+"Ontario","Kingston",2,"Liriodendrum tulipifera",9
+"Ontario","Kingston",2,"Tsuga canadensis",12
+"Ontario","Kingston",3,"Pinus strobus",19
+"Ontario","Kingston",3,"Acer rubrum",27
+"Ontario","Kingston",3,"Cornus florida",25
+"Ontario","Kingston",3,"Quercus alba",17
+"Ontario","Kingston",3,"Liriodendrum tulipifera",13
+"Ontario","Kingston",3,"Tsuga canadensis",1
+"Ontario","Kingston",4,"Pinus strobus",26
+"Ontario","Kingston",4,"Acer rubrum",20
+"Ontario","Kingston",4,"Cornus florida",25
+"Ontario","Kingston",4,"Quercus alba",25
+"Ontario","Kingston",4,"Liriodendrum tulipifera",24
+"Ontario","Kingston",4,"Tsuga canadensis",15
+"Ontario","Kingston",5,"Pinus strobus",9
+"Ontario","Kingston",5,"Acer rubrum",16
+"Ontario","Kingston",5,"Cornus florida",26
+"Ontario","Kingston",5,"Quercus alba",19
+"Ontario","Kingston",5,"Liriodendrum tulipifera",12
+"Ontario","Kingston",5,"Tsuga canadensis",19
+"Ontario","Toronto",1,"Pinus strobus",20
+"Ontario","Toronto",1,"Acer rubrum",34
+"Ontario","Toronto",1,"Cornus florida",17
+"Ontario","Toronto",1,"Quercus alba",41
+"Ontario","Toronto",1,"Liriodendrum tulipifera",14
+"Ontario","Toronto",1,"Tsuga canadensis",16
+"Ontario","Toronto",2,"Pinus strobus",23
+"Ontario","Toronto",2,"Acer rubrum",25
+"Ontario","Toronto",2,"Cornus florida",29
+"Ontario","Toronto",2,"Quercus alba",15
+"Ontario","Toronto",2,"Liriodendrum tulipifera",16
+"Ontario","Toronto",2,"Tsuga canadensis",30
+"Ontario","Toronto",3,"Pinus strobus",21
+"Ontario","Toronto",3,"Acer rubrum",31
+"Ontario","Toronto",3,"Cornus florida",32
+"Ontario","Toronto",3,"Quercus alba",9
+"Ontario","Toronto",3,"Liriodendrum tulipifera",30
+"Ontario","Toronto",3,"Tsuga canadensis",11
+"Ontario","Toronto",4,"Pinus strobus",22
+"Ontario","Toronto",4,"Acer rubrum",13
+"Ontario","Toronto",4,"Cornus florida",21
+"Ontario","Toronto",4,"Quercus alba",32
+"Ontario","Toronto",4,"Liriodendrum tulipifera",14
+"Ontario","Toronto",4,"Tsuga canadensis",6
+"Ontario","Toronto",5,"Pinus strobus",35
+"Ontario","Toronto",5,"Acer rubrum",23
+"Ontario","Toronto",5,"Cornus florida",22
+"Ontario","Toronto",5,"Quercus alba",24
+"Ontario","Toronto",5,"Liriodendrum tulipifera",25
+"Ontario","Toronto",5,"Tsuga canadensis",39
+"Ontario","Sudbury",1,"Pinus strobus",9
+"Ontario","Sudbury",1,"Acer rubrum",4
+"Ontario","Sudbury",1,"Cornus florida",37
+"Ontario","Sudbury",1,"Quercus alba",16
+"Ontario","Sudbury",1,"Liriodendrum tulipifera",15
+"Ontario","Sudbury",1,"Tsuga canadensis",21
+"Ontario","Sudbury",2,"Pinus strobus",14
+"Ontario","Sudbury",2,"Acer rubrum",10
+"Ontario","Sudbury",2,"Cornus florida",9
+"Ontario","Sudbury",2,"Quercus alba",15
+"Ontario","Sudbury",2,"Liriodendrum tulipifera",29
+"Ontario","Sudbury",2,"Tsuga canadensis",20
+"Ontario","Sudbury",3,"Pinus strobus",17
+"Ontario","Sudbury",3,"Acer rubrum",12
+"Ontario","Sudbury",3,"Cornus florida",13
+"Ontario","Sudbury",3,"Quercus alba",31
+"Ontario","Sudbury",3,"Liriodendrum tulipifera",14
+"Ontario","Sudbury",3,"Tsuga canadensis",25
+"Ontario","Sudbury",4,"Pinus strobus",32
+"Ontario","Sudbury",4,"Acer rubrum",25
+"Ontario","Sudbury",4,"Cornus florida",18
+"Ontario","Sudbury",4,"Quercus alba",28
+"Ontario","Sudbury",4,"Liriodendrum tulipifera",31
+"Ontario","Sudbury",4,"Tsuga canadensis",22
+"Ontario","Sudbury",5,"Pinus strobus",17
+"Ontario","Sudbury",5,"Acer rubrum",15
+"Ontario","Sudbury",5,"Cornus florida",28
+"Ontario","Sudbury",5,"Quercus alba",14
+"Ontario","Sudbury",5,"Liriodendrum tulipifera",20
+"Ontario","Sudbury",5,"Tsuga canadensis",10
+"Quebec","Montreal",1,"Pinus strobus",26
+"Quebec","Montreal",1,"Acer rubrum",25
+"Quebec","Montreal",1,"Cornus florida",19
+"Quebec","Montreal",1,"Quercus alba",18
+"Quebec","Montreal",1,"Liriodendrum tulipifera",38
+"Quebec","Montreal",1,"Tsuga canadensis",13
+"Quebec","Montreal",2,"Pinus strobus",14
+"Quebec","Montreal",2,"Acer rubrum",7
+"Quebec","Montreal",2,"Cornus florida",24
+"Quebec","Montreal",2,"Quercus alba",15
+"Quebec","Montreal",2,"Liriodendrum tulipifera",25
+"Quebec","Montreal",2,"Tsuga canadensis",19
+"Quebec","Montreal",3,"Pinus strobus",16
+"Quebec","Montreal",3,"Acer rubrum",24
+"Quebec","Montreal",3,"Cornus florida",29
+"Quebec","Montreal",3,"Quercus alba",11
+"Quebec","Montreal",3,"Liriodendrum tulipifera",31
+"Quebec","Montreal",3,"Tsuga canadensis",19
+"Quebec","Montreal",4,"Pinus strobus",18
+"Quebec","Montreal",4,"Acer rubrum",6
+"Quebec","Montreal",4,"Cornus florida",6
+"Quebec","Montreal",4,"Quercus alba",15
+"Quebec","Montreal",4,"Liriodendrum tulipifera",38
+"Quebec","Montreal",4,"Tsuga canadensis",11
+"Quebec","Montreal",5,"Pinus strobus",6
+"Quebec","Montreal",5,"Acer rubrum",1
+"Quebec","Montreal",5,"Cornus florida",21
+"Quebec","Montreal",5,"Quercus alba",38
+"Quebec","Montreal",5,"Liriodendrum tulipifera",21
+"Quebec","Montreal",5,"Tsuga canadensis",44
+"Quebec","Quebec",1,"Pinus strobus",18
+"Quebec","Quebec",1,"Acer rubrum",5
+"Quebec","Quebec",1,"Cornus florida",10
+"Quebec","Quebec",1,"Quercus alba",18
+"Quebec","Quebec",1,"Liriodendrum tulipifera",21
+"Quebec","Quebec",1,"Tsuga canadensis",29
+"Quebec","Quebec",2,"Pinus strobus",19
+"Quebec","Quebec",2,"Acer rubrum",19
+"Quebec","Quebec",2,"Cornus florida",34
+"Quebec","Quebec",2,"Quercus alba",13
+"Quebec","Quebec",2,"Liriodendrum tulipifera",21
+"Quebec","Quebec",2,"Tsuga canadensis",15
+"Quebec","Quebec",3,"Pinus strobus",23
+"Quebec","Quebec",3,"Acer rubrum",14
+"Quebec","Quebec",3,"Cornus florida",29
+"Quebec","Quebec",3,"Quercus alba",22
+"Quebec","Quebec",3,"Liriodendrum tulipifera",37
+"Quebec","Quebec",3,"Tsuga canadensis",37
+"Quebec","Quebec",4,"Pinus strobus",14
+"Quebec","Quebec",4,"Acer rubrum",24
+"Quebec","Quebec",4,"Cornus florida",38
+"Quebec","Quebec",4,"Quercus alba",16
+"Quebec","Quebec",4,"Liriodendrum tulipifera",8
+"Quebec","Quebec",4,"Tsuga canadensis",13
+"Quebec","Quebec",5,"Pinus strobus",13
+"Quebec","Quebec",5,"Acer rubrum",12
+"Quebec","Quebec",5,"Cornus florida",24
+"Quebec","Quebec",5,"Quercus alba",16
+"Quebec","Quebec",5,"Liriodendrum tulipifera",41
+"Quebec","Quebec",5,"Tsuga canadensis",14
+"Quebec","Saint-Louis-du-Ha! Ha!",1,"Pinus strobus",32
+"Quebec","Saint-Louis-du-Ha! Ha!",1,"Acer rubrum",16
+"Quebec","Saint-Louis-du-Ha! Ha!",1,"Cornus florida",1
+"Quebec","Saint-Louis-du-Ha! Ha!",1,"Quercus alba",27
+"Quebec","Saint-Louis-du-Ha! Ha!",1,"Liriodendrum tulipifera",31
+"Quebec","Saint-Louis-du-Ha! Ha!",1,"Tsuga canadensis",12
+"Quebec","Saint-Louis-du-Ha! Ha!",2,"Pinus strobus",16
+"Quebec","Saint-Louis-du-Ha! Ha!",2,"Acer rubrum",35
+"Quebec","Saint-Louis-du-Ha! Ha!",2,"Cornus florida",32
+"Quebec","Saint-Louis-du-Ha! Ha!",2,"Quercus alba",10
+"Quebec","Saint-Louis-du-Ha! Ha!",2,"Liriodendrum tulipifera",29
+"Quebec","Saint-Louis-du-Ha! Ha!",2,"Tsuga canadensis",16
+"Quebec","Saint-Louis-du-Ha! Ha!",3,"Pinus strobus",1
+"Quebec","Saint-Louis-du-Ha! Ha!",3,"Acer rubrum",26
+"Quebec","Saint-Louis-du-Ha! Ha!",3,"Cornus florida",7
+"Quebec","Saint-Louis-du-Ha! Ha!",3,"Quercus alba",24
+"Quebec","Saint-Louis-du-Ha! Ha!",3,"Liriodendrum tulipifera",25
+"Quebec","Saint-Louis-du-Ha! Ha!",3,"Tsuga canadensis",1
+"Quebec","Saint-Louis-du-Ha! Ha!",4,"Pinus strobus",15
+"Quebec","Saint-Louis-du-Ha! Ha!",4,"Acer rubrum",22
+"Quebec","Saint-Louis-du-Ha! Ha!",4,"Cornus florida",28
+"Quebec","Saint-Louis-du-Ha! Ha!",4,"Quercus alba",21
+"Quebec","Saint-Louis-du-Ha! Ha!",4,"Liriodendrum tulipifera",27
+"Quebec","Saint-Louis-du-Ha! Ha!",4,"Tsuga canadensis",25
+"Quebec","Saint-Louis-du-Ha! Ha!",5,"Pinus strobus",32
+"Quebec","Saint-Louis-du-Ha! Ha!",5,"Acer rubrum",18
+"Quebec","Saint-Louis-du-Ha! Ha!",5,"Cornus florida",9
+"Quebec","Saint-Louis-du-Ha! Ha!",5,"Quercus alba",20
+"Quebec","Saint-Louis-du-Ha! Ha!",5,"Liriodendrum tulipifera",15
+"Quebec","Saint-Louis-du-Ha! Ha!",5,"Tsuga canadensis",30
+"New Brunswick","Fredericton",1,"Pinus strobus",21
+"New Brunswick","Fredericton",1,"Acer rubrum",25
+"New Brunswick","Fredericton",1,"Cornus florida",24
+"New Brunswick","Fredericton",1,"Quercus alba",32
+"New Brunswick","Fredericton",1,"Liriodendrum tulipifera",15
+"New Brunswick","Fredericton",1,"Tsuga canadensis",27
+"New Brunswick","Fredericton",2,"Pinus strobus",39
+"New Brunswick","Fredericton",2,"Acer rubrum",10
+"New Brunswick","Fredericton",2,"Cornus florida",2
+"New Brunswick","Fredericton",2,"Quercus alba",14
+"New Brunswick","Fredericton",2,"Liriodendrum tulipifera",25
+"New Brunswick","Fredericton",2,"Tsuga canadensis",35
+"New Brunswick","Fredericton",3,"Pinus strobus",5
+"New Brunswick","Fredericton",3,"Acer rubrum",9
+"New Brunswick","Fredericton",3,"Cornus florida",26
+"New Brunswick","Fredericton",3,"Quercus alba",18
+"New Brunswick","Fredericton",3,"Liriodendrum tulipifera",24
+"New Brunswick","Fredericton",3,"Tsuga canadensis",26
+"New Brunswick","Fredericton",4,"Pinus strobus",3
+"New Brunswick","Fredericton",4,"Acer rubrum",29
+"New Brunswick","Fredericton",4,"Cornus florida",25
+"New Brunswick","Fredericton",4,"Quercus alba",20
+"New Brunswick","Fredericton",4,"Liriodendrum tulipifera",23
+"New Brunswick","Fredericton",4,"Tsuga canadensis",6
+"New Brunswick","Fredericton",5,"Pinus strobus",12
+"New Brunswick","Fredericton",5,"Acer rubrum",20
+"New Brunswick","Fredericton",5,"Cornus florida",24
+"New Brunswick","Fredericton",5,"Quercus alba",14
+"New Brunswick","Fredericton",5,"Liriodendrum tulipifera",14
+"New Brunswick","Fredericton",5,"Tsuga canadensis",25
+"New Brunswick","Moncton",1,"Pinus strobus",24
+"New Brunswick","Moncton",1,"Acer rubrum",8
+"New Brunswick","Moncton",1,"Cornus florida",15
+"New Brunswick","Moncton",1,"Quercus alba",22
+"New Brunswick","Moncton",1,"Liriodendrum tulipifera",15
+"New Brunswick","Moncton",1,"Tsuga canadensis",0
+"New Brunswick","Moncton",2,"Pinus strobus",7
+"New Brunswick","Moncton",2,"Acer rubrum",25
+"New Brunswick","Moncton",2,"Cornus florida",15
+"New Brunswick","Moncton",2,"Quercus alba",18
+"New Brunswick","Moncton",2,"Liriodendrum tulipifera",28
+"New Brunswick","Moncton",2,"Tsuga canadensis",35
+"New Brunswick","Moncton",3,"Pinus strobus",14
+"New Brunswick","Moncton",3,"Acer rubrum",20
+"New Brunswick","Moncton",3,"Cornus florida",24
+"New Brunswick","Moncton",3,"Quercus alba",16
+"New Brunswick","Moncton",3,"Liriodendrum tulipifera",0
+"New Brunswick","Moncton",3,"Tsuga canadensis",22
+"New Brunswick","Moncton",4,"Pinus strobus",14
+"New Brunswick","Moncton",4,"Acer rubrum",29
+"New Brunswick","Moncton",4,"Cornus florida",31
+"New Brunswick","Moncton",4,"Quercus alba",16
+"New Brunswick","Moncton",4,"Liriodendrum tulipifera",13
+"New Brunswick","Moncton",4,"Tsuga canadensis",23
+"New Brunswick","Moncton",5,"Pinus strobus",35
+"New Brunswick","Moncton",5,"Acer rubrum",21
+"New Brunswick","Moncton",5,"Cornus florida",5
+"New Brunswick","Moncton",5,"Quercus alba",33
+"New Brunswick","Moncton",5,"Liriodendrum tulipifera",17
+"New Brunswick","Moncton",5,"Tsuga canadensis",22
+"New Brunswick","Saint John",1,"Pinus strobus",13
+"New Brunswick","Saint John",1,"Acer rubrum",14
+"New Brunswick","Saint John",1,"Cornus florida",21
+"New Brunswick","Saint John",1,"Quercus alba",22
+"New Brunswick","Saint John",1,"Liriodendrum tulipifera",23
+"New Brunswick","Saint John",1,"Tsuga canadensis",22
+"New Brunswick","Saint John",2,"Pinus strobus",28
+"New Brunswick","Saint John",2,"Acer rubrum",34
+"New Brunswick","Saint John",2,"Cornus florida",22
+"New Brunswick","Saint John",2,"Quercus alba",32
+"New Brunswick","Saint John",2,"Liriodendrum tulipifera",6
+"New Brunswick","Saint John",2,"Tsuga canadensis",5
+"New Brunswick","Saint John",3,"Pinus strobus",24
+"New Brunswick","Saint John",3,"Acer rubrum",28
+"New Brunswick","Saint John",3,"Cornus florida",11
+"New Brunswick","Saint John",3,"Quercus alba",18
+"New Brunswick","Saint John",3,"Liriodendrum tulipifera",16
+"New Brunswick","Saint John",3,"Tsuga canadensis",26
+"New Brunswick","Saint John",4,"Pinus strobus",24
+"New Brunswick","Saint John",4,"Acer rubrum",22
+"New Brunswick","Saint John",4,"Cornus florida",15
+"New Brunswick","Saint John",4,"Quercus alba",15
+"New Brunswick","Saint John",4,"Liriodendrum tulipifera",40
+"New Brunswick","Saint John",4,"Tsuga canadensis",22
+"New Brunswick","Saint John",5,"Pinus strobus",7
+"New Brunswick","Saint John",5,"Acer rubrum",16
+"New Brunswick","Saint John",5,"Cornus florida",35
+"New Brunswick","Saint John",5,"Quercus alba",9
+"New Brunswick","Saint John",5,"Liriodendrum tulipifera",23
+"New Brunswick","Saint John",5,"Tsuga canadensis",14

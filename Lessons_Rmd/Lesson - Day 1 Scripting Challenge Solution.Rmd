@@ -1,0 +1,72 @@
+---
+title: "Day 1 Scripting Challenge Solution"
+author: "CRI R Workshop"
+output:
+  html_document:
+    keep_md: yes
+  pdf_document: default
+layout: topic
+---
+___
+
+* [Your original mission](#mission)
+* [A solution: Sample script](#solution)
+
+___
+
+# Your original mission {#mission}
+
+The data file `Fundybirds.csv` contains data on bird species counted in Fundy National Park during the Audubon Society's annual [Christmas Bird Count](http://www.audubon.org/conservation/science/christmas-bird-count).  Your goal is to write a new R script that does a basic analysis of these data.  
+
+Be sure to begin the script with commented lines with the file name, your name, the date, and a description of the script, and also comment liberally throughout the script to indicate what your code does!
+
+Your script should do the following:
+
+* Read in the file `Fundybirds.csv`
+
+* Look at the structure of the data
+
+* Create data frames that answer the following questions: (Hint: Use `dplyr` functions!)
+
+	+ How many times was each type of bird counted?
+	
+	+ Which birds were counted more than 10 times?
+
+* Make a table that shows how many species were counted each hour
+
+* Plot this table using a barplot
+
+___
+
+# A solution: Sample script {#solution}
+
+<br>
+
+```{r, echo=TRUE, eval=TRUE, results='hold', message=FALSE, fig.show='hold'}
+
+## ScriptingChallenge.R
+## LDBrin
+## September 2016
+##
+## This script analyzes bird count data from the 2015 Audubon Society Christmas Bird Count.
+## It assesses the number of times that each type of bird was counted, as well as how many were counted each hour.
+##
+
+## Load required packages
+	library(dplyr)
+
+# Read in the file
+	Fundybirds <- read.csv(file="~/Documents/R/CREATE_R_Workshop/Data/Fundybirds.csv")
+
+# Look at the structure
+	str(Fundybirds)
+
+# How many times was each bird counted, and which birds were counted more than 10 times?
+	Fundybirds %>% group_by(CommonName) %>% summarize(Count=length(CommonName))
+	Fundybirds %>% group_by(CommonName) %>% summarize(Count=length(CommonName)) %>% filter(Count>10)
+
+# How many birds were counted in each hour?  Make a table and a barplot.
+	Fundybirds$Hour %>% table
+	Fundybirds$Hour %>% table %>% barplot(las=1, ylab="Count", xlab="Hour")
+```
+

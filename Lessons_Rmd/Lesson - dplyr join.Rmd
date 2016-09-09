@@ -2,9 +2,9 @@
 title: "Joining data frames with dplyr"
 author: "CRI R Workshop"
 output:
+  pdf_document: default
   html_document:
     keep_md: yes
-  pdf_document: default
 layout: topic
 ---
 
@@ -44,7 +44,7 @@ There are multiple ways to join two data frames, depending on the variables and 
 * **Mutating joins** add new variables from one table to matching observations in another table.
 * **Filtering joins** retain observations in one table based on whether or not they match the observations in another table.
 
-We will demonstrate joins from both categories below. For more information and examples, see the dplyr [Two-table verbs vignette](https://cran.r-project.org/web/packages/dplyr/vignettes/two-table.html).
+In class today, we will talk about two types of mutating joins: left joins and full joins. However, for your reference, all joins from both categories are demonstrated below. For more information and examples, see the dplyr [Two-table verbs vignette](https://cran.r-project.org/web/packages/dplyr/vignettes/two-table.html).
 
 # Mutating joins {#mutatingJoins}
 
@@ -84,7 +84,7 @@ carbon
 
 ## Left join {#leftJoin}
 
-Let's say that we want to keep all of the observations in the `nutrients` data frame, and add another variable from the `carbon` data frame, `Carbon`, that contains carbon data when present and `NA` when values are missing. To do this, we can use the function `left_join`.  
+Let's say that we want to add data on carbon concentration to the observations in the `nutrients` data frame. Specifically, we want to keep all of the observations in the `nutrients` data frame, and add another variable from the `carbon` data frame, `Carbon`, that contains carbon data when present and `NA` when values are missing. To do this, we can use the function `left_join`.  This the type of join that you will likely want to use most often.
 
 The term *left join* can be explained using a Venn diagram. The circle on the left is data frame `x`, and the one on the right is data frame `y`. The overlap between the two circles represents the observations with keys that are present in both data frames. The result of a left join is all of data frame `x`, plus the parts of data frame `y` with overlapping keys - i.e., the left side of the Venn diagram.   
 
@@ -111,6 +111,29 @@ nutrients %>%
 Take a look at `Replicate.x` and `Replicate.y` to sort out what has happened here. The variable `Replicate` was present in both data frames, and the new data frame includes a variable for each, specified by ".x" or ".y" at the end of the variable name. Also, the number of observations has increased. Remember that we tried to join by `Treatment`. The problem here is that there are multiple observations (`Replicate`s) for each `Treatment` value in both `x` and `y`, so the resulting data frame includes all combinations of `Replicate.x` and `Replicate.y` within each `Treatment`.  
 
 Note that this may not be what you wanted, but it does not result in an error or warning! This is a good demonstration of why it's important to understand the behaviour of functions that you use, and to check the results of intermediate steps in your analysis.  
+
+#### Challenge
+
+* Write out the code specifying the above left join (adding `carbon` data to `nutrients` data) with and without a pipe (`%>%`).
+
+* What happens if you use a left join to add `nutrients` data to the `carbon` data set, rather than vice versa?
+
+* The data frame `climates` has information on mean annual temperature and precipitation for the sites in the `trees` data frame. Read in `climates.csv` (and `trees.csv` if you have not already done so), and use a `left_join` to add these climate data to `trees`. Take a look at the data first to determine which variable(s) to join by.
+
+```{r, echo=FALSE, eval=TRUE, results='hide'}
+climates <- read.csv(file="../Data/climates.csv")
+trees <- read.csv(file="../Data/trees.csv")
+left_join(trees, climates, by="Site")
+```
+
+* Read in two files, `genes.csv` and `metals.csv`, and call the resulting data frames `genes` and `metals`. `genes` has data on the abundance of different nitrogen cycling genes in soils at several agricultural sites, and `metals` has data on concentrations of different metals in soils at some of the same agricultural sites. Use a left join to add the metal concentration data to the observations in `genes`. Why do you get a warning message? (Hint: Think back to the lesson on factors!)
+
+```{r, echo=FALSE, eval=TRUE, results='hide',warning=FALSE}
+(genes <- read.csv(file="../Data/genes.csv"))
+(metals <- read.csv(file="../Data/metals.csv"))
+left_join(genes, metals, by="Site")
+```
+
 
 ## Right join {#rightJoin}
 
@@ -171,6 +194,17 @@ nutrients %>%
   full_join(y=carbon, by=c("Treatment", "Replicate"))
 ```
 
+#### Challenge {#challengeFullJoin}
+
+* Create a data frame with data from all sites included in the data frames `genes` and `metals`, which we used for the left join challenges above.
+
+```{r, echo=FALSE, eval=TRUE, results='hide',warning=FALSE}
+(genes <- read.csv(file="../Data/genes.csv"))
+(metals <- read.csv(file="../Data/metals.csv"))
+full_join(genes, metals, by="Site")
+```
+
+
 # Filtering joins {#filteringJoins}
 
 As demonstrated above, mutating joins compare observations from two data frames to determine which variables to add. In contrast, filtering joins keep only observations from the first data frame, and compare observations to a second data frame to determine which observations to keep. Filtering joins will only ever remove observations, and never add them.   
@@ -182,7 +216,7 @@ There are two types of filtering joins:
 
 ## Semi join {#semiJoin}
 
-Semi joins keep all observations in `x` that have a match in `y`. The Venn diagram depicting this join is the same as that for a `inner_join`. 
+Semi joins keep all observations in `x` that have a match in `y`. The Venn diagram depicting this join is the same as that for an `inner_join`. 
 
 ```{r, echo=FALSE, out.width = '400pt', fig.align='center'}
 knitr::include_graphics("../Images/Join_InnerJoin.pdf")

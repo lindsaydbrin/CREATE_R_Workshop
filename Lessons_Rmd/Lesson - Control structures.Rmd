@@ -23,6 +23,7 @@ ___
 	+ [`if...else`](#ifelse)
 	+ *[Challenge](#challengeifelse)* 
 * [`for` loops](#forloops)
+	+ [But why would I want to use a for loop, you ask?](#butwhy)
 	+ *[Challenge](#challengeforloop)*
 
 ___
@@ -206,7 +207,36 @@ nutrients
 
 #### Challenge {#challengeifelse}
 
-* Write an if statement that returns a message if any values of `Nitrate` in `nutrients` is less than 2.   
+* Write an if statement that takes a person's age (numeric element) as input and returns a statement about whether or not the person is old enough to vote.
+
+```{r, echo=FALSE, eval=FALSE}
+age <- 15
+if (age >=21) { print("You can vote!")} else {"No votes for you."}
+```
+
+* Write an if statement that takes a name (character element) as input and returns a statement about whether or not the name is the same as yours.
+
+```{r, echo=FALSE, eval=FALSE}
+name <- "Tracy"
+if (name=="Lindsay") { print("We have the same name!")} else {"We have different names."}
+```
+
+* Add a variable, `Abundance`, to the `trees` data frame that is equal to `"High"` if the species was counted at least 10 times, and `"Low"` otherwise.
+
+```{r, echo=FALSE, eval=FALSE}
+trees %>% mutate(Abundance=ifelse(Count>=10,"High","Low"))
+```
+
+* Add a variable, `Period`, to the `Fundybirds` data frame that indicates whether each bird was counted in the morning or the afternoon. 
+
+```{r, echo=FALSE, eval=FALSE}
+Fundybirds %>% mutate(Period=ifelse(Hour<12,"Morning","Afternoon"))
+```
+
+
+#### Bonus challenge
+
+* Write an if statement that returns a message if any values of `Nitrate` in `nutrients` are less than 2.   
 
 ...did you get the error message below?
 
@@ -226,7 +256,7 @@ For example:
 any(nutrients$Nitrate < 2)
 ```
 
-#### Challenge redux
+#### Bonus challenge redux
 
 * Try the above challenge again, using the `any` function.   
 
@@ -298,7 +328,108 @@ for (Constantinople in c(1:5)) {
 }
 ```
 
-This approach can be useful for applying the same action to multiple objects. For example, let's read in multiple data files and assign them to different data frames. Let's start with a data frame specifying the names of the files and the data frame names that we want to give to them.
+We can even create a vector of character strings, and have the for loop step through each element of this character vector.
+
+```{r}
+for (colors in c("red", "blue", "green", "yellow", "orange", "white")) {
+	print(colors)
+}
+```
+
+And, we can do whatever we want with the variable inside the for loop.  For example, we can multiply the value of a numeric variable by 2, or we could put a character variable into a sentence.
+
+```{r}
+# Multiply each element of a numeric vector by 2, and print this new value
+for (Constantinople in c(1:5)){
+	print(Constantinople * 2)
+}
+
+# Print a sentence with each element of a character vector
+# (Use paste to put the character strings into one)
+for (colors in c("red", "blue", "green", "yellow", "orange", "white")) {
+	print(paste("I am sure that",colors,"is the best color of all!"))
+}
+```
+
+## But why would I want to use a for loop, you ask? {#butwhy}
+
+For loops can be useful for applying the same action to multiple objects. For example, let's say that you have many data frames with the variable "Species_Names", and you want to rename that column to simply be "Species."  Let's read in files like this, with bird count data from several different months.
+
+```{r}
+# Read in bird count data
+	birds_jan <- read.csv(file="~/Documents/R/CREATE_R_Workshop/Data/birds_jan.csv")	
+	birds_feb <- read.csv(file="~/Documents/R/CREATE_R_Workshop/Data/birds_feb.csv")	
+	birds_mar <- read.csv(file="~/Documents/R/CREATE_R_Workshop/Data/birds_mar.csv")	
+	birds_apr <- read.csv(file="~/Documents/R/CREATE_R_Workshop/Data/birds_apr.csv")	
+
+head(birds_jan)
+```
+
+You can rename a variable in a data frame using the function `rename` in `dplyr`. Note that within the function, the syntax is `NewName = OldName`.
+
+```{r, eval=TRUE}
+# Rename variable from "SpeciesNames" to "Species"
+birds_jan <- rename(birds_jan, Species = SpeciesNames)
+
+head(birds_jan)
+
+# Reset original name
+birds_jan <- rename(birds_jan, SpeciesNames = Species)
+```
+
+Alternatively, we can do this with `assign` to be more concise.  `assign` is exactly like `<-`, except that the variable name and the value are specified inside the function.
+
+```{r, eval=TRUE}
+# Rename variable from "SpeciesNames" to "Species"
+assign(x="birds_jan", value=rename(birds_jan, Species = SpeciesNames))  
+
+head(birds_jan)
+
+# Reset original name
+birds_jan <- rename(birds_jan, SpeciesNames = Species)
+```
+
+But what if we want to change the variable name in every single data frame?  With four data frames, it might not be terrible to write out a line for each one, but with more data frames, this could quickly become an unwieldy time sink.  
+
+Enter *for loops*.  With for loops, we can approach the problem differently.  First, we will create a vector with the names of all the data frames.  Then, we will use a for loop to step through every element of that vector - i.e., each data frame name - and change the variable name for each one.
+
+```{r}
+# Create a vector with the names of all the data frames we want to work on
+	dfnames <- c("birds_jan", "birds_feb", "birds_mar", "birds_apr")
+
+# Step through the above vector and rename the SpeciesNames variable to Species
+	for (dataframe in dfnames){
+		assign(x = dataframe, value = rename(get(dataframe), Species = SpeciesNames))
+	}
+```
+
+**Code trick sidenote**: In the above code, we needed to use the function `get` to specify the data frame in `rename`.  This is because what we have is a character vector that is the name of the data frame (e.g., `"birds_jan"`), but `rename` is looking for the data frame itself (e.g., `birds_jan`). `get` gets the value of the variable that you pass to it.  
+
+To explore this, try typing `dfnames[1]`, and then try typing `get(dfnames[1])`.
+
+The output of the first one is the first element of dfnames, which is the name of the data frame.  The second one, however, gives us the value of the data frame that has that name.  `get` searches for an object with the name specified by the `x` argument. This allows you to pass a vector or list of names of variables to other functions.
+
+As another example, try running `x <- 5`, then try `"x"` versus `get("x")`.  
+
+And now we can use another for loop to look at the results of our code!
+
+```{r, results='hold'}
+for (dataframe in dfnames){
+	dataframe %>% print()                 # Print name of data frame to screen
+	get(dataframe) %>% head() %>% print()	# Get data frame from its name, show head, print to screen
+}
+
+## Note that we could also have set this up with a numeric vector of 1:4, 
+##   instead of the vector dfnames:
+# 	for (n in 1:length(dfnames)){
+# 		dfnames[n] %>% print()
+# 		get(dfnames[n]) %>% heads() %>% print()
+# 	}
+```
+
+### Another example: Reading in multiple files
+
+A slightly more complicated, but potentially very useful, example could be if you want to read in multiple data files automatically and assign them to different data frames. To do this, we can start with a data frame specifying the names of the files and the data frame names that we want to give to them.
 
 <!--This is not evaluated because these file names work from the working directory, but not the directory the Rmd file is in.-->
 ```{r, eval=FALSE}
@@ -328,14 +459,42 @@ for (n in 1:2) {
 
 There are several layers to this piece of code. The `assign` function assigns the value specified by `value` to a variable named `x`. When `n` is 1, the name of the variable will be first observation 1 in `ExperimentFiles$names`, and the value of the variable is the .csv file that we're reading in, specified by observation 1 in `ExperimentFiles$files`. When `n` is 2, the name and value of the variable will be the second observations in our data frame.   
 
-The last line in the for loop uses the `get` function. Try typing `ExperimentFiles$names[n]` without the `get` function.   
+The last line in the for loop uses the `get` function, as above. Try typing `ExperimentFiles$names[n]` without the `get` function.   
 
-The output is the `n`th character in that variable, i.e. `"carbon"` or `"nutrients"`. What we want, though, is the value of the variable that has that names. To do that, we use the `get` function, which searches for an object with the name specified by the `x` argument. This allows you to pass a list of names of variables to other functions.   
+The output is the `n`th character in that variable, i.e. `"carbon"` or `"nutrients"`. What we want, though, is the value of the variable that has that name. To do that, we use the `get` function, which searches for an object with the name specified by the `x` argument. This allows you to pass a list of names of variables to other functions.   
 
 #### Challenge {#challengeforloop}
+* Write a for loop that steps through a numeric vector and prints a number that is 4 times the number of the changing variable.
+
+```{r, eval=FALSE, echo=FALSE}
+for (n in 5:12){
+	print(n*4)
+}
+```
+
+* The code within the brackets `{ }` of a for loop does not necessarily have to refer to the values in the controlling vector! Write a for loop that loops through 10 times, and each time, adds 1 to a given variable and then prints the value of that variable.
+
+```{r, eval=FALSE, echo=FALSE}
+x <- 5
+for (n in 1:10){
+	x <- x + 1
+	print(x)
+}
+```
+
+* Write a for loop that goes through the rows of the `trees` data frame and prints the value of `Count` if the `Species` is `Acer rubrum`.
+
+```{r, eval=FALSE, echo=FALSE}
+for (n in 1:nrow(trees)){
+		if(trees$Species[n]=="Acer rubrum"){print(trees$Count[n])}
+}
+```
+
 * Write a for loop that goes through the `nutrients` data frame and prints the value of each `Nitrite` observation plus 1. 
     + Next, create a vector called `nitrite_plus`, and modify your for loop to add the "Nitrite plus 1" values to the end of this vector.   
-<br>
+
+#### Bonus challenge
+
 * Write a for loop that goes through the `nutrients` data and prints out whether or not dissolved inorganic nitrogen (the sum of nitrate, ammonium, and nitrite) is greater than 12. Use the `dplyr` function `slice`, which lets you select rows of a data frame by their order.
 
 <br>

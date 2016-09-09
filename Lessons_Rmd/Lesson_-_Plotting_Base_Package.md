@@ -33,68 +33,74 @@ The goal of this lesson is to give you experience making and formatting plots so
 
 # Scatterplots {#scatterplots}
 
-Scatterplots can be made with the function `plot`, and only require x and y vectors to be plotted against each other. As an example, let's create two vectors, of apple heights and weights, and plot them against each other.
+Scatterplots can be made with the function `plot`, and only require x and y vectors to be plotted against each other. As an example, let's create two vectors and plot them against each other.
 
 
 ```r
-# Apple height in cm, generally increasing but with some scatter
-	appleHeight <- jitter(seq(7, 8.5, length.out=100), amount=0.4)
+# Create a vector of 50 random numbers
+	xvalues <- runif(50)
+# Create a vector of 50 lower numbers 
+	yvalues <- xvalues/c(1:50)
 
-# Apple weight in g	
-	appleWeight <- jitter(seq(80, 100, length.out=100), amount=0.4)
-
-plot(appleHeight, appleWeight)
+# Plot these vectors against each other
+	plot(xvalues, yvalues)
 ```
 
 <img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-2-1.png" width="600pt" style="display: block; margin: auto;" />
 
-We can also plot variables that are contained within a data frame.  Let's make a data frame of fake fruit heights and weights, for both apples and pears.
+We can also plot variables that are contained within a data frame.  Let's read in a data file of fake fruit heights and weights.
 
 
 ```r
-fruitData <- data.frame(fruitHeight = c(appleHeight, jitter(seq(8, 9, length.out=100), amount=0.4)),
-						fruitWeight = c(appleWeight, jitter(seq(115, 125, length.out=100), amount=0.4)),
-						fruitType = c(rep("Apple", 100), rep("Pear", 100))
-						)
+# Read in data
+	fruitData <- read.csv(file="../Data/fruitData.csv")
 
-head(fruitData)  # Take a look at the first 6 lines
+# Take a look at the data frame structure
+	str(fruitData) 
 ```
 
 ```
-##   fruitHeight fruitWeight fruitType
-## 1    6.805783    79.95972     Apple
-## 2    7.349222    79.98841     Apple
-## 3    6.686538    80.10878     Apple
-## 4    6.662876    81.00377     Apple
-## 5    6.954938    80.81560     Apple
-## 6    7.386899    81.14516     Apple
+## 'data.frame':	200 obs. of  3 variables:
+##  $ fruitHeight: num  7.07 7.05 6.93 6.98 7.36 ...
+##  $ fruitWeight: num  80 80.3 80.1 80.7 81.2 ...
+##  $ fruitType  : Factor w/ 2 levels "Apple","Pear": 1 1 1 1 1 1 1 1 1 1 ...
 ```
+
+It looks like we have height and weight data for both apples and pears. Let's plot weight against height. We can do this by specifying our vectors as variables within the data frame, i.e. by using `$`.
+
 
 ```r
-plot(fruitData$fruitHeight, fruitData$fruitWeight)
+# Plot fruit height and weight
+	plot(fruitData$fruitHeight, fruitData$fruitWeight)
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-3-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-4-1.png" width="600pt" style="display: block; margin: auto;" />
 
-The `x` and `y` arguments in this function call are quite long, and somewhat difficult to read quickly. If you were making many plots of variables within `fruitData`, you might want a cleaner way to specify the variables to be plotted. For a scatterplot, the data going into the plot can also be passed to the function by specifying the data set with the `data` argument, and then specifying the x and y variables as y plotted against x. This is the basic format:
+The `x` and `y` arguments in this function call are quite long, and somewhat difficult to read quickly. If you were making many plots of variables within `fruitData`, you might want a cleaner way to specify the variables to be plotted. 
+
+To do this, we can pass data to the `plot` function by specifying the data set with the `data` argument, and then specifying the x and y variables with only the variable names. This is the basic format:
 
 
 ```r
 plot(y ~ x, data=yourDataFrame)
 ```
 
-Note that the order of the variables is switched from `x, y` to `y ~ x`! To recreate the above plot exactly, we would use the following code:
+Note that the order of the variables is switched from `x, y` to `y ~ x`! This command can be thought of as "plot y against x." To recreate the above plot exactly, we would use the following code:
 
 
 ```r
 plot(fruitWeight ~ fruitHeight, data=fruitData)
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-5-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-6-1.png" width="600pt" style="display: block; margin: auto;" />
 
 #### Challenge {#challengeScatter}
 
-* Using this syntax, where the data set is specified only once in the plot function, can make it simpler to plot subsets of data. Use what you learned about subsetting with dplyr to make a scatterplot of fruit weight versus height using only data on pears.
+* Using the `metals` data frame from the lesson on joins, plot Pb concentrations against Cu concentrations. Then plot Pb concentrations against Fe concentrations.
+
+
+
+* The syntax where the data set is specified only once in the plot function can make it simpler to plot subsets of data. Using what you learned about subsetting with `dplyr`, make a scatterplot of fruit weight versus fruit height using only data on pears, i.e., by specifying the appropriate data set in the `data` argument of the plot function.
 
 
 
@@ -107,10 +113,11 @@ Let's work with the `nutrients` data frame from the earlier dplyr lessons. Try p
 
 
 ```r
-plot(Ammonium ~ Nitrate, data=nutrients, type="b", xlab="Nitrate concentration", ylab="Ammonium concentration")
+plot(Ammonium ~ Nitrate, data=nutrients, type="b"
+		 , xlab="Nitrate concentration", ylab="Ammonium concentration")
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-7-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-9-1.png" width="600pt" style="display: block; margin: auto;" />
 
 Of course, lines don't make a lot of sense in this context, but it is helpful to know that this option exists!   
 
@@ -118,10 +125,11 @@ R picks axis limits based on the values being plotted. The default is to increas
 
 
 ```r
-plot(Ammonium ~ Nitrate, data=nutrients, type="b", xlim=c(0,5), ylim=c(0, 14), xlab="Nitrate concentration", ylab="Ammonium concentration")
+plot(Ammonium ~ Nitrate, data=nutrients, type="b", xlim=c(0,5), ylim=c(0, 14)
+		 , xlab="Nitrate concentration", ylab="Ammonium concentration")
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-8-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-10-1.png" width="600pt" style="display: block; margin: auto;" />
 
 This is already starting to look a bit better!   
 
@@ -150,7 +158,7 @@ There are 25 different symbols that can be specified by `pch`. You can quickly l
 plot(1:25, 1:25, pch=1:25, col="red", bg="gray")
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-9-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-11-1.png" width="600pt" style="display: block; margin: auto;" />
 
 You can see that `col` specifies point color, but sometimes this refers to the outline of an open symbol. For `pch` = 21 through 25, `bg` specifies the fill color of the point.
 
@@ -166,11 +174,12 @@ For example, if we wanted to add the nitrite data to the plot of ammonium versus
 
 
 ```r
-plot(Ammonium ~ Nitrate, data=nutrients, pch=19, col="red", xlim=c(0,5), ylim=c(0, 14), xlab="Nitrate concentration", ylab="Ammonium concentration", las=1)
+plot(Ammonium ~ Nitrate, data=nutrients, pch=19, col="red", xlim=c(0,5), ylim=c(0, 14)
+		 , xlab="Nitrate concentration", ylab="Ammonium concentration", las=1)
 points(Nitrite ~ Nitrate, data=nutrients, pch=19, col="blue")
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-10-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-12-1.png" width="600pt" style="display: block; margin: auto;" />
 
 Notice that with the second set of points, the y-axis label no longer makes sense. We could specify the axis label in the initial plot command, but we have more control if we add it separately. It would also be nice to adjust the placement of the x and y axes.  So let's take another approach, and plot different components of the plot separately from each other.  
 
@@ -185,7 +194,7 @@ plot(1, 1, xlim=c(0,5), ylim=c(0, 14), type="n", ann=FALSE, axes=FALSE)  # Make 
   points(Nitrite ~ Nitrate, data=nutrients, pch=19, col="blue")  # Add nitrite points
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-11-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-13-1.png" width="600pt" style="display: block; margin: auto;" />
 
 The `axis` function has many optional parameters. The help file (`?axis`) gives you a list, and also notes that other graphical `par`ameters can be passed to this function. The one required argument is `side`. Plot sides are represented by a number from 1 to 4, where 1 is the bottom, and the numbering goes clockwise around the plot (i.e., the left side is 2). This makes it straightforward to add a separate axis on the right side, i.e. by specifying `side=4`.   
 
@@ -201,16 +210,18 @@ Now that we have our plot, we can add axis labels using `mtext`. In particular, 
 ```r
 plot(100, 100, xlim=c(0,5), ylim=c(0, 14), xlab="", ylab="", axes=FALSE)  
   axis(1, pos=0, las=1)
-    mtext(text=expression("Nitrate concentration ("*mu*"mol L"^"-1"*")"), side=1, line=2)  # Add x-axis label
+    mtext(text=expression("Nitrate concentration ("*mu*"mol L"^"-1"*")"), side=1
+    			, line=2)  # Label x-axis
   axis(2, pos=0, las=1)  
-    mtext(text=expression("Concentration ("*mu*"mol L"^"-1"*")"), side=2, line=2)  # Add y-axis label
+    mtext(text=expression("Concentration ("*mu*"mol L"^"-1"*")"), side=2
+    			, line=2)  # Label y-axis
   points(Ammonium ~ Nitrate, data=nutrients, pch=19, col="red")
   points(Nitrite ~ Nitrate, data=nutrients, pch=19, col="blue")
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-12-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-14-1.png" width="600pt" style="display: block; margin: auto;" />
 
-Now let's add a legend. You can do this with the `legend` function. Important arguments to the `legend` function include those that specify its position, the legend text, the line size or point type, and the symbol colors. For the position, you can specify `x` and `y` with values, or you give descriptive strings to `x`: "topright", "topleft", "bottomright", "bottomleft", and "center". We'll specify the position with coordinates.
+Now let's add a legend. You can do this with the `legend` function. Important arguments to the `legend` function include those that specify its position, the legend text, the line size or point type, and the symbol colors. For the position, you can specify `x` and `y` with values, or you can give descriptive strings to `x`: "topright", "topleft", "bottomright", "bottomleft", and "center". We'll specify the position with coordinates.
 
 Also, note that `pch` can be given as a single integer, which will be applied to all points, or as a vector specifying the symbol for each point in the legend.   
 
@@ -223,10 +234,10 @@ plot(100, 100, xlim=c(0,5), ylim=c(0, 14), xlab="", ylab="", axes=FALSE)  # Make
     mtext(text=expression("Concentration ("*mu*"mol L"^"-1"*")"), side=2, line=2) 
   points(Ammonium ~ Nitrate, data=nutrients, pch=19, col="red")    
   points(Nitrite ~ Nitrate, data=nutrients, pch=19, col="blue")  
-  legend(x=0.1, y=14, legend=c("Ammonium", "Nitrate"), pch=19, col=c("red","blue"))  # Add a legend
+  legend(x=0.1, y=14, legend=c("Ammonium", "Nitrate"), pch=19, col=c("red","blue"))  # Add legend
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-13-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-15-1.png" width="600pt" style="display: block; margin: auto;" />
 
 Notice that the legend is not connected to the contents of the plot. This means that you have to carefully check that you've specified the colors, lines, etc. correctly, to avoid displaying the wrong information. However, it also means that you have more control on the legend contents and formatting.   
 
@@ -256,7 +267,7 @@ plot(100, 100, xlim=c(0,5), ylim=c(0, 14), xlab="", ylab="", axes=FALSE)
   legend(x=0.1, y=14, legend=c("Ammonium", "Nitrate"), pch=21, col=c("red","blue")) 
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-14-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-16-1.png" width="600pt" style="display: block; margin: auto;" />
 
 We can conclude from this plot that if you try to make up random numbers for concentrations, you may still end up following a subconscious pattern!
 
@@ -274,10 +285,9 @@ nutrients_mean
 ```
 
 ```
-## Source: local data frame [2 x 4]
-## 
+## # A tibble: 2 × 4
 ##   Treatment Ammonium Nitrate   Nitrite
-##       (int)    (dbl)   (dbl)     (dbl)
+##       <int>    <dbl>   <dbl>     <dbl>
 ## 1         1 9.066667     2.7 0.9000000
 ## 2         2 8.966667     2.4 0.9333333
 ```
@@ -286,16 +296,17 @@ Now that we have a table that gives us the mean value for each nutrient for each
 
 When we call the function `barplot`, it will plot each variable (column) separately, and group observations (rows) within each variable. The default is to make a stacked bar plot, with each bar made of the rows within a variable.
 
-As with scatterplots, we can specify parameters, such as `las=1`.   
+As with scatterplots, we can include an axis label and specify parameters, such as `las=1`.   
 
 
 ```r
 barplot(nutrients_mean %>%
           select(Ammonium, Nitrate, Nitrite) %>%
-          as.matrix() )
+          as.matrix() 
+				, las=1, ylab="Concentration")
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-16-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-18-1.png" width="600pt" style="display: block; margin: auto;" />
 
 We probably don't want a stacked bar plot here - it would make more sense to have the bars next to each other. To do that, we can specify `beside=TRUE`. To help with spacing, we will also specify the space between each set of bars, using `space`. For multiple bars in each group, `space` is a vector with two values, where the first value is the space between bars within the group, and the secong value is the space between groups, both as a fraction of the bar width. We'll separate the bars within the groups just a little bit.   
 
@@ -306,10 +317,10 @@ We can also set the y-axis limits as with a scatterplot, make the tick labels pa
 barplot(nutrients_mean %>%
           select(Ammonium, Nitrate, Nitrite) %>%
           as.matrix() 
-        , beside=TRUE, space=c(0.1,1), ylim=c(0,10), las=1)
+        , beside=TRUE, space=c(0.1,1), ylim=c(0,10), las=1, ylab="Concentration")
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-17-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-19-1.png" width="600pt" style="display: block; margin: auto;" />
 
 And last, as with scatterplots, we can add a legend to differentiate between treatments. Remember that you have to specify the colors in a legend, so it's important to be sure that you get this right!
 
@@ -318,11 +329,11 @@ And last, as with scatterplots, we can add a legend to differentiate between tre
 barplot(nutrients_mean %>%
           select(Ammonium, Nitrate, Nitrite) %>%
           as.matrix() 
-        , beside=TRUE, space=c(0.1,1), ylim=c(0,10), las=1)
+        , beside=TRUE, space=c(0.1,1), ylim=c(0,10), las=1, ylab="Concentration")
 legend("topright", pch=22, col="black", pt.bg=gray.colors(2), legend=c("Treatment 1", "Treatment 2"))
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-18-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-20-1.png" width="600pt" style="display: block; margin: auto;" />
 
 
 # Outputting plots {#outputPlots}
@@ -331,11 +342,20 @@ When we plot in R, the plot is drawn in a separate window, or plotting device. U
 
 A more direct way to create an external figure is to open a file of the type that you prefer (pdf, png, etc.), and plot to it directly. The added benefit of this approach is that you can specify the dimensions of this file, as well as its layout, margins, and other characteristics, and know that they will be consistent every time.   
 
-The way to open a file differs between a Mac and a PC. On a Mac, you can use the `quartz` function; on a PC, you can use the `windows` function in the same way. You will need to specify the name of the file with `file`, as well as the type of file and its dimensions. You can also specify other characteristics, such as the font `pointsize`. Creating an 8.5 x 11 file will be helpful for visualizing the plot on a standard sheet of paper.
+The way to open a file differs between a Mac and a PC. On a Mac, you can use the `quartz` function for all kinds of files, as long as you specify the file `type`. On a PC, you need use different functions for different file types; for a pdf, you can use `pdf`. (This function works on a Mac as well.) In either case, you will need to specify the name of the file with `file`, as well as its dimensions. You can also specify other characteristics, such as the font `pointsize`. 
+
+Creating an 8.5 x 11 file will be helpful for visualizing the plot on a standard sheet of paper. Even if you don't intend to print the plot, however, it is still useful to be able to specify dimensions, because (1) the relative dimensions of the plot and its contents (text size, point size, line width) will be the same time every time you plot it, and (2) you can more easily maintain a consistent design across multiple plots.
 
 
 ```r
-quartz(type="pdf", file="../Figures/Nutrients.pdf", height=11, width=8.5, pointsize=14)
+# On a Mac, use quartz() for many file types, and specify with type.
+	quartz(type="pdf", file="Figures/Nutrients.pdf", height=11, width=8.5, pointsize=14)
+
+# On a PC, use pdf() to open a pdf file.
+# This function also works on a Mac.
+	pdf(file="Figures/Nutrients.pdf", height=11, width=8.5, pointsize=14)
+	
+# In either case, be sure the file name is appropriate for your own file structure!
 ```
 
 Once you've opened your file, anything you plot will go to this file rather than to the plot window in RStudio. It is helpful to start by setting up the margins. You can do that with a call to `par`, by specifying the margins around each plot with `mar` ("margins") and for the entire document with `omi` ("outer margin in inches"). Both of these require a vector with four integers, specifying margins on all sides, starting at the bottom and going clockwise. If you want to plot multiple plots, you can also specify the number of rows and columns with `mfrow`, which takes a vector with two integers, of the form c(#rows, #cols). For example:   
@@ -351,7 +371,11 @@ Once you are done, you need to close the plotting device using `dev.off()`. (You
 
 
 ```r
-quartz(type="pdf", file="../Figures/Nutrients.pdf", height=11, width=8.5, pointsize=12)
+# Make a pdf file with two plot panels: 
+#  Ammonium vs. nitrate
+#  Nitrite vs. nitrate
+
+pdf(file="Figures/Nutrients.pdf", height=11, width=8.5, pointsize=12)
 
   # Specify outer margins, plot margins, and plot layout
     par(omi=c(7,0.5,1,1), mar=c(5,5,0,0), mfrow=c(1,2))

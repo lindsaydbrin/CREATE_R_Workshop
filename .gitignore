@@ -4,6 +4,11 @@
 # Ignore certain directories
 Writing/
 Logistics/
+Scripts/
+  # Scripts contains scratchpad R scripts from during workshops
 
 # Ignore .pages file(s)
 *.pages
+
+# Ignore website directory
+gh-pages/

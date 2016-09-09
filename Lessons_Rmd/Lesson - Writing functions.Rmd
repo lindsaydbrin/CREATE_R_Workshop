@@ -8,7 +8,7 @@ output:
 layout: topic
 ---
 
-```{r, eval = TRUE, echo=FALSE, message=FALSE}
+```{r, eval = TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 ## Load packages that would theoretically have been loaded during previous lessons, to allow for functioning as a standalone script
 library("dplyr")
 library("tidyr")
@@ -17,10 +17,11 @@ ___
 
 * [What, and why?](#motivation)   
 * [Writing functions](#writefn) 
+	+ [Another example: `if` statements within functions](#ifFunctions)
+	+ [Some notes on writing functions](#otherNotes)
 	+ *[Challenge](#challengefn)* 
-* [Other notes on writing functions](#otherNotes)
-	+ *[Challenge](#challengefn2)*
-	+ *[Challenge solutions](#challengeSolns)*
+* [Setting default values](#setDefault)
+	+ *[Challenge: Using functions with data frames](#challengefn2)*
 * [Resources](#resources)
 
 ___
@@ -86,11 +87,12 @@ You can only include one `return` command in a function, since returning a resul
 
 You can pass any kind of input to a function, as long as it makes sense once the function is evaluated. So, for example, try calling `addone` with a numeric vector as input.  Did it work? Now try calling `addone` with a character as input.  What happens?   
 
-You can also pass a defined variable to a function. What output do you expect from the following?   
+You can also pass a defined variable to a function, which gives the same output as passing the value of the variable directly. What output do you expect from the following?   
 
 ```{r}
-a <- 25
-addone(a)
+x <- 25
+addone(x)
+addone(25)
 ```
 
 As with defining vectors or other variables, it's important to avoid confusion by giving your function a name that doesn't already have a definition.  So, it's a bad idea to name your function `c` or `mean` or `sum`. You can check whether a variable name has been defined by using the function `exist`, with a character string as input:   
@@ -100,13 +102,107 @@ exists("addone")  # Should exist because we just defined it
 exists("otherFunctionName")  # Should not exist, unless you have defined it on your own computer!
 ```
 
+## Another example: `if` statements within functions {#ifFunctions}
+
+You can combine functions with everything else that you have learned so far. For example, you can put an `if` statement into a function.  Let's try this using an example from the lesson on `if` statements: an `if` statement that indicates whether a number is even or odd. The original code required us to specify the value of a variable first, and then run the line of code with the `if` statement.  If we instead write a function, we can re-use this line of code much more simply.
+
+Here is the original code:
+
+```{r}
+a <- 21  # Set value of x 
+ifelse(test = a %% 2 == 0, yes = "even", no = "odd") # Check if x is even or odd
+```
+
+Here is the equivalent function:
+
+```{r}
+checkEvenOdd <- function(a) {
+	# Original if statement; set result to a variable
+		outcome <- ifelse(test = a %% 2 == 0, yes = "even", no = "odd")  
+	# Return the result of the if statement
+		return(outcome)  
+}
+```
+
+Now we can run this function directly for any value of our choosing. We are essentially passing the function the value of `a` to run through the `if` statement.
+
+```{r}
+checkEvenOdd(321)
+
+checkEvenOdd(400)
+```
+
+Of course, you may never need a function that simply checks whether a value is even or odd. However, this approach can simplify other tasks as well. For example, you could use a function to rename a column, or calculate a new variable from other variables, in many different data frames. You can also use functions to do much more involved tasks, such as plotting calibration data to a pdf file, calculating calibration equations using linear or logarithmic regression, and converting raw measurement data to the variable of interest.  Or, as another example, you could run and plot a multivariate analysis on multiple datasets. Functions will allow you to do these analyses with multiple data sets, in the same way each time. This is not only convenient, it also facilitates reproducible analyses.
+
+## Some notes on writing functions {#otherNotes}
+
+As with other parts of your code, it's important to include comments in your functions to describe what they do. This is so important! This will help other people - as well as yourself in the future - understand what the function does and how to use it.   
+
+It's also essential to test your function to make sure that it does what you think it does. Try feeding it simple inputs and make sure that the output makes sense. As you write your function, it is also ok to test pieces of the syntax in the console, which will help you figure out how to craft the function - but make sure that you put all the final components into the function itself. It may also help to clear the environment before testing the function, to make sure that you haven't accidentally made it dependent on a variable that exists in your current R session but might not exist in future R sessions.   
+
+As a last tip, it often helps to keep your functions short and modular. This can make it easier to read your code and understand what your function is doing. You can always call a function within another function, which can help with organization, and also allows you to easily re-use pieces in other parts of your code.  
+
 #### Challenge {#challengefn}
+
+* Write a function that takes two arguments and adds them together.
+
+```{r, echo=FALSE, eval=FALSE}
+addTwo <- function(a,b){ a + b }
+addTwo(4,5)
+```
+
+* Write a function that converts a weight in kg to a weight in g.
+
+```{r, echo=FALSE, eval=FALSE}
+kg2g <- function(x) { x*1000 }
+kg2g(4.5)
+```
+
+* Write a function that converts a temperature in Fahrenheit to a temperature in Celsius.
+
+```{r, echo=FALSE, eval=FALSE}
+FtoC <- function(x) { (x-32)*5/9}
+FtoC(32)
+FtoC(212)
+```
 
 * Write a function that returns the absolute value of a number without using the `abs` function.
 
-* Write a sentence that takes two arguments, divides one by the other, and then prints out a sentence with the result.
+```{r, echo=FALSE, eval=FALSE}
+## There are two options here.
+absSqrt <- function(x){ sqrt(x*x)}  # Square the number and take the square root
+absIf <- function(x){ ifelse(x<0, -1*x, x)}  # Use an if statement to determine if the number is negative; if so, multiply by 1
+```
 
-* Write a function that takes a vector as its argument, prints a warning message if the vector includes `NA`s, and returns a list with the mean, minimum, and maximum of the vector.
+* Dig deep and remember this from algebra class: When you have a quadratic equation of the form _ax^2^_ + _bx_ + _c_ = 0, you can find its roots using the quadratic formula: _x_ = (-_b_ &plusmn; sqrt(_b^2^_ - 4\*_ac_) )/(2\*_a_). Write a function to find both values of _x_ given _a_, _b_, and _c_.
+
+```{r, eval=FALSE, echo=FALSE}
+findQuad <- function(a, b, c){
+	x1 <- (-1*b + sqrt(b*b - 4*a*c))/(2*a)
+	x2 <- (-1*b - sqrt(b*b - 4*a*c))/(2*a)
+	return(c(x1, x2))
+}
+# x2 + 5x + 6
+findQuad(1, 5, 6)
+```
+
+* Write a function that takes two arguments, divides one by the other, and then prints out a sentence with the result. (Hint: Use the `paste` function!)
+
+```{r, eval=FALSE, echo=FALSE}
+division <- function(x,y) {paste(x, " divided by ", y, " is equal to ", x/y, ".", sep="")}
+division(3,5)
+```
+
+* Write a function that takes a vector as its argument, prints a warning message if the vector includes `NA`s, and returns a vector with the mean, minimum, and maximum of the vector (i.e., with the NA values removed).
+
+```{r, echo=FALSE, eval=FALSE}
+statistics <- function(x) { 
+	if (any(is.na(x))==TRUE) { print("Your vector contains NAs.") }
+	return(c(mean(x, na.rm=T), min(x, na.rm=T), max(x, na.rm=T)))
+	}
+statistics(c(3,5,2))
+statistics(c(3,5,2,NA))
+```
 
 # Setting default values {#setDefault}
 
@@ -120,7 +216,7 @@ printFavColor <- function(colorname = "aquamarine") {
 }
 ```
 
-If we pass this function a colorname, it will include it in the output.
+If we pass this function a `colorname`, it will include it in the output.
 
 ```{r}
 printFavColor("turquoise")
@@ -134,29 +230,26 @@ printFavColor()
 
 This can be useful when you want to have an option to specify a parameter, but only if it is an exception. For example, you might want to write a function that plots your data and log-transforms the y-axis only when you specify it in the function's arguments. Or, if you're using a function to calculate a calibration equation from a calibration curve, you might want to default to using a linear regression, but be able to use a logarithmic regression instead when a certain argument is equal to `TRUE`.
 
-# Other notes on writing functions {#otherNotes}
 
-As with other parts of your code, it's important to include comments in your functions to describe what they do. This is so important! This will help other people - as well as yourself in the future - understand what the function does and how to use it.   
+#### Challenge: Using functions with data frames {#challengefn2}
 
-It's also essential to test your function to make sure that it does what you think it does. Try feeding it simple inputs and make sure that the output makes sense. As you write your function, it is also ok to test pieces of the syntax in the console, but make sure that you put all the final components into the function itself. It may also help to clear the environment before testing the function, to make sure that you haven't accidentally made it dependent on a variable that exists in your current R session but might not exist in future R sessions.   
+Say you have data from multiple years on stream invertebrate species richness, along with other stream characteristics: total organic carbon (TOC, percent C), current variability (cm/s), and mean temperature (degrees C). One year of this data is in the _Inverts.csv_ file that you downloaded earlier. Your goal is to write a script that contains functions that can be used repeatedly to analyze multiple years of data.
 
-As a last tip, it often helps to keep your functions short and modular. This can make it easier to read your code and understand what your function is doing. You can always call a function within another function, which can help with organization, and also allows you to easily re-use pieces in other parts of your code.   
+Set up your script as if it were a part of your own analysis workflow: Begin the script with commented lines with the file name, your name, the date, and a description of the script, and also comment liberally throughout the script to indicate what your code does! 
 
-#### Challenge {#challengefn2}
+Your script should read in _Inverts.csv_, then contain the following functions:   
 
-Say you have data from multiple years on stream invertebrate species richness, along with other stream characteristics: total organic carbon (TOC, percent C), current variability (cm/s), and mean temperature (degrees C). One year of this data is in the Inverts.csv file that you downloaded earlier. Read in this file, then write the following functions:   
-
-* Write a data checking function that does the following:   
+* A data checking function that does the following:   
     + Checks whether there are any variables that are not numeric, and prints a statement reporting the conclusion   
     + Returns observations for sites that have missing values (`NA`) for any measurement variables
-* Write a function that counts how many sites have richness greater than 40, and returns a sentence with the answer.
-* Write a function that plots any variable in the Inverts data set against Richness. You can use `get` in the form `get("variable name")` to call a variable using its name as a character string, which may help with passing variable names into a function. If you're feeling more adventurous, set the plot's y-limits to go from 0 to the maximum of the variable being plotted.
+* A function that counts how many sites have richness greater than 40, and returns a sentence with the answer.
+* A function that plots any variable in the Inverts data set against Richness. You can use `get` in the form `get("variable name")` to call a variable using its name as a character string, which may help with passing variable names into a function. If you're feeling more adventurous, set the plot's y-limits to go from 0 to the maximum of the variable being plotted.
 
 <br>
 
+<!--
 _______
 <br>
-
 #### Challenge solutions {#challengeSolns}
 
 * Here is one solution for a function that checks whether any variables are non-numeric and returns observations with missing data:
@@ -198,7 +291,7 @@ richnessThreshold(Inverts)
 
 * Here is an example of a function that will plot a variable in the Inverts data set against species richness.
 
-```{r}
+```{r, eval=FALSE}
 plotVsRichness <- function(dataset, yvariable){
   # Find y-axis limits to be able to start at 0 (not necessary, but helps with plot aesthetics)
     ymax <- dataset %>%
@@ -222,6 +315,7 @@ plotVsRichness(Inverts, "MeanTemperature")  # Plot mean temperature against rich
 plotVsRichness(Inverts, "TOC")  # Plot total organic carbon against richness
 ```
 
+-->
 
 _______
 

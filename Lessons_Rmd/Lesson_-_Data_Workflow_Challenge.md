@@ -22,7 +22,7 @@ Imagine that you are studying nitrogen cycling in different ecosystem types, and
 
 At the end of this assay, you ended up with sample solutions with different amounts of NO~3~^-^ in them. To measure NO~3~^-^ concentration, you added a reagent that colors the solution blue (Szechrome reagent), and then used a spectrophotometer to read absorption of light at a specified wavelength. You also did this for a series of samples at known concentrations, so that you could create a calibration curve.
 
-What you have now is a csv file with sample type (sample or standard), sample ID, concentrations of the standards, and absorbance values. What you want is concentrations for your samples.
+What you have now is a csv file, _Nitrification_Absorbances.csv_, with sample type (sample or standard), sample ID, concentrations of the standards, and absorbance values. (You also have an inventory file, _Sample_Inventory.csv_, to match sample ID to sampling site and replicate number.) What you want is nitrate concentrations for all of your samples.
 
 Furthermore, you know that you will have similar files to work with in the future, after you've done similar experiments with samples from other locations. So it's important to make sure that your code can be easily modified to be applied to other datasets!  Fortunately, it also means that even though it will take time to set up the analysis properly now, it will be very easy to run it for future samples.
 

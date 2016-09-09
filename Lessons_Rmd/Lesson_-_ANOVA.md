@@ -8,14 +8,15 @@ ___
 * [One-way ANOVA](#oneWayANOVA) 
 	+ [Look at your data!](#lookAt)
 	+ [Fit the model](#fitModel)
-	+ [Post-hoc testing](#postHoc)
 	+ [Check assumptions](#checkAssumptions)  
+	+ [Post-hoc testing](#postHoc)
+	+ [Challenge](#challengeaov)
 * [Two-way ANOVA](#twoWayANOVA)   
 	+ [Look at your data!](#lookAt2)
 	+ [Fit the model](#fitModel2)
 	+ [Sidenote: Type I vs Type III Sums of Squares](#typeSS)
-	+ [Post-hoc testing](#postHoc2)
 	+ [Check assumptions](#checkAssumptions2)  
+	+ [Post-hoc testing](#postHoc2)
 * [Resources](#resources)   
 
 ___
@@ -30,14 +31,18 @@ Under the hood, ANOVA is really a linear model where the explanatory variable is
 
 # One-way ANOVA {#oneWayANOVA}
 
-We'll start with a one-way ANOVA, using the Inverts data from the previous few lessons. We have data from multiple catchment types (`Type`): agricultural, forest, and urban.  Our question is whether invertebrate species richness varies with catchment type.   
+We'll start with a one-way ANOVA, using the `Inverts` data from the previous few lessons. We have data from multiple catchment types (`Type`): agricultural, forest, and urban.  Our question is whether invertebrate species richness varies with catchment type.   
 
-To run an ANOVA, we need our explanatory variable to be a factor. If you don't have `Inverts` in your environment, read it in, and make sure that `stringsAsFactors` is set to `TRUE`. If you already have it in your environment, but `Type` and `Country` are characters, you can use `mutate` and `as.factor` to convert them to factors.
+To run an ANOVA, we need our explanatory variable to be a factor (i.e., rather than a character string). If you don't have `Inverts` in your environment, read it in, and make sure that `stringsAsFactors` is set to `TRUE`. If you already have it in your environment, but `Type` and `Country` are characters, you can use `mutate` and `as.factor` to convert them to factors.
 
 
 ```r
 # Read in Inverts data (first introduced in functions lesson)
-Inverts <- read.csv(file="../Data/Inverts.csv", stringsAsFactors=TRUE, header=TRUE)
+	Inverts <- read.csv(file="../Data/Inverts.csv", stringsAsFactors=TRUE, header=TRUE)
+
+# Or, if Inverts is already in your environment with Type and Country as characters, 
+#   convert them to factors
+	Inverts <- Inverts %>% mutate(Type = as.factor(Type), Country = as.factor(Country))
 ```
 
 ## Look at your data! {#lookAt}
@@ -55,15 +60,16 @@ It looks like invertebrate species richness is fairly comparable between streams
 
 ## Fit the model {#fitModel}
 
-To fit an ANOVA to the data, we can use either `lm` or `aov`, which will effectively do the same thing. The main difference is how the output is presented in a call to `summary`. For now, let's use `aov`, which will put the output of `summary` in a form that makes sense for ANOVA.
+To fit an ANOVA to the data, we can use either `lm` or `aov`, which will effectively do the same thing. The main difference is how the output is presented in a call to `summary`. Let's use `aov`, which will put the output of `summary` in a form that makes sense for ANOVA results.
 
 The help file for `aov` (`?aov`) notes that the default contrasts in R are not orthogonal, and `aov` will work better with orthogonal contrasts, so let's start by setting them. Contrasts have to do with how the levels of each factor are compared to each other in a linear model. Information on the various contrasts available in R can be found in the [help file](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/contrast.html) for specific contrasts (e.g., `?contr.helmert`), and more detail on how each contrast setting works can be found in this [post on unordered contrats](http://www.clayford.net/statistics/tag/helmert-contrasts/) and a UCLA Stat Consulting Group [page](http://www.ats.ucla.edu/stat/r/library/contrast_coding.htm).
 
-The following code both sets the contrasts to be orthogonal (`contr.helmert` for unordered factors and `contr.poly` for ordered factors) and assigns the original options to `op` so that they can be re-set using `options(op)`. (You can also set the contrasts within the call to `lm` or `aov` later on, using the argument `contrasts`, but we will do it earlier for convenience - it will now apply to all downstream models.)
+The following code both sets the contrasts to be orthogonal (`contr.helmert` for unordered factors and `contr.poly` for ordered factors) and assigns the original options to `op` so that they can be re-set using `options(op)`. (You can also set the contrasts within the call to `lm` or `aov` later on, using the argument `contrasts`, but instead we will do it at the beginning for convenience - it will now apply to all downstream models.)
 
 
 ```r
-# Set default values to op to be able to re-set later; set current values to contr.helmert for unordered factors and contr.poly for ordered factors.
+# Set default values to op to be able to re-set later; 
+# set current values to contr.helmert for unordered factors and contr.poly for ordered factors.
 op <- options(contrasts = c(unordered="contr.helmert", ordered="contr.poly")) 
 
 # Check contrasts in current settings, if you'd like
@@ -77,7 +83,7 @@ options()$contrasts
 
 Now we can fit the model. We'll store it as a named object so that we can work with it more easily later.   
 
-You can name this object however you want, but it's good to be consistent with your naming scheme throughout your code, so that you can easily identify what kind of object you are working with. There are multiple naming conventions used in R and R packages, as well as multiple style guides (e.g., see [here](https://journal.r-project.org/archive/2012-2/RJournal_2012-2_Baaaath.pdf)). In the case below, the `.` in the model name is only for convenient reading, and there is some debate on when and how this `.` should be used.  
+You can name this object however you want, but it's good to be consistent with your naming scheme throughout your code, so that you can easily identify what kind of object you are working with. There are multiple naming conventions used in R and R packages, as well as multiple style guides (e.g., see [here](https://journal.r-project.org/archive/2012-2/RJournal_2012-2_Baaaath.pdf)). In the case below, the `.` in the model name is only for convenient reading.  (There is some debate on when and how this `.` should be used. This is in part because the `.` has a specific meaning in other programming languages, whereas it is simply another character in an R variable name.)  
 
 
 ```r
@@ -101,11 +107,51 @@ summary(InvertsType.mod)
 
 This output gives us the results of an F-test with the null hypothesis that the groups are from the same statistical population, which would mean that their means do not vary. We can see that *p*<0.001, indicating that the groups are likely from different populations. Thus, species richness significantly varies with catchment type.
 
-NOTE: The ANOVA table given by `summary` with an `aov` model gives results using Type I SS (Sum of Squares). The same is true for the function `anova`, which gives the same output as `summary`.  This does not matter for a one-way ANOVA, but it absolutely does with multiple factors! We will cover this further in the Two-way ANOVA section. For now, the point to remember is that you should not accidentally report your results from `summary` on an ANOVA model unless you are doing a one-way ANOVA, or if your experimental question is such that Type I SS makes sense (which is not common).
+NOTE: The ANOVA table given by `summary` with an `aov` model gives results using Type I SS (Sum of Squares). The function `anova` gives the same output as `summary`, and similarly uses Type I SS.  This does not matter for a one-way ANOVA, but it absolutely does with multiple factors! We will cover this further in the Two-way ANOVA section. For now, the point to remember is that you should not accidentally report your results from `summary` on an ANOVA model unless you are doing a one-way ANOVA, or if your experimental question is such that Type I SS makes sense (which is not common).
+
+## Check model assumptions {#checkAssumptions}
+
+Of course, we can't use this model unless we know that we have satisfied the model's assumptions!  As with linear regression, we need to check the homogeneity and normality of the residuals. We will make the plots as before, starting with a histogram and a QQ plot of the residuals, and then comparing the residuals to the explanatory variable, `Type`.
+
+
+```r
+par(mfrow=c(2,2))  # Set plot layout
+hist(resid(InvertsType.mod), las=1)  # Look at distribution of residuals
+qqnorm(resid(InvertsType.mod), las=1)  # Compare distribution of residuals to a normal distribution
+qqline(resid(InvertsType.mod))
+plot(fitted(InvertsType.mod), resid(InvertsType.mod), las=1)  # Do residuals vary by fitted values?
+plot(Inverts$Type, resid(InvertsType.mod), las=1)  # Do the residuals vary by group?
+```
+
+<img src="Lesson_-_ANOVA_files/figure-html/unnamed-chunk-7-1.png" width="600 pt" style="display: block; margin: auto;" />
+
+```r
+par(mfrow=c(1,1))  # Re-set plot layout
+```
+
+These plots give us good news.  The distribution of residuals doesn't look extraordinarily normal in the histogram, but this could be an effect of small sample size, and the QQ plot suggests a mostly normal distribution with a few potentially outlying points.  The bottom plots suggests that the residuals are comparable among groups (homogeneity).  On the plot of the residuals versus the fitted values, the values on the x-axis might seem obscure at first - these are the means for the three groups (Agricultural, Forest, and Urban).
+
+We can also make similar plots by making a function call to `plot` using the model as input. In this case, the function will automatically point out potential outliers.
+
+
+```r
+par(mfrow=c(2,2))  # Set plot layout for 4 plots
+plot(InvertsType.mod, las=1)  # Plot residuals for our ANOVA
+```
+
+<img src="Lesson_-_ANOVA_files/figure-html/unnamed-chunk-8-1.png" width="600pt" style="display: block; margin: auto;" />
+
+```r
+par(mfrow=c(1,1))  # Re-set plot layout
+```
+
+Now we can see that there are three points that are potential outliers. If these were real data, it could be useful to examine these specific points further to determine whether there is any reason not to include them in the analysis.  
+
+These plots indicate that out model is appropriate for these data, and we can report the results. Note, however, that the opposite result - e.g., discovering that the residuals are not normally distributed - can still be immensely useful, as visualizing the residuals (and their distribution) can help you determine what _would_ be an appropriate approach. For example, if you saw that your residuals were right-skewed, this would suggest that log-transformation of the dependent variable (before fitting the ANOVA) would result in normally distributed residuals.
 
 ## Post-hoc testing {#postHoc}
 
-In the case of our one-way ANOVA, however, this test is appropriate.  We've interpreted the results to mean that species richness varies with catchment type. But, which catchment types differ from each other? To assess this, we can use a Tukey test with the function `TukeyHSD` (for Tukey's "Honestly Significant Difference"" method).
+We've interpreted the results to mean that species richness varies with catchment type. But, which catchment types differ from each other? To assess this, we can use a Tukey test with the function `TukeyHSD` (for Tukey's "Honestly Significant Difference" method).
 
 
 ```r
@@ -127,47 +173,22 @@ TukeyHSD(InvertsType.mod)
 
 The top part of the output tells us that we're using 95% confidence intervals. If for some reason we wanted to change this, we could use the argument `conf.level`, which defaults to 0.95.
 
-The table below `$Type` gives us the *p*-values for comparisons between groups. From this, we can see that with a *p*-value of 0.05, species richness in forested and agricultural areas are comparable, whereas that of urban areas differs significantly from the two other groups.
+The table below `$Type` gives us the *p*-values for comparisons between groups. From this, we can see that at a significance level of 0.05 ($\alpha$ = 0.05), species richness in forested and agricultural areas are comparable, whereas that of urban areas differs significantly from the two other groups.
+
+<br>
+
+#### Challenge {#challengeaov}
+
+* Read in the `trees` data set that we used in the lesson on reshaping data frames with dplyr. Across all sites, does tree abundance (`Count`) vary by species? If so, which species differ? Whether or not the model is significant, check whether the model assumptions are met.
 
 
-## Check model assumptions {#checkAssumptions}
 
-Of course, we can't use this model unless we know that we have satisfied the model's assumptions!  As with linear regression, we need to check the homogeneity and normality of the residuals. We will make the plots as before, starting with a histogram and a QQ plot of the residuals, and then comparing the residuals to the explanatory variable, `Type`.
-
-
-```r
-par(mfrow=c(2,2))  # Set plot layout
-hist(resid(InvertsType.mod), las=1)  # Look at distribution of residuals
-qqnorm(resid(InvertsType.mod), las=1)  # Compare distribution of residuals to a normal distribution
-qqline(resid(InvertsType.mod))
-plot(fitted(InvertsType.mod), resid(InvertsType.mod), las=1)  # Do the residuals vary by fitted values?
-plot(Inverts$Type, resid(InvertsType.mod), las=1)  # Do the residuals vary by group?
-```
-
-<img src="Lesson_-_ANOVA_files/figure-html/unnamed-chunk-8-1.png" width="600 pt" style="display: block; margin: auto;" />
-
-```r
-par(mfrow=c(1,1))  # Re-set plot layout
-```
-
-These plots give us good news.  The distribution of residuals doesn't look extraordinarily normal in the histogram, but this could be an effect of small sample size, and the QQ plot suggests a mostly normal distribution with a few potentially outlying points.  The bottom plots suggests that the residuals are comparable among groups (homogeneity).  On the plot of the residuals versus the fitted values, the values on the x-axis might seem obscure at first - these are the means for the three groups (Agricultural, Forest, and Urban).
-
-We can also make similar plots by making a function call to `plot` using the model as input. In this case, the function will automatically point out potential outliers.
+* The file `allbirds.csv` contains count data on 24 bird species that were observed at one site during 4 different months. Read in this data, and use an ANOVA to determine whether species counts varied by month. If so, run a post-hoc test to determine which months vary. Use a boxplot to assess data visually, and be sure to check model assumptions!
 
 
-```r
-par(mfrow=c(2,2))  # Set plot layout for 4 plots
-plot(InvertsType.mod, las=1)  # Plot residuals for our ANOVA
-```
 
-<img src="Lesson_-_ANOVA_files/figure-html/unnamed-chunk-9-1.png" width="600pt" style="display: block; margin: auto;" />
 
-```r
-par(mfrow=c(1,1))  # Re-set plot layout
-```
-
-Now we can see that there are three points that are potential outliers. It could be useful to examine them further to determine whether there is any reason not to include them in the analysis.
-
+___
 
 # Two-way ANOVA {#twoWayANOVA}
 
@@ -179,11 +200,11 @@ We will of course start by looking at the data. We can look at species richness 
 
 
 ```r
-p <- par(mar=c(10,4,2,2))  # Save current parameters and re-set margins to allow for long x-axis labels
+p <- par(mar=c(10,4,2,2))  # Save current parameters & re-set margins to allow for long x-axis labels
 boxplot(Richness ~ Type + Country, data=Inverts, las=2)
 ```
 
-<img src="Lesson_-_ANOVA_files/figure-html/unnamed-chunk-10-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Lesson_-_ANOVA_files/figure-html/unnamed-chunk-12-1.png" width="600pt" style="display: block; margin: auto;" />
 
 ```r
 par(p)  # Reset margins
@@ -231,7 +252,8 @@ If we want the results of an F-test using type III SS, we have several options -
 
 
 ```r
-drop1(Inverts2way.mod, scope = ~., test="F")  # The scope argument designates the terms to be dropped; the . means all of them.
+# With drop1, the scope argument designates the terms to be dropped; the . means all of them.
+drop1(Inverts2way.mod, scope = ~., test="F")  
 ```
 
 ```
@@ -250,6 +272,20 @@ drop1(Inverts2way.mod, scope = ~., test="F")  # The scope argument designates th
 
 ```r
 library("car")
+```
+
+```
+## 
+## Attaching package: 'car'
+```
+
+```
+## The following object is masked from 'package:dplyr':
+## 
+##     recode
+```
+
+```r
 Anova(Inverts2way.mod, type="III")  # Specify Type III SS
 ```
 
@@ -271,6 +307,24 @@ With either function, we get the *p*-value for the F test with the null hypothes
 
 As a sidenote, here is where we could consider dropping the interaction term, since it is not significant. However, we will move on for now.   
 
+## Check assumptions {#checkAssumptions2}
+
+To use this model, we need to check that its assumptions have been met. We will look at the model residuals as before.
+
+
+```r
+par(mfrow=c(2,2))  # Set plot layout
+plot(Inverts2way.mod, las=1)
+```
+
+<img src="Lesson_-_ANOVA_files/figure-html/unnamed-chunk-15-1.png" width="600pt" style="display: block; margin: auto;" />
+
+```r
+par(mfrow=c(1,1))  # Re-set plot layout
+```
+
+And as before, our residuals look fairly normal and homogeneous, so we can report the model output.   
+
 ## Post-hoc testing {#postHoc2}
 
 We may still wonder about the differences between levels of the significant factor, `Type`. With a 2-way ANOVA, we can apply a Tukey test using the function `lsmeans` in the package `lsmeans`, along with the function `cld`, which controls the output that is displayed. The first argument to `cld` is an object created by `lsmeans`. `lsmeans` requires us to specify the model as well as the variable to test (e.g., `Type`), and give us confidence intervals as output, which we could use to determine which groups differ. We can also use `cld` to figure this out for us. For `cld`, we can to specify the *p*-value as `alpha`, the post-hoc test to use as `adjust`, and whether to use letters instead of the default to numbers for comparing groups.
@@ -285,7 +339,8 @@ library("lsmeans")
 ```
 
 ```r
-cld(lsmeans(Inverts2way.mod, specs="Type"), alpha=0.05, adjust="tukey", Letters=letters) # Which Types vary from the others, using a Tukey tets?
+# Which Types vary from the others, using a Tukey test?
+	cld(lsmeans(Inverts2way.mod, specs="Type"), alpha=0.05, adjust="tukey", Letters=letters) 
 ```
 
 ```
@@ -293,10 +348,14 @@ cld(lsmeans(Inverts2way.mod, specs="Type"), alpha=0.05, adjust="tukey", Letters=
 ```
 
 ```
+## The 'multcompView' package must be installed to use cld methods
+```
+
+```
 ##  Type         lsmean       SE df lower.CL upper.CL .group
-##  Urban        53.875 3.464102 18 44.76064 62.98936  a    
-##  Agricultural 71.625 3.464102 18 62.51064 80.73936   b   
-##  Forest       75.250 3.464102 18 66.13564 84.36436   b   
+##  Urban        53.875 3.464102 18 44.76064 62.98936  ?    
+##  Agricultural 71.625 3.464102 18 62.51064 80.73936  ?    
+##  Forest       75.250 3.464102 18 66.13564 84.36436  ?    
 ## 
 ## Results are averaged over the levels of: Country 
 ## Confidence level used: 0.95 
@@ -310,25 +369,6 @@ Take a look at the output under `.group`. Here we can see that the `Urban` strea
 If the interaction were significant and we wanted to do pairwise comparisons between groups, we could use the `lsmeans` function with  `specs = pairwise ~ Type * Country`. You can try this out if you're curious about the output.
 
 So it looks like we can conclude that (in the world represented by this fake data) species richness varies among catchment types, with lower richness in urban areas - but we can only conclude this if the model assumptions are met!
-
-## Check assumptions {#checkAssumptions2}
-
-We will look at the model residuals as before.
-
-
-
-```r
-par(mfrow=c(2,2))  # Set plot layout
-plot(Inverts2way.mod, las=1)
-```
-
-<img src="Lesson_-_ANOVA_files/figure-html/unnamed-chunk-14-1.png" width="600pt" style="display: block; margin: auto;" />
-
-```r
-par(mfrow=c(1,1))  # Re-set plot layout
-```
-
-And as before, our residuals look fairly normal and homogeneous, so we can report the model output.   
 
 
 ___
