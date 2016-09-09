@@ -127,7 +127,10 @@ $(document).ready(function () {
 <li><a href="#tidydata">Data formats and tidy data</a></li>
 <li><a href="#proselytize">Converting between long and wide formats</a>
 <ul>
+<li><a href="#separate">One more trick: <code>separate</code></a>
+<ul>
 <li><em><a href="#challengeDataFormat">Challenge</a></em></li>
+</ul></li>
 </ul></li>
 <li><a href="#resources">Resources</a></li>
 </ul>
@@ -135,7 +138,7 @@ $(document).ready(function () {
 <div id="motivation" class="section level1">
 <h1>Why, and what?</h1>
 <p>Sometimes you may have several different data frames with data on the same set of samples, and you’d like to put them together into one data frame. If these separate data frames are set up differently from each other, you may need to restructure one or both to more easily align them. Or, your data may be in one data frame, but not in a form that works with the analysis functions that you want to use (e.g., for statistics).</p>
-<p>In the next two lessons, we will introduce you to reshaping functions from the package <code>tidyr</code> and join functions from the package <code>plyr</code>, which you’ve already had some experience with. These functions will help you organize your data for analysis both in terms of making your data “tidy” as well as putting all observations or variables into the same data frame.</p>
+<p>In the next two lessons, we will introduce you to reshaping functions from the package <code>tidyr</code> and join functions from the package <code>dplyr</code>, which you’ve already had some experience with. These functions will help you organize your data for analysis both in terms of making your data “tidy” as well as putting all observations or variables into the same data frame.</p>
 <p>Let’s start by installing the package <code>tidyr</code>.</p>
 <pre class="r"><code>install.packages(&quot;tidyr&quot;)   ## install the package</code></pre>
 <pre class="r"><code>library(&quot;tidyr&quot;)   ## load the package</code></pre>
@@ -143,11 +146,17 @@ $(document).ready(function () {
 <div id="tidydata" class="section level1">
 <h1>Data formats and tidy data</h1>
 <p>Data frames can be in either long format or wide format.</p>
-<p>To demonstrate, let’s create a data frame in long format. There are three different measurements for each sample: ammonium, nitrate, and nitrite. All of the values are in a single column, and the measurement is specified by a value in a second column. In <code>tidyr</code> and other similar packages, this variable (<code>Nutrient</code>) is called the <em>key</em>.</p>
-<pre class="r"><code>nutrients_long &lt;- data.frame(SampleID = rep(c(1, 2, 3), 3)
-                        ,Nutrient = c(rep(&quot;Ammonium&quot;,3), rep(&quot;Nitrate&quot;,3), rep(&quot;Nitrite&quot;,3)) 
+<p>To demonstrate, let’s read in a data frame in long format: <code>nutrients_long</code>. There are three different measurements for each sample: ammonium, nitrate, and nitrite. All of the values are in a single column, <code>Concentration</code>, and the measurement is specified by a value in a second column, <code>Nutrient</code>. In <code>tidyr</code> and other similar packages, this variable (<code>Nutrient</code>) is called the <em>key</em>.</p>
+<!--
+## Originally written out, but it seemed unnecessarily time consuming, so now it's read in.
+## This is here to re-create it if I'd like to.
+nutrients_long <- data.frame(SampleID = rep(c(1, 2, 3), 3)
+                        ,Nutrient = c(rep("Ammonium",3), rep("Nitrate",3), rep("Nitrite",3)) 
                         ,Concentration = c(8.2, 6.9, 12.1, 1.7, 3.6, 2.8, 0.4, 1.5, 0.8)
                         )
+write.csv(nutrients_long,"Data/nutrients_long.csv", row.names=FALSE)
+-->
+<pre class="r"><code>nutrients_long &lt;- read.csv(&quot;../Data/nutrients_long.csv&quot;)
 nutrients_long</code></pre>
 <pre><code>##   SampleID Nutrient Concentration
 ## 1        1 Ammonium           8.2
@@ -226,10 +235,59 @@ nutrients_wide</code></pre>
 nutrients_wide %&gt;%
   gather(key = &quot;Nutrient&quot;, value = &quot;Concentration&quot;, 2, 3, 4)</code></pre>
 <p>What happens if you only select two of the three columns of data?</p>
+<div id="one-more-trick-separate" class="section level2">
+<h2>One more trick: <code id="separate">separate</code></h2>
+<p>Sometimes a variable may contain information that really makes up two variables. For example, the following data frame has one column that indicates both the nutrient analyzed and the sample replicate.</p>
+<pre class="r"><code>nutrients_dbl &lt;- read.csv(&quot;../Data/nutrients_dbl.csv&quot;)
+nutrients_dbl</code></pre>
+<pre><code>##    Treatment Nutrient_Rep Concentration
+## 1          1   Ammonium_1           8.2
+## 2          2   Ammonium_1          10.5
+## 3          1    Nitrate_1           1.7
+## 4          2    Nitrate_1           0.4
+## 5          1    Nitrite_1           0.4
+## 6          2    Nitrite_1           0.7
+## 7          1   Ammonium_2           6.9
+## 8          2   Ammonium_2           8.6
+## 9          1    Nitrate_2           3.6
+## 10         2    Nitrate_2           2.7
+## 11         1    Nitrite_2           1.5
+## 12         2    Nitrite_2           1.2
+## 13         1   Ammonium_3          12.1
+## 14         2   Ammonium_3           7.8
+## 15         1    Nitrate_3           2.8
+## 16         2    Nitrate_3           4.1
+## 17         1    Nitrite_3           0.8
+## 18         2    Nitrite_3           0.9</code></pre>
+<p>We can separate that one variable into two new variables using the function <code>separate</code>. We will use <code>col</code> to specify which column to separate, <code>sep</code> to specify what character to separate on (i.e., the one that currently joins the two variables), and <code>into</code> to specify the names of the new columns.</p>
+<pre class="r"><code>nutrients_dbl %&gt;% separate(col=Nutrient_Rep, sep=&quot;_&quot;, into=c(&quot;Nutrient&quot;, &quot;Rep&quot;)) </code></pre>
+<pre><code>##    Treatment Nutrient Rep Concentration
+## 1          1 Ammonium   1           8.2
+## 2          2 Ammonium   1          10.5
+## 3          1  Nitrate   1           1.7
+## 4          2  Nitrate   1           0.4
+## 5          1  Nitrite   1           0.4
+## 6          2  Nitrite   1           0.7
+## 7          1 Ammonium   2           6.9
+## 8          2 Ammonium   2           8.6
+## 9          1  Nitrate   2           3.6
+## 10         2  Nitrate   2           2.7
+## 11         1  Nitrite   2           1.5
+## 12         2  Nitrite   2           1.2
+## 13         1 Ammonium   3          12.1
+## 14         2 Ammonium   3           7.8
+## 15         1  Nitrate   3           2.8
+## 16         2  Nitrate   3           4.1
+## 17         1  Nitrite   3           0.8
+## 18         2  Nitrite   3           0.9</code></pre>
+<p>Voilà! One column has become two. Now we are in a position to further tidy the data frame, as we will see below.</p>
 <div id="challengeDataFormat" class="section level4">
 <h4>Challenge</h4>
 <ul>
-<li>If a column of a dataset is a character vector that includes information on two different variables, you can separate the information using the <code>separate</code> function. Use <code>gather</code>, <code>spread</code>, and <code>separate</code> to tidy the following “messy” data set so that it looks like the tidy dataset pictured above, i.e., <code>nutrients_wide</code> with separate rows for each replicate. (Look at the help file for <code>separate</code> - paying attention to the arguments <code>col</code>, <code>into</code>, and <code>sep</code> - to learn how to use it.)</li>
+<li><p>The <code>trees</code> data frame is in long format: every observation (count) is in its own row, and the tree species is specified by the variable <code>Species</code>. Convert this data frame to wide format, with counts for different species in different columns.</p></li>
+<li><p>Similarly, convert the original <code>trees</code> data frame to wide format, but with data from different plot replicates (specified by <code>Plot</code>) in different columns.</p></li>
+<li><p>Sometimes it may take multiple steps to tidy a dataset! Above, we used <code>separate</code> to start to put <code>nutrients_dbl</code> into a tidier form. Do this again, but now convert the new, <code>separate</code>d data frame into a tidy data frame in wide format, with concentrations of different nutrients in different columns.</p></li>
+<li><p>Let’s start one step back! Use <code>gather</code>, <code>spread</code>, and <code>separate</code> to tidy the following “messy” data set into a tidy one, i.e., by converting it to <code>nutrients_dbl</code> and then tidying it as above.</p></li>
 </ul>
 <pre class="r"><code>nutrients_messy &lt;- read.csv(file=&quot;../Data/Experiment_nutrients_messy.csv&quot;)
 nutrients_messy</code></pre>
@@ -240,6 +298,7 @@ nutrients_messy</code></pre>
 ## 1       12.1       2.8       0.8
 ## 2        7.8       4.1       0.9</code></pre>
 <hr />
+</div>
 </div>
 </div>
 <div id="resources" class="section level1">
