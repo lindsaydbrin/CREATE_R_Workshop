@@ -94,7 +94,7 @@ Let's say that we want to add data on carbon concentration to the observations i
 
 The term *left join* can be explained using a Venn diagram. The circle on the left is data frame `x`, and the one on the right is data frame `y`. The overlap between the two circles represents the observations with keys that are present in both data frames. The result of a left join is all of data frame `x`, plus the parts of data frame `y` with overlapping keys - i.e., the left side of the Venn diagram.   
 
-<img src="../Images/Join_LeftJoin.pdf" width="400pt" style="display: block; margin: auto;" />
+<img src="../Images/Join_LeftJoin.png" width="400pt" style="display: block; margin: auto;" />
 
 To do a left join on `nutrients`, adding variables from `carbon`, we would use the following syntax.
 
@@ -166,7 +166,7 @@ Note that this may not be what you wanted, but it does not result in an error or
 
 A right join is conceptually similar to a left join, but includes all the observations of data frame `y` and matching observations in data frame `x` - the right side of the Venn diagram.  
 
-<img src="../Images/Join_RightJoin.pdf" width="400pt" style="display: block; margin: auto;" />
+<img src="../Images/Join_RightJoin.png" width="400pt" style="display: block; margin: auto;" />
 
 What would you expect to get as a result of a right join using x = `nutrients` and y = `carbon`?
 
@@ -199,7 +199,7 @@ What if you want to include only the observations in both data frames, and omit 
 
 An inner join includes observations with keys that are present in both data frames. This is the same as keeping only the observations in `x` that have a matching observation in `y`.   
 
-<img src="../Images/Join_InnerJoin.pdf" width="400pt" style="display: block; margin: auto;" />
+<img src="../Images/Join_InnerJoin.png" width="400pt" style="display: block; margin: auto;" />
 
 What would you expect to get as a result of an inner join using x = `nutrients` and y = `carbon`?
 
@@ -229,7 +229,7 @@ You can see that `Replicate` 2 of `Treatment` 1 is not included because there wa
 
 You might want a data frame that includes all data from both data sets, whether or not observations are missing in one or the other.  This is analogous to including both circles in a Venn diagram.
 
-<img src="../Images/Join_FullJoin.pdf" width="400pt" style="display: block; margin: auto;" />
+<img src="../Images/Join_FullJoin.png" width="400pt" style="display: block; margin: auto;" />
 
 Which observations would you expect to be included in the result of a full join using x = `nutrients` and y = `carbon`?
 
@@ -272,7 +272,7 @@ There are two types of filtering joins:
 
 Semi joins keep all observations in `x` that have a match in `y`. The Venn diagram depicting this join is the same as that for an `inner_join`. 
 
-<img src="../Images/Join_InnerJoin.pdf" width="400pt" style="display: block; margin: auto;" />
+<img src="../Images/Join_InnerJoin.png" width="400pt" style="display: block; margin: auto;" />
 
 The observations in the resulting data frame are also often the same as a `inner_join`. For example, compare the following:
 
@@ -325,7 +325,7 @@ Notice that the observations in both data frames are the same, but that the inne
 
 Anti joins keep all observations in `x` that do not have a match in `y`. This might be useful if, for example, you have your main data in table `x`, and a second table that specifies data that you'd like to omit. Alternatively, this type of join might be part of a pipeline comparing an updated data frame to an older version to determine which observations are new.
 
-<img src="../Images/Join_AntiJoin.pdf" width="400pt" style="display: block; margin: auto;" />
+<img src="../Images/Join_AntiJoin.png" width="400pt" style="display: block; margin: auto;" />
 
 An anti join can be used to determine which observations in `x` are missing data in `y`. Say we want to know which observations in `nutrients` are missing data in `carbon`. In this case, we could do the following:  
 

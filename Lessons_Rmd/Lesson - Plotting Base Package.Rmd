@@ -2,9 +2,9 @@
 title: "Plotting with the base package"
 author: "CRI R Workshop"
 output:
+  pdf_document: default
   html_document:
     keep_md: yes
-  pdf_document: default
 layout: topic
 ---
 
@@ -362,6 +362,11 @@ dev.off()
 knitr::include_graphics("../Figures/Nutrients.pdf")
 ```
 
+In case you are looking at this lesson in a browser that doesn't render the above pdf file, here is the same image as a png.
+
+```{r, echo=FALSE, fig.align='center', out.width='600pt'}
+knitr::include_graphics("../Figures/Nutrients.png")
+```
 
 ___
 

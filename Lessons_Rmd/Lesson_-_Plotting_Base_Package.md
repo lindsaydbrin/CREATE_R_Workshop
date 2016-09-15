@@ -402,6 +402,9 @@ dev.off()
 
 <img src="../Figures/Nutrients.pdf" width="600pt" style="display: block; margin: auto;" />
 
+In case you are looking at this lesson in a browser that doesn't render the above pdf file, here is the same image as a png.
+
+<img src="../Figures/Nutrients.png" width="600pt" style="display: block; margin: auto;" />
 
 ___
 
