@@ -2,14 +2,11 @@
 title: "README"
 author: "Lindsay Brin"
 output:
-  pdf_document: default
   html_document:
     keep_md: yes
+  pdf_document: default
 layout: topic
 ---
-
-Materials for the **Introduction to R for Ecological Data Analysis** workshop at the Canadian Rivers Institute of the University of New Brunswick.
-
 
 Introduction to R for Ecological Data Analysis is a 2-day workshop at the University of New Brunswick taught by [Dr. Lindsay Brin](http://www.lindsaydbrin.com). This workshop is part of the [Watershed and Aquatics Training in Environmental Research (WATER)](http://canadianriversinstitute.com/training/water-program/) program at the [Canadian Rivers Institute](http://canadianriversinstitute.com), funded by an NSERC Collaborative Research and Training Experience (CREATE) grant. 
 
