@@ -1,6 +1,9 @@
 # Ignore automatic Mac folder metadata files
 .DS_Store
 
+# Ignore R history file
+.Rhistory
+
 # Ignore certain directories
 Writing/
 Logistics/
