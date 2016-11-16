@@ -1,6 +1,7 @@
 ---
 title: "Introduction to R"
 output:
+  pdf_document: default
   html_document:
     highlight: tango
     keep_md: yes
@@ -8,7 +9,6 @@ output:
     self_contained: no
     theme: cerulean
     toc: yes
-  pdf_document: default
 layout: topic
 ---
 
@@ -118,7 +118,7 @@ What are the values of each variable after the following?
 
 # Vectors and data types
 
-A vector is the most command and basic data structure in R. It is an ordered group of values, usually either numbers or characters (i.e., words or letter strings), and all of the same type.  This group of values can be assigned to a variable, just like we did earlier with individual values.  To do this, we use the function `c()`, which you can think of as meaning ***c***ombine.
+A vector is the most common and basic data structure in R. It is an ordered group of values, usually either numbers or characters (i.e., words or letter strings), and all of the same type.  This group of values can be assigned to a variable, just like we did earlier with individual values.  To do this, we use the function `c()`, which you can think of as meaning ***c***ombine.
 
 As an example, here is a vector of numbers:
 
