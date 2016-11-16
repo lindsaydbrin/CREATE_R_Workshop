@@ -164,12 +164,12 @@ $(document).ready(function () {
 <div id="motivation" class="section level1">
 <h1>Why, and what?</h1>
 <p>In this lesson, we address two things that can become cumbersome: precisely typing out long sequences of numbers, and pulling out specific data from a data frame. These things can be made much more efficient through the use of functions in R!</p>
-<p>To this end, we will introduce the concept of sequences and the associated function seq, as well as approaches for subsetting data frames. You will then have the opportunity to put the two concepts together in the challenge, which will ideally begin to give you a sense for their general usefulness.</p>
+<p>To this end, we will introduce the concept of sequences and the associated function <code>seq()</code>, as well as approaches for subsetting data frames. You will then have the opportunity to put the two concepts together in the challenge, which will ideally begin to give you a sense for their general usefulness.</p>
 <hr />
 <div id="sequences" class="section level2">
 <h2>Sequences</h2>
 <p>There are several ways that we can automatically create sequences of numbers. If we want to make numeric vectors of integers in increasing or decreasing order, we can use a special inline function: <code>:</code>. For example, try <code>1:10</code> and <code>10:1</code>.</p>
-<p>For more complex patterns, we can use the function <code>seq</code> (for <strong>seq</strong>uence). You can specify the numbers in the output vector in several different ways:</p>
+<p>For more complex patterns, we can use the function <code>seq()</code> (for <strong>seq</strong>uence). You can specify the numbers in the output vector in several different ways:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">seq</span>(<span class="dv">2</span>, <span class="dv">10</span>, <span class="dt">by=</span><span class="dv">2</span>)  <span class="co"># Specify first number, last number, and increment between numbers</span></code></pre></div>
 <pre><code>## [1]  2  4  6  8 10</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">seq</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dt">length.out=</span><span class="dv">3</span>)  <span class="co"># Specify first number, last number, and total vector length</span></code></pre></div>
@@ -243,8 +243,8 @@ trees$Species          <span class="co"># Result is a vector</span></code></pre>
 <li><p>Create a new data frame that contains only the 250th row of <code>trees</code>.</p></li>
 <li><p>Create a new data frame that includes the 10th through 20th rows of <code>trees</code>.</p></li>
 <li><p>Create a new data frame that only includes data where <code>Count</code> is equal to 30. (Hint: How would you identify which rows are the correct ones?)</p></li>
-<li><p>The function <code>nrow</code> on a data frame returns the number of rows. Use <code>nrow</code> to make a data frame with only the last row of trees.</p></li>
-<li><p>Use <code>nrow</code> again, in conjuction with <code>seq()</code>, to create a new data frame that includes every 10th row of <code>trees</code> starting at row 10 (10, 20, 30, …). (Hint: start by creating the appropriate sequence!)</p></li>
+<li><p>The function <code>nrow()</code> on a data frame returns the number of rows. Use <code>nrow()</code> to make a data frame with only the last row of trees.</p></li>
+<li><p>Use <code>nrow()</code> again, in conjuction with <code>seq()</code>, to create a new data frame that includes every 10th row of <code>trees</code> starting at row 10 (10, 20, 30, …). (Hint: start by creating the appropriate sequence!)</p></li>
 <li><p>Now that you’ve seen how <code>nrow()</code> can be used to stand in for a row index, let’s combine that behavior with the <code>-</code> notation above to reproduce the behavior of <code>head(surveys)</code>. I.e., exclude the 7th through final row of the <code>surveys</code> dataset without explicitly specifying the final row number.</p></li>
 </ol>
 <hr>
