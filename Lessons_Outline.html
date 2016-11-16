@@ -9,7 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="2016 September 22-23" />
+<meta name="author" content="CRI CREATE Workshop" />
 
 
 <title>Introduction to R for Ecological Data Analysis</title>
@@ -94,6 +94,7 @@ button.code-folding-btn:focus {
 </style>
 
 
+
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
@@ -116,7 +117,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Introduction to R for Ecological Data Analysis</h1>
-<h4 class="author"><em>2016 September 22-23</em></h4>
+<h4 class="author"><em>CRI CREATE Workshop</em></h4>
 
 </div>
 
@@ -124,7 +125,7 @@ $(document).ready(function () {
 <hr />
 <p>Welcome to Introduction to R for Ecological Data Analysis, a 2-day workshop at the University of New Brunswick taught by <a href="http://www.lindsaydbrin.com">Dr. Lindsay Brin</a>. This workshop is part of the <a href="http://canadianriversinstitute.com/training/water-program/">Watershed and Aquatics Training in Environmental Research (WATER)</a> program at the <a href="http://canadianriversinstitute.com">Canadian Rivers Institute</a>, funded by an NSERC Collaborative Research and Training Experience (CREATE) grant.</p>
 <p>The in-person workshop covers most of the lessons below, roughly in the order in which they are listed. Additional content is provided on this site as a reference. (For example: in the control structures lesson, we will cover if statements in class, but lesson materials for for loops are also provided here; the same is true for simple versus multiple regression, the latter of which we will refer to only briefly.)</p>
-<p>The workshop builds off the <a href="http://www.datacarpentry.org">Data Carpentry</a> lessons on <a href="http://www.datacarpentry.org/R-ecology-lesson/">R for data analysis for Ecology</a>, which are distributed under the <a href="https://creativecommons.org/licenses/by/2.0/">CC-BY license</a>.</p>
+<p>The workshop builds off the <a href="http://www.datacarpentry.org">Data Carpentry</a> lessons on <a href="http://www.datacarpentry.org/R-ecology-lesson/">R for data analysis for Ecology</a>, which are distributed under the <a href="https://creativecommons.org/licenses/by/2.0/">CC-BY license</a>. The alternate versions of these lessons follow the Data Carpentry lesson plan very closely but are re-written to include CRI workshop-specific data sets and to provide more details to allow participants to more easily go through lessons on their own (i.e., when missing a portion of the workshop for required classes).</p>
 <p>Course details can be found <a href="#courseInfo">below</a>. Data for the workshop can be downloaded from <a href="https://github.com/lindsaydbrin/CREATE_R_Workshop/blob/master/DataForParticipants.zip">github</a>. This information can be accessed online at <a href="http://lindsaydbrin.github.io/CREATE_R_Workshop/">http://lindsaydbrin.github.io/CREATE_R_Workshop</a>.</p>
 <hr />
 <div id="workshop-lessons-outline" class="section level2">
@@ -132,22 +133,45 @@ $(document).ready(function () {
 <div id="introduction-to-r" class="section level4">
 <h4>Introduction to R</h4>
 <ul>
+<li>Organization and R Basics
+<ul>
+<li><a href="Lesson_-_Organization_and_R_Basics.html">Organization and R basics <em>(CRI version)</em></a></li>
 <li><a href="http://www.datacarpentry.org/R-ecology-lesson/00-before-we-start.html">Before we start <em>(Data Carpentry)</em></a></li>
-<li><a href="http://www.datacarpentry.org/R-ecology-lesson/01-intro-to-R.html">Introduction to R <em>(Data Carpentry)</em></a></li>
+</ul></li>
+<li>Introduction to R
+<ul>
+<li><a href="http://www.datacarpentry.org/R-ecology-lesson/01-intro-to-R.html"><em>Data Carpentry</em></a></li>
+<li><a href="Lesson_-_Introduction_to_R.html"><em>CRI version</em></a></li>
+</ul></li>
 </ul>
 </div>
 <div id="working-with-data" class="section level4">
 <h4>Working with Data</h4>
 <ul>
-<li><a href="http://www.datacarpentry.org/R-ecology-lesson/02-starting-with-data.html">Starting with data <em>(Data Carpentry)</em></a></li>
-<li><a href="http://www.datacarpentry.org/R-ecology-lesson/03-data-frames.html">The <code>data.frame</code> class <em>(Data Carpentry)</em></a></li>
+<li>Starting with data
+<ul>
+<li><a href="http://www.datacarpentry.org/R-ecology-lesson/02-starting-with-data.html"><em>Data Carpentry</em></a></li>
+<li><a href="Lesson_-_Starting_with_data.html"><em>CRI version</em></a></li>
+</ul></li>
+<li>The <code>data.frame</code> class
+<ul>
+<li><a href="http://www.datacarpentry.org/R-ecology-lesson/03-data-frames.html"><em>Data Carpentry</em></a></li>
+<li><em>CRI version</em>
+<ul>
+<li><a href="Lesson_-_Data_Frame_Part_1.html">The <code>data.frame</code> class - part 1</a></li>
 <li><a href="Lesson_-_Data_Frame_Part_2.html">The <code>data.frame</code> class - part 2 (Substitute for second half of Data Carpentry lesson)</a></li>
+</ul></li>
+</ul></li>
 </ul>
 </div>
 <div id="data-manipulation" class="section level4">
 <h4>Data manipulation</h4>
 <ul>
-<li><a href="http://www.datacarpentry.org/R-ecology-lesson/04-dplyr.html">Data manipulation using <code>dplyr</code> <em>(Data Carpentry)</em></a></li>
+<li>Data manipulation using <code>dplyr</code>
+<ul>
+<li><a href="http://www.datacarpentry.org/R-ecology-lesson/04-dplyr.html"><em>Data Carpentry</em></a></li>
+<li><a href="Lesson_-_dplyr_data_handling.html"><em>CRI version</em></a></li>
+</ul></li>
 <li><a href="Lesson_-_dplyr_reshape.html">Reshaping data frames: <code>dplyr</code> reshape</a></li>
 <li><a href="Lesson_-_dplyr_join.html">Joining data frames: <code>dplyr</code> join</a></li>
 </ul>
@@ -155,10 +179,7 @@ $(document).ready(function () {
 <div id="pull-it-all-together" class="section level4">
 <h4>Pull it all together</h4>
 <ul>
-<li><a href="Lesson_-_Day_1_Scripting_Challenge.html">Day 1 Scripting Challenge</a>
-<ul>
-<li><a href="Lesson_-_Day_1_Scripting_Challenge_Solution.html">Day 1 Scripting Challenge Solution</a> - <em>Don’t peek until you’ve tried it yourself!</em></li>
-</ul></li>
+<li><a href="Lesson_-_Day_1_Scripting_Challenge.html">Day 1 Scripting Challenge</a></li>
 </ul>
 </div>
 <div id="computing" class="section level4">
@@ -185,10 +206,7 @@ $(document).ready(function () {
 <div id="pull-it-all-together-1" class="section level4">
 <h4>Pull it all together</h4>
 <ul>
-<li><a href="Lesson_-_Data_Workflow_Challenge.html">Data Workflow Challenge</a>
-<ul>
-<li><a href="Lesson_-_Data_Workflow_Challenge_Solutions.html">Data Workflow Challenge: One possible solution</a></li>
-</ul></li>
+<li><a href="Lesson_-_Data_Workflow_Challenge.html">Data Workflow Challenge</a></li>
 </ul>
 <p><br></p>
 <hr />
@@ -226,6 +244,7 @@ $(document).ready(function () {
 $(document).ready(function () {
   $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
 });
+
 
 </script>
 

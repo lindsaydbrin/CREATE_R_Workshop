@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Organization and R basics</title>
+
+<script src="libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Organization and R basics</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#why-and-what">Why, and what?</a></li>
+<li><a href="#why-use-r">Why use R?</a><ul>
+<li><a href="#why-take-this-approach">Why take this approach?</a></li>
+<li><a href="#why-r-in-particular">Why R in particular?</a></li>
+</ul></li>
+<li><a href="#rstudio-interface">RStudio interface</a></li>
+<li><a href="#project-directory-structures-and-the-working-directory">Project directory structures and the working directory</a><ul>
+<li><a href="#directory-structure-for-this-course">Directory structure for this course</a></li>
+</ul></li>
+<li><a href="#r-syntax">R syntax</a><ul>
+<li><a href="#save-your-script">Save your script</a></li>
+<li><a href="#working-in-the-console">Working in the console</a></li>
+<li><a href="#working-with-scripts-and-r-syntax-commenting-assignment-and-functions">Working with scripts and R syntax: commenting, assignment, and functions</a><ul>
+<li><a href="#introduction-to-functions">Introduction to functions</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#where-to-find-help">Where to find help</a><ul>
+<li><a href="#working-within-rstudio">Working within RStudio</a></li>
+<li><a href="#online-resources">Online resources</a></li>
+</ul></li>
+<li><a href="#attribution"><em>Attribution</em></a></li>
+</ul>
+</div>
+
+<hr />
+<div id="why-and-what" class="section level1">
+<h1>Why, and what?</h1>
+<p>In this lesson, we will cover some of the basics of working with R and starting a new project. This will help you get your footing and be prepared for future lessons.</p>
+<hr />
+</div>
+<div id="why-use-r" class="section level1">
+<h1>Why use R?</h1>
+<p>There are two aspects to the question of why to use R for data analysis:</p>
+<ol style="list-style-type: decimal">
+<li>Why should we use this approach, in terms of writing code to process data and data files?<br />
+</li>
+<li>Why should we use R in particular?</li>
+</ol>
+<div id="why-take-this-approach" class="section level2">
+<h2>Why take this approach?</h2>
+<ul>
+<li><p>Reproducibility</p>
+<p>One of the major reasons to use coding and scripts to work with data is that it allows for reproducible science. If all of your analyses are written out and documented, and you are not working with the original data files directly, you can always go back to your code and re-run an analysis.</p></li>
+<li>Two aspects of this reproducibility:
+<ul>
+<li>Easier to prevent or spot mistakes
+<ul>
+<li>Because all analyses are written out in one place, it is simpler to review your work and look for mistakes. Also, because you are not modifying the original data files directly, you are more likely to avoid a disastrous mistake where underlying data is changed or lost.</li>
+</ul></li>
+<li>Simpler to change analyses
+<ul>
+<li>If you decide to change your approach to an analysis, even down to a simple calculation, it is straightforward to apply your change to all of your data. This avoids things like having to check and re-check a myriad of spreadsheet cells with internal references.</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div id="why-r-in-particular" class="section level2">
+<h2>Why R in particular?</h2>
+<p>There are several different options for programs, or combinations of programs, that can serve a similar purpose to R. One commonly used, free alternative is python, which shares many of the same advantages as R. Differences in structure and available packages for the two programs mean that each may be somewhat better suited to different tasks (e.g., statistics, visualization, or programming) or scientific fields (e.g., whether a certain set of advanced functions or analyses are already available), but both are great options (see comparison <a href="https://www.datacamp.com/community/tutorials/r-or-python-for-data-analysis#gs.CkwTK4M">here</a>). There are also commercial alternatives for statistical analyses and programming, such as SAS or MATLAB.</p>
+<p>So, what are the benefits of using R?</p>
+<ul>
+<li>Free
+<ul>
+<li>R is free, both in terms of cost and it being open source</li>
+</ul></li>
+<li>Well-documented</li>
+<li>Cross-platform</li>
+<li>Active community, especially scientists
+<ul>
+<li>Community members develop packages (collections of functions or analyses) that can greatly expand the program’s functionality</li>
+<li>There are many community resources for getting help</li>
+</ul></li>
+<li>At least as good as, if not better than, commercial alternatives</li>
+<li>Useful tool for many aspects of research (and both statistics and data science)</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="rstudio-interface" class="section level1">
+<h1>RStudio interface</h1>
+<p>RStudio is an is an Integrated Development Environment (IDE) for R. Essentially, it is a graphical interface that makes it easier to work with R, by pulling together different components of the typical analysis workflow. When you open RStudio, it automatically opens an R session. When you run commands in RStudio, it sends them to R and returns the result. RStudio also allows you to do things like navigating the files on your computer, inspecting variables that you have created, and visualizing plots.</p>
+<p>Open RStudio on your own computer. Your screen should look something like this:</p>
+<p><img src="Images/RStudio_Startup_xl.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>If you have not already opened a script, open a new one, in one of two ways:</p>
+<ul>
+<li>Go to the menu bar at the top of the screen, and click <code>File</code> -&gt; <code>New File</code> -&gt; <code>R Script</code>.<br />
+</li>
+<li>Alternatively, click on the white rectangle with the green circle and white plus sign in the top left corner of the RStudio window, and then click on <code>R Script</code>. Your screen should now look something like this:</li>
+</ul>
+<p><img src="Images/RStudio_Startup_NewScript_xl.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>There are 4 panes, or areas, of the program window.</p>
+<ol style="list-style-type: decimal">
+<li>The bottom left pane is the <strong>console</strong>.
+<ul>
+<li>This is where commands are executed, and you can see the resulting output.</li>
+<li>The console has short term memory only! Results of computations are not stored, and if you close RStudio, your commands will be gone.</li>
+<li>This space is useful for testing pieces of code or for looking at the details or structure of different objects.</li>
+</ul>
+<p><br> Try this out for yourself: Type the following, and then hit enter: <code>4 + 5</code>. Then try a few different math problems.</p></li>
+<li>The top left is the <strong>R script</strong> pane.
+<ul>
+<li>If several script files are open, this pane can have multiple tabs, each with a different script.</li>
+<li>Here, you can type in commands and then save them for later reference. You can also create executable scripts.</li>
+<li>To execute (run) a section of code in the script pane, you have several options:
+<ul>
+<li>Select the code, then click <code>Run</code> in the top right corner of the script pane.</li>
+</ul>
+<p><img src="Images/RStudio_RunButton.png" width="40%" style="display: block; margin: auto;" /></p>
+<ul>
+<li>Select the code, then press <code>ctrl</code>+<code>enter</code>. On a Mac, you can press <code>command</code>+<code>enter</code>.</li>
+<li>To run a whole line, put your cursor on the line and then run the selected line with either of the two previous approaches (click the <code>Run</code> button, or use a keyboard shortcut).</li>
+</ul></li>
+</ul>
+<p><br> Try this out for yourself: Type a math problem in the console (e.g., <code>4 + 5</code>), then run the line in each of the ways described above.</p></li>
+<li>The top right pane has the <strong><code>Environment</code></strong> and <strong><code>History</code></strong> tabs.
+<ul>
+<li>The <code>Environment</code> tab displays the names of variables in your R session, and information on the structure and/or values of each.</li>
+<li>The <code>History</code> tab shows you all of the code that you have run, either in this session, or as stored to an R history file (.Rhistory).</li>
+</ul>
+<p><br> Try this out for yourself: Define a variable, <code>x</code>, by typing and running the following (in the console or in your new script): <code>x &lt;- 5</code>. Then look at your <code>Environment</code> and <code>History</code> panes.</p></li>
+<li>The bottom right pane has <strong>lots of options</strong>!
+<ul>
+<li><code>Files</code>: This is how you navigate directories on your computer.</li>
+<li><code>Plots</code>: This is where plots will be displayed.</li>
+<li><code>Packages</code>: This shows you which of your installed packages are loaded.</li>
+<li><code>Help</code>: This is where you can find help files.</li>
+<li><code>Viewer</code>: This is like the plots pane, except that it is especially for displaying web content.</li>
+</ul>
+<p><br> Try this out for yourself: Navigate through your file system in the <code>Files</code> tab. Then try searching for something in the search bar of the <code>Help</code> tab - try the word “small”, and then the word “print”. Notice that when there is a specific entry for the word you searched, this entry will be displayed, but if not, you will see all the help pages that include this word.</p></li>
+</ol>
+<hr />
+</div>
+<div id="project-directory-structures-and-the-working-directory" class="section level1">
+<h1>Project directory structures and the working directory</h1>
+<p>It is a good idea to keep all of your project files together in one directory, and to have a consistent subdirectory structure. Besides the fact that this helps with general organization, it also allows you to work with relative file paths within a project. This means that you can specify a <strong>working directory</strong> and then indicate other file paths relative to this directory. This allows you to later move the project directory around, even onto a different computer, without breaking your code. Also, it will be simpler to point to the right directory when writing code to read or write data or other input or output.</p>
+<div id="directory-structure-for-this-course" class="section level2">
+<h2>Directory structure for this course</h2>
+<p>Your project directory for this course should be modeled after this example:</p>
+<p><img src="Images/SampleFileStructure.png" width="75%" style="display: block; margin: auto;" /></p>
+<p>Here, the name of the main project directory is <code>IntroR_OnlineCourse</code>, but you can use any name you’d like. This folder will be your <strong>working directory</strong>. In this case, this folder is in the <code>Desktop</code> folder, but you can store yours anywhere on your computer that makes sense to you. Within this folder, you should have the following subdirectories:</p>
+<ul>
+<li><strong>Data</strong>: Use this folder for raw data files. You can read these in and work with them in R, but don’t modify them directly.</li>
+<li><strong>Data_output</strong>: This folder is for reorganized or processed data. For example, you might want to store data files that combine data from multiple sources, or that only include specific samples.</li>
+<li><strong>Documents</strong>: This folder is for related work, such as outlines, drafts, reports, etc.</li>
+<li><strong>Figure_Output</strong>: This folder is for figures that have been output from R.</li>
+<li><strong>Scripts</strong>: This folder is for your R scripts.</li>
+</ul>
+<p>In your own work, you may choose to have other directories as well, but this is a good structure to model yours on.</p>
+<hr />
+</div>
+</div>
+<div id="r-syntax" class="section level1">
+<h1>R syntax</h1>
+<div id="save-your-script" class="section level2">
+<h2>Save your script</h2>
+<p>Now let’s start working in RStudio. We’ll begin by saving the new script that you have opened. You can do this in one of three ways:</p>
+<ul>
+<li>Go to the menu bar at the top of the screen, and click <code>File</code> -&gt; <code>Save</code>.</li>
+<li>Click on the floppy disk icon either in the top left corner of the RStudio window or in the top left corner of the script tab.</li>
+<li>Press <code>ctrl</code>+<code>S</code>. On a Mac, you can press <code>command</code>+<code>S</code>.</li>
+</ul>
+<p>When the message box opens, give your new script any name you’d like (<code>CRI_R_Course_Scratchpad.R</code> isn’t a bad idea), and save the script into the <code>Scripts</code> folder of your working directory.</p>
+<p>While working through the lessons in the rest of this course, you are welcome to work in this file, or to open (and save!) others. Using different scripts for different lessons may help you if you want to reference class code later. In any case, please use individual R scripts for assignments, and save them with easily interpretable names!</p>
+<p>And, most importantly: You can use the console to test lines of code, but store your code in saved scripts so that you can access it later! It is good practice to do so, and the habit will serve you well in the future.</p>
+</div>
+<div id="working-in-the-console" class="section level2">
+<h2>Working in the console</h2>
+<p>To get used to working in R, let’s do some math in the console. The carrot (<code>&gt;</code>) means that R is ready to accept a command. Try typing a simple computation: type <code>3 + 3</code> and then hit <code>enter</code>.</p>
+<p><img src="Images/RStudio_CommandLineMath.png" width="25%" style="display: block; margin: auto;" /></p>
+<p>The result should be printed below the problem, and then you should see another command prompt. Try a few other math problems on your own. You can use the operators that you might expect to be able to use, such as <code>+</code>, <code>-</code>, <code>/</code>, <code>*</code>, and parentheses <code>(</code> and <code>)</code>.</p>
+<p>What happens if you don’t finish a line of code? Try typing <code>3 *</code> and then hit <code>enter.</code> You should get a <code>+</code> at the beginning of the next line.</p>
+<p><img src="Images/RStudio_UnfinishedCommand.png" width="25%" style="display: block; margin: auto;" /></p>
+<p>This means that R is expecting more input. You can finish the line of code at this point (try typing <code>4</code> and then hit <code>enter</code>). If you are stuck in the middle of a complicated command and don’t know how to finish it, you can get out of this computation by pressing <code>esc</code>. This should get you back to the <code>&gt;</code> command prompt.</p>
+</div>
+<div id="working-with-scripts-and-r-syntax-commenting-assignment-and-functions" class="section level2">
+<h2>Working with scripts and R syntax: commenting, assignment, and functions</h2>
+<p>Here is an example of a script in R:</p>
+<p><img src="Images/RStudio_SampleScript.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><br> There are several notable features of this script:</p>
+<ul>
+<li><strong>Comments</strong>: Comments are pieces of the script that will not be executed if/when that line is run. On any given line, a comment is anything that comes after a <code>#</code>.
+<ul>
+<li>It is good practice to comment your code extensively!
+<ul>
+<li>Start each script with commented code that names the script and gives information on who wrote it and when, and what the script is meant to do.</li>
+<li>Start each section of your code with comments that describe what the code does.</li>
+<li>Add comments at the end of lines to explain computations when this information would be helpful.</li>
+</ul></li>
+<li>This will make it easier for you to interpret your code when you come back to it later, and for other people to read your code if you share it. Never underestimate your ability to forget why you decided to process your data in a certain way! <br><br></li>
+</ul></li>
+<li><strong>Assignment</strong>: The assignment operator gives variables specific values. It looks like this: <code>&lt;-</code>.
+<ul>
+<li>For example, <code>x &lt;- 3</code> sets the value of <code>x</code> to 3. It can be read as “3 goes into x.”
+<ul>
+<li>Try running this example (<code>x &lt;- 3</code>). Then type <code>x</code> and <code>enter</code> to see the value of x.</li>
+<li>There are specific times when it is ok to use <code>=</code> instead of <code>&lt;-</code>, but try to avoid this. Use <code>&lt;-</code> to be explicit.</li>
+</ul></li>
+<li>The shortcut for typing the assignment operator <code>&lt;-</code> is <code>alt</code> + <code>-</code>. <br><br></li>
+</ul></li>
+<li><strong><code>$</code> operator</strong>: The <code>$</code> operator accesses variables within a data frame.
+<ul>
+<li>In the above example, <code>trees$Count</code> refers to the <code>Count</code> variable within the data frame <code>trees</code>. We will work with data frames and data frame variables in later lessons. <br><br></li>
+</ul></li>
+<li><strong>Functions</strong>: Functions are basically little scripts that do helpful things. You can identify the functions as words with parentheses after them, such as <code>library()</code> and <code>print()</code>. The values inside the parentheses are called arguments, and they determine how the function will operate.
+<ul>
+<li>When you run a function, you refer to it as “calling” the function.</li>
+<li>Arguments are typically specified with <code>=</code> (e.g., <code>file = &quot;Data/trees.csv&quot;</code> on line 15).</li>
+<li>There are many functions built into R. For example, try running <code>sqrt(4)</code>.</li>
+</ul></li>
+</ul>
+<div id="introduction-to-functions" class="section level3">
+<h3>Introduction to functions</h3>
+<p>As an example, let’s work with the function <code>round()</code>. Try running the following:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">round</span>(<span class="fl">3.14159</span>)</code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<p><em>Note that the gray boxes indicate code, and the white boxes indicate output.</em></p>
+<p>You may have noticed that the function rounds to the nearest whole number. Why does it do this, instead of rounding to some other number of significant digits? One way to look at the details of a function is to use the function <code>args()</code>, which gives you the function’s arguments. Try running the following:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">args</span>(round)</code></pre></div>
+<pre><code>## function (x, digits = 0) 
+## NULL</code></pre>
+<p>We can get more info from the help file, which we can call with <code>?round</code>.</p>
+<p>From the output of <code>args(round)</code> and from the help file, we can learn that <code>round</code> is a function that has two arguments, <code>x</code> and <code>digits</code>. The <strong>default</strong> for <code>digits</code> is 0, which means that x will be rounded to 0 decimal places. Let’s try a different value for <code>digits</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">round</span>(<span class="fl">3.14159</span>, <span class="dt">digits =</span> <span class="dv">2</span>)</code></pre></div>
+<pre><code>## [1] 3.14</code></pre>
+<p>You might have noticed that we specified the argument name for <code>digits</code>, but not for <code>x</code>. If you include the arguments in the order defined by the function, you don’t have to name them:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">round</span>(<span class="fl">3.14159</span>, <span class="dv">2</span>)</code></pre></div>
+<pre><code>## [1] 3.14</code></pre>
+<p>And if you name them, you can put them in any order:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">round</span>(<span class="dt">digits =</span> <span class="dv">2</span>, <span class="dt">x =</span> <span class="fl">3.14159</span>)</code></pre></div>
+<pre><code>## [1] 3.14</code></pre>
+<p>…but for clarity, it is better to do the following: put the non-optional argument first, and then name the other arguments. I.e., use <code>round(3.14159, digits = 2)</code>, as we did at the beginning.</p>
+<hr />
+</div>
+</div>
+</div>
+<div id="where-to-find-help" class="section level1">
+<h1>Where to find help</h1>
+<div id="working-within-rstudio" class="section level2">
+<h2>Working within RStudio</h2>
+<p>There are several options for getting help while working in RStudio.</p>
+<ul>
+<li><p>If you know the name of a function and need a reminder of how it works, you can use <code>?</code> to call up the help file, as in <code>?barplot</code>. (Try this.)</p></li>
+<li><p>If you just need a reminder of the arguments for a function, you can use the function <code>args()</code>, as in <code>args(lm)</code>. (Try this.)</p></li>
+<li><p>You can use <code>??</code> to search the help files for all <em>installed</em> functions, as in <code>??round</code>. (Try this.)</p></li>
+</ul>
+</div>
+<div id="online-resources" class="section level2">
+<h2>Online resources</h2>
+<p>If you can’t figure out how to solve a problem, there may be helpful information online!</p>
+<ul>
+<li>Google your problem. Try to be specific, and include the term “R”.</li>
+<li><a href="http://stackoverflow.com">StackOverflow</a> is a helpful forum for coding questions. You can go to the <a href="http://stackoverflow.com/questions/tagged/r">R section of the website</a> directly, or keep an eye out for it in Google results.</li>
+<li>There is an <a href="https://stat.ethz.ch/mailman/listinfo/r-help">R help mailing list</a> to which you can subscribe and post questions. Emails from this listserv will also show up in Google search results. If you are going to post here, take a look at the <a href="https://www.r-project.org/posting-guide.html">posting guide</a> first. Many people read these emails, and responses are often quick, but the tone can be dry, and not always welcoming. Also, it is especially important in this forum to use the correct vocabulary to describe your problem; otherwise the response may be about your terminology and not the problem itself.</li>
+</ul>
+<p>When you post a question in an online forum - or even if you ask someone you know! - it is a good idea to follow some guidelines:</p>
+<ul>
+<li>Be specific! The more information you provide, the easier it will be for someone to help you.</li>
+<li>Use the correct words to describe your problem. This is important to ensure that you are on the same page as whoever is trying to help.</li>
+<li>Include a reproducible example. This will help other people work through or diagnose your problem. To do so, you can create simple data sets, or use some of the ones that are built into the base R package <code>datasets</code>. Run <code>data()</code> to get a list of available datasets.</li>
+<li>Include information on your computer and operating system, your version of R, and the packages that you have loaded. You can access this with <code>sessionInfo()</code>.</li>
+<li>Take a look at <a href="http://blog.revolutionanalytics.com/2014/01/how-to-ask-for-r-help.html">this post</a> for suggestions on how to ask for R help.</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="attribution" class="section level1">
+<h1><em>Attribution</em></h1>
+<p><em>This lesson is based on materials from Data Carpentry’s Data Analysis and Visualization in R curriculum (as of 11 October 2016), which is licensed under the <a href="https://creativecommons.org/licenses/by/2.0/">Creative Commons CC-BY</a>. This license allows sharing and adapting materials for any purpose, as long as attribution is given. Generally, the content, concepts, and flow are similar to the original lesson, but the words and some specific examples differ.</em></p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

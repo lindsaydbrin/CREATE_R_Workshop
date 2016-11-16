@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Starting with data</title>
+
+<script src="libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Starting with data</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#why-and-what">Why, and what?</a></li>
+<li><a href="#first-dataset-trees">First dataset: <code>trees</code></a><ul>
+<li><a href="#challenge">Challenge</a></li>
+</ul></li>
+<li><a href="#factors">Factors</a><ul>
+<li><a href="#converting-factors">Converting factors</a><ul>
+<li><a href="#challenge-1">Challenge</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#attribution"><em>Attribution</em></a></li>
+</ul>
+</div>
+
+<hr />
+<div id="why-and-what" class="section level1">
+<h1>Why, and what?</h1>
+<p>The purpose of this course is to help you learn how to work with your own data in R. In this lesson, we will start to work with data. This is where things get fun! We will begin with an introduction to data frames, and also introduce factors, a data type that is often used for scientific experiments and statistical analyses.</p>
+<hr />
+</div>
+<div id="first-dataset-trees" class="section level1">
+<h1>First dataset: <code>trees</code></h1>
+<p>The first data that we will work with, in the dataset <code>trees</code>, is representative of the kind of scientific data that you might work with in R. It contains data on different tree species that were counted in replicate plots in various parts of Eastern Canada. The data is stored as a .csv file: each row has information on a single observation, and the columns represent the following:</p>
+<table style="width:50%;">
+<colgroup>
+<col width="18%" />
+<col width="31%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Column</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Province</td>
+<td>Province where the observation was made</td>
+</tr>
+<tr class="even">
+<td>Site</td>
+<td>Site (city) where the observation was made; there are several sites per province</td>
+</tr>
+<tr class="odd">
+<td>Plot</td>
+<td>Plot (replicate) number, within site</td>
+</tr>
+<tr class="even">
+<td>Species</td>
+<td>Tree species counted</td>
+</tr>
+<tr class="odd">
+<td>Count</td>
+<td>Number of individuals counted</td>
+</tr>
+</tbody>
+</table>
+<p>You should have downloaded <code>trees.csv</code> into the <code>Data</code> folder of your working directory for this class. To load the contents of the file into memory (as a data frame), we will use the function <code>read.csv()</code>.</p>
+<p>When using this function, we will indicate the file’s location using a <em>relative</em> file path; i.e., the file path is relative to our working directory. To do this, we first need to set the working directory within R. There are two ways to do this:</p>
+<ol style="list-style-type: decimal">
+<li><p>Navigate to your working directory in the <code>Files</code> tab. (Remember which file is your working directory from the <em>Organization and R basics</em> lesson; it should be the directory that your <code>Data</code> folder is in). Click on the dropdown arrow next to <code>More</code>, then click on <code>Set as working directory</code>.</p></li>
+<li><p>When you do the above, you will see a command run in your console, using the function <code>setwd()</code> (for <em>set working directory</em>). You can use this function directly to set your working directory. This is useful because you can add this code to the top of scripts so that you - or whoever may be looking at your code in the future - don’t have to re-find the working directory each time you work on your project. For example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setwd</span>(<span class="st">&quot;~/Desktop/IntroR_OnlineCourse&quot;</span>)</code></pre></div></li>
+</ol>
+<p>Try both of these approaches. Now, when you ask R to look for a file, it will look for the file within your working directory.</p>
+<p>Now that the working directory has been set, we can use <code>read.csv()</code> to read in our data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trees &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;Data/trees.csv&quot;</span>)</code></pre></div>
+<p>This does not print any result to the screen. To check that the file was loaded, you can print the value of the variable <code>trees</code> (try this):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trees</code></pre></div>
+<p>The output is not included here because, as you can see when you run the line yourself, it is quite a long file! This suggests that the data loaded properly. If we want to look at just the first 6 lines of this <code>data.frame</code>, we can use the function <code>head()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(trees)</code></pre></div>
+<pre><code>##   Province   Site Plot                 Species Count
+## 1  Ontario Ottawa    1           Pinus strobus    11
+## 2  Ontario Ottawa    1             Acer rubrum    18
+## 3  Ontario Ottawa    1          Cornus florida    28
+## 4  Ontario Ottawa    1            Quercus alba    15
+## 5  Ontario Ottawa    1 Liriodendrum tulipifera    18
+## 6  Ontario Ottawa    1        Tsuga canadensis    30</code></pre>
+<p>This is the top of the <code>trees</code> data frame. A data frame can be created by reading in tabular data, as we did here, or by using the function <code>data.frame</code>, which we will do in the next lesson. In a data frame, the format is a table where the columns are all vectors that are the same length. Because each column is a vector, all elements in a column are the same kind of data. To demonstrate this, we can use <code>str()</code> to look at the data frame’s structure. This will also give information on the number of observations and the number of variables.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(trees)</code></pre></div>
+<div id="challenge" class="section level3">
+<h3>Challenge</h3>
+<p>Based on the output of <code>str(trees)</code>, answer the following questions:</p>
+<ol style="list-style-type: decimal">
+<li><p>What is the class of the object <code>trees</code>?</p></li>
+<li><p>How many rows and how many columns does this object have?</p></li>
+<li><p>How many different species have been counted in this study?</p></li>
+</ol>
+<p>As you can see, many of these columns are made up of integers, but some of them (<code>Province</code>, <code>Site</code>, and <code>Species</code>) are made up of a class called a <code>factor</code>. We are going to spend some time on factors before learning more about data frames. Factors are useful for statistical analyses, but they are not necessarily intuitive. For example, note that although these variables have names that look like character strings, the <code>str()</code> output indicates that they are made up of numbers. This may be confusing at first, but should make more sense after the next section.</p>
+<hr />
+</div>
+</div>
+<div id="factors" class="section level1">
+<h1>Factors</h1>
+<p>Factors are used to represent categorical data. It is important to understand them for statistical analysis and for plotting.</p>
+<p>Factors are stored as integers, and have specific labels associated with each unique integer. Although factors look (and often behave) like character vectors, they are actually integers under the hood. Because of this, you have to be careful when treating them like character strings.</p>
+<p>Once created, factors can only contain a set of pre-defined values, which are known as <em>levels</em>. By default, R sorts levels in alphabetical order. For example, here is a factor with two levels:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flavors &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&quot;sweet&quot;</span>, <span class="st">&quot;savory&quot;</span>, <span class="st">&quot;savory&quot;</span>, <span class="st">&quot;sweet&quot;</span>))</code></pre></div>
+<p>R will assign 1 to the level <code>&quot;savory&quot;</code> and 2 to the level <code>&quot;sweet&quot;</code>. This happens because <em>savory</em> comes before <em>sweet</em> alphabetically. It does not matter that <code>&quot;sweet&quot;</code> is the first element of the factor. You can check the levels of a factor by using the function <code>levels()</code>, and the number of levels of a factor by using the function <code>nlevels()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">levels</span>(flavors)</code></pre></div>
+<pre><code>## [1] &quot;savory&quot; &quot;sweet&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nlevels</span>(flavors)</code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<p>Sometimes you might not care about the order of the levels in the factor, but other times you might want to specify the order because it is meaningful (e.g., “low”, “medium”, “high”) or because it is necessary for a certain type of analysis. Specifying the order of the levels also allows you to compare these levels. For example, here is another factor with levels, without the order specified:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">food &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&quot;low&quot;</span>, <span class="st">&quot;high&quot;</span>, <span class="st">&quot;medium&quot;</span>, <span class="st">&quot;high&quot;</span>, <span class="st">&quot;low&quot;</span>, <span class="st">&quot;medium&quot;</span>, <span class="st">&quot;high&quot;</span>))
+<span class="kw">levels</span>(food)</code></pre></div>
+<pre><code>## [1] &quot;high&quot;   &quot;low&quot;    &quot;medium&quot;</code></pre>
+<p>Because the levels are ordered alphabetically, they are not ordered intuitively, i.e., as <code>&quot;low&quot;</code>, <code>&quot;medium&quot;</code>, <code>&quot;high&quot;</code>. We can specify the levels in order:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">food &lt;-<span class="st"> </span><span class="kw">factor</span>(food, <span class="dt">levels=</span><span class="kw">c</span>(<span class="st">&quot;low&quot;</span>, <span class="st">&quot;medium&quot;</span>, <span class="st">&quot;high&quot;</span>))
+<span class="kw">levels</span>(food)</code></pre></div>
+<pre><code>## [1] &quot;low&quot;    &quot;medium&quot; &quot;high&quot;</code></pre>
+<p>But we still can’t do quantitative comparisons (try this yourself):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">min</span>(food)</code></pre></div>
+<p>However, if we specify that we want the levels to be ordered, we can do quantitative comparisons:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">food &lt;-<span class="st"> </span><span class="kw">factor</span>(food, <span class="dt">levels=</span><span class="kw">c</span>(<span class="st">&quot;low&quot;</span>, <span class="st">&quot;medium&quot;</span>, <span class="st">&quot;high&quot;</span>), <span class="dt">ordered=</span><span class="ot">TRUE</span>)
+<span class="kw">levels</span>(food)</code></pre></div>
+<pre><code>## [1] &quot;low&quot;    &quot;medium&quot; &quot;high&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">min</span>(food)</code></pre></div>
+<pre><code>## [1] low
+## Levels: low &lt; medium &lt; high</code></pre>
+<p>In R’s memory, these factors are represented by integers (1, 2, 3), but they are more informative than integers because their names have information: <code>&quot;low&quot;</code>, <code>&quot;medium&quot;</code>, and <code>&quot;high&quot;</code> are more descriptive than <code>1</code>, <code>2</code>, <code>3</code>. If you wanted to know which level was “low,” for example, the integer data alone wouldn’t tell you. Factors, on the other hand, have this information built in. This can be very helpful in cases where there are many levels, such as in <code>Site</code> in the <code>trees</code> data set.</p>
+<div id="converting-factors" class="section level2">
+<h2>Converting factors</h2>
+<p>To convert a factor to a character vector, you can use the function <code>as.character()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.character</span>(food)</code></pre></div>
+<pre><code>## [1] &quot;low&quot;    &quot;high&quot;   &quot;medium&quot; &quot;high&quot;   &quot;low&quot;    &quot;medium&quot; &quot;high&quot;</code></pre>
+<p>You can also convert factors to numeric vectors using <code>as.numeric()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.numeric</span>(food)</code></pre></div>
+<pre><code>## [1] 1 3 2 3 1 2 3</code></pre>
+<p>If you’re working with a factor where the levels appear as numbers (such as concentrations), it is a little trickier to convert the factor to a numeric vector with the values you expect. For example, here is just such a factor:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">concentrations &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">2</span>))
+<span class="kw">as.numeric</span>(concentrations)</code></pre></div>
+<pre><code>## [1] 1 3 4 2</code></pre>
+<p>When we try to use <code>as.numeric</code> to convert it to a numeric vector, it doesn’t give us the answer we expect. Why is this? Let’s look at the structure of the factor:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(concentrations)</code></pre></div>
+<pre><code>##  Factor w/ 4 levels &quot;1&quot;,&quot;2&quot;,&quot;5&quot;,&quot;10&quot;: 1 3 4 2</code></pre>
+<p>This suggests that <code>&quot;1&quot;</code> is assigned to <code>1</code>, <code>&quot;2&quot;</code> is assigned to <code>2</code>, <code>&quot;5&quot;</code> is assigned to <code>3</code>, and <code>&quot;10&quot;</code> is assigned to <code>4</code>. Thus, the factor is being converted to numbers based on the levels at which it is stored.</p>
+<p>To convert this factor to the vector <code>c(1, 5, 10, 2)</code>, we have two options. The first option below, in which the factor is first converted to a character vector, will technically work. However, the second option is the recommended way, as it avoids representing the elements using character strings:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.numeric</span>(<span class="kw">as.character</span>(concentrations)) <span class="co"># Works...</span></code></pre></div>
+<pre><code>## [1]  1  5 10  2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.numeric</span>(<span class="kw">levels</span>(concentrations))[concentrations] <span class="co"># Recommended.</span></code></pre></div>
+<pre><code>## [1]  1  5 10  2</code></pre>
+<p>In the second approach, three important steps occur:</p>
+<ol style="list-style-type: decimal">
+<li>All the factor levels are obtained using <code>levels(concentrations)</code>.</li>
+<li>These levels are converted to numeric values using <code>as.numeric(levels(concentrations))</code>.</li>
+<li>These numeric values are accessed <em>in the correct order</em> using the underlying integers of the factor <code>concentrations</code> inside the square brackets.</li>
+</ol>
+<div id="challenge-1" class="section level3">
+<h3>Challenge</h3>
+<ol start="4" style="list-style-type: decimal">
+<li><p>Create a factor called “grades” with 10 different grades between A and F, where A is the highest level and F is the lowest level (ignore +’s and -’s, like A+ or C-). Examine the value of the factor and include that output in your answer.</p></li>
+<li><p>The function <code>plot()</code> can be used to quickly create a bar plot of a factor. For example, for the following factor:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">exprmt &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">c</span>(<span class="st">&quot;treat1&quot;</span>, <span class="st">&quot;treat2&quot;</span>, <span class="st">&quot;treat1&quot;</span>, <span class="st">&quot;treat3&quot;</span>, <span class="st">&quot;treat1&quot;</span>, <span class="st">&quot;control&quot;</span>, <span class="st">&quot;treat1&quot;</span>, <span class="st">&quot;treat2&quot;</span>, <span class="st">&quot;treat3&quot;</span>))</code></pre></div>
+<p>the code <code>plot(exprmt)</code> gives you a barplot of the number of observations at each level, as shown below.</p>
+<ul>
+<li>What determines the order in which the treatments are listed in the plot? (Hint: use <code>str()</code> to inspect the factor.)</li>
+<li>How can you recreate this plot with “control” listed last instead of first? Include the plot output in your answer.</li>
+</ul></li>
+</ol>
+<p><img src="Images/StartingWithData/unnamed-chunk-19-1.png" width="700pt" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+</div>
+</div>
+<div id="attribution" class="section level1">
+<h1><em>Attribution</em></h1>
+<p><em>This lesson is based on materials from Data Carpentry’s Data Analysis and Visualization in R curriculum (as of 11 October 2016), which is licensed under the <a href="https://creativecommons.org/licenses/by/2.0/">Creative Commons CC-BY</a>. This license allows sharing and adapting materials for any purpose, as long as attribution is given. Generally, the content, concepts, and flow are similar to the original lesson, but the words and some specific examples differ.</em></p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
