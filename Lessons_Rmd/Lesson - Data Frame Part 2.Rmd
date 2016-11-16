@@ -1,13 +1,13 @@
 ---
 title: 'Data Frames Part 2: Sequences and subsetting'
 output:
+  pdf_document: default
   html_document:
     highlight: tango
     keep_md: yes
     lib_dir: libs
     self_contained: no
     theme: cerulean
-  pdf_document: default
 layout: topic
 ---
 
@@ -31,7 +31,7 @@ ___
 
 In this lesson, we address two things that can become cumbersome: precisely typing out long sequences of numbers, and pulling out specific data from a data frame. These things can be made much more efficient through the use of functions in R!
 
-To this end, we will introduce the concept of sequences and the associated function seq, as well as approaches for subsetting data frames. You will then have the opportunity to put the two concepts together in the challenge, which will ideally begin to give you a sense for their general usefulness.
+To this end, we will introduce the concept of sequences and the associated function `seq()`, as well as approaches for subsetting data frames. You will then have the opportunity to put the two concepts together in the challenge, which will ideally begin to give you a sense for their general usefulness.
 
 ___
 
@@ -39,7 +39,7 @@ ___
 
 There are several ways that we can automatically create sequences of numbers.  If we want to make numeric vectors of integers in increasing or decreasing order, we can use a special inline function: `:`. For example, try `1:10` and `10:1`.
 
-For more complex patterns, we can use the function `seq` (for **seq**uence). You can specify the numbers in the output vector in several different ways:
+For more complex patterns, we can use the function `seq()` (for **seq**uence). You can specify the numbers in the output vector in several different ways:
 
 ```{r, results='show'}
 seq(2, 10, by=2)  # Specify first number, last number, and increment between numbers
@@ -137,9 +137,9 @@ It is better to be explicit, and indicate the full name of the variable.  Beside
 
 8. Create a new data frame that only includes data where `Count` is equal to 30. (Hint: How would you identify which rows are the correct ones?)
 
-9. The function `nrow` on a data frame returns the number of rows. Use `nrow` to make a data frame with only the last row of trees.
+9. The function `nrow()` on a data frame returns the number of rows. Use `nrow()` to make a data frame with only the last row of trees.
 
-10. Use `nrow` again, in conjuction with `seq()`, to create a new data frame that includes every 10th row of `trees` starting at row 10 (10, 20, 30, ...).  (Hint: start by creating the appropriate sequence!)
+10. Use `nrow()` again, in conjuction with `seq()`, to create a new data frame that includes every 10th row of `trees` starting at row 10 (10, 20, 30, ...).  (Hint: start by creating the appropriate sequence!)
 
 11. Now that you've seen how `nrow()` can be used to stand in for a row index, let's combine that behavior with the `-` notation above to reproduce the behavior of `head(surveys)`. I.e., exclude the 7th through final row of the `surveys` dataset without explicitly specifying the final row number.
 
