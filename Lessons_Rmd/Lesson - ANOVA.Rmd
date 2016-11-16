@@ -1,12 +1,25 @@
 ---
 title: "ANOVA"
-author: "CRI R Workshop"
 output:
   html_document:
+    highlight: tango
     keep_md: yes
+    lib_dir: libs
+    self_contained: no
+    theme: cerulean
   pdf_document: default
 layout: topic
 ---
+
+```{r opts, echo = FALSE}
+
+# To output plots as .png figures, run this.
+
+knitr::opts_chunk$set(
+  fig.path = "Images/ANOVA/"
+)
+```
+
 
 ```{r, eval = TRUE, echo=FALSE, message=FALSE}
 ## Load packages that would theoretically have been loaded during previous lessons, to allow for functioning as a standalone script
@@ -46,9 +59,14 @@ We'll start with a one-way ANOVA, using the `Inverts` data from the previous few
 
 To run an ANOVA, we need our explanatory variable to be a factor (i.e., rather than a character string). If you don't have `Inverts` in your environment, read it in, and make sure that `stringsAsFactors` is set to `TRUE`. If you already have it in your environment, but `Type` and `Country` are characters, you can use `mutate` and `as.factor` to convert them to factors.
 
-```{r}
+```{r, echo = FALSE}
 # Read in Inverts data (first introduced in functions lesson)
 	Inverts <- read.csv(file="../Data/Inverts.csv", stringsAsFactors=TRUE, header=TRUE)
+```
+
+```{r, eval = FALSE}
+# Read in Inverts data (first introduced in functions lesson)
+	Inverts <- read.csv(file="Data/Inverts.csv", stringsAsFactors=TRUE, header=TRUE)
 
 # Or, if Inverts is already in your environment with Type and Country as characters, 
 #   convert them to factors
@@ -144,7 +162,7 @@ The table below `$Type` gives us the *p*-values for comparisons between groups. 
 
 #### Challenge {#challengeaov}
 
-* Read in the `trees` data set that we used in the lesson on reshaping data frames with dplyr. Across all sites, does tree abundance (`Count`) vary by species? If so, which species differ? Whether or not the model is significant, check whether the model assumptions are met.
+1. Read in the `trees` data set that we used in the lesson on reshaping data frames with dplyr. Across all sites, does tree abundance (`Count`) vary by species? If so, which species differ? Whether or not the model is significant, check whether the model assumptions are met.
 
 ```{r, eval=FALSE, echo=FALSE}
 trees <- read.csv(file="Data/trees.csv") # Read in file
@@ -154,7 +172,7 @@ summary(treemod) # No significant differences
 plot(aov(Count~Species, data=trees)) # Residuals look normal and homogeneous.
 ```
 
-* The file `allbirds.csv` contains count data on 24 bird species that were observed at one site during 4 different months. Read in this data, and use an ANOVA to determine whether species counts varied by month. If so, run a post-hoc test to determine which months vary. Use a boxplot to assess data visually, and be sure to check model assumptions!
+2. The file `allbirds.csv` contains count data on 24 bird species that were observed at one site during 4 different months. Read in this data, and use an ANOVA to determine whether species counts varied by month. If so, run a post-hoc test to determine which months vary. Use a boxplot to assess data visually, and be sure to check model assumptions!
 
 ```{r, eval=FALSE, echo=FALSE}
 allbirds <- read.csv(file="Data/allbirds.csv") # Read in file

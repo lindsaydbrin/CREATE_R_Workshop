@@ -1,5 +1,6 @@
 # Plotting with the base package
-CRI R Workshop  
+
+
 
 ___
 
@@ -14,10 +15,12 @@ ___
 	+ [Plotting text](#plotText)
 * [Bar plots](#barPlots)
 * [Outputting plots](#outputPlots)
+* [The next step: ggplot2](#ggplot2)
 * [Resources](#resources)  
 
 
 ___
+
 
 
 
@@ -46,18 +49,19 @@ Scatterplots can be made with the function `plot`, and only require x and y vect
 	plot(xvalues, yvalues)
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-2-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Images/BasePlotImages/unnamed-chunk-2-1.png" width="600pt" style="display: block; margin: auto;" />
 
 We can also plot variables that are contained within a data frame.  Let's read in a data file of fake fruit heights and weights.
 
 
 ```r
 # Read in data
-	fruitData <- read.csv(file="../Data/fruitData.csv")
+	fruitData <- read.csv(file="Data/fruitData.csv")
 
 # Take a look at the data frame structure
 	str(fruitData) 
 ```
+
 
 ```
 ## 'data.frame':	200 obs. of  3 variables:
@@ -74,7 +78,7 @@ It looks like we have height and weight data for both apples and pears. Let's pl
 	plot(fruitData$fruitHeight, fruitData$fruitWeight)
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-4-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Images/BasePlotImages/unnamed-chunk-5-1.png" width="600pt" style="display: block; margin: auto;" />
 
 The `x` and `y` arguments in this function call are quite long, and somewhat difficult to read quickly. If you were making many plots of variables within `fruitData`, you might want a cleaner way to specify the variables to be plotted. 
 
@@ -92,15 +96,15 @@ Note that the order of the variables is switched from `x, y` to `y ~ x`! This co
 plot(fruitWeight ~ fruitHeight, data=fruitData)
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-6-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Images/BasePlotImages/unnamed-chunk-7-1.png" width="600pt" style="display: block; margin: auto;" />
 
 #### Challenge {#challengeScatter}
 
-* Using the `metals` data frame from the lesson on joins, plot Pb concentrations against Cu concentrations. Then plot Pb concentrations against Fe concentrations.
+1. Using the `metals` data frame from the lesson on joins, plot Pb concentrations against Cu concentrations. Then plot Pb concentrations against Fe concentrations.
 
 
 
-* The syntax where the data set is specified only once in the plot function can make it simpler to plot subsets of data. Using what you learned about subsetting with `dplyr`, make a scatterplot of fruit weight versus fruit height using only data on pears, i.e., by specifying the appropriate data set in the `data` argument of the plot function.
+2. The syntax where the data set is specified only once in the plot function can make it simpler to plot subsets of data. Using what you learned about subsetting with `dplyr`, make a scatterplot of fruit weight versus fruit height using only data on pears, i.e., by specifying the appropriate data set in the `data` argument of the plot function.
 
 
 
@@ -117,7 +121,7 @@ plot(Ammonium ~ Nitrate, data=nutrients, type="b"
 		 , xlab="Nitrate concentration", ylab="Ammonium concentration")
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-9-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Images/BasePlotImages/unnamed-chunk-10-1.png" width="600pt" style="display: block; margin: auto;" />
 
 Of course, lines don't make a lot of sense in this context, but it is helpful to know that this option exists!   
 
@@ -129,7 +133,7 @@ plot(Ammonium ~ Nitrate, data=nutrients, type="b", xlim=c(0,5), ylim=c(0, 14)
 		 , xlab="Nitrate concentration", ylab="Ammonium concentration")
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-10-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Images/BasePlotImages/unnamed-chunk-11-1.png" width="600pt" style="display: block; margin: auto;" />
 
 This is already starting to look a bit better!   
 
@@ -158,12 +162,12 @@ There are 25 different symbols that can be specified by `pch`. You can quickly l
 plot(1:25, 1:25, pch=1:25, col="red", bg="gray")
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-11-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Images/BasePlotImages/unnamed-chunk-12-1.png" width="600pt" style="display: block; margin: auto;" />
 
 You can see that `col` specifies point color, but sometimes this refers to the outline of an open symbol. For `pch` = 21 through 25, `bg` specifies the fill color of the point.
 
 #### Challenge {#challengeAes}
-* Using the nutrient data, make a plot of ammonium versus nitrate data that specifies all of the above parameters. Try a few different values for each.
+3. Using the nutrient data, make a plot of ammonium versus nitrate data that specifies all of the above parameters. Try a few different values for each.
 
 ## Building up plots {#buildUp}
 
@@ -179,7 +183,7 @@ plot(Ammonium ~ Nitrate, data=nutrients, pch=19, col="red", xlim=c(0,5), ylim=c(
 points(Nitrite ~ Nitrate, data=nutrients, pch=19, col="blue")
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-12-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Images/BasePlotImages/unnamed-chunk-13-1.png" width="600pt" style="display: block; margin: auto;" />
 
 Notice that with the second set of points, the y-axis label no longer makes sense. We could specify the axis label in the initial plot command, but we have more control if we add it separately. It would also be nice to adjust the placement of the x and y axes.  So let's take another approach, and plot different components of the plot separately from each other.  
 
@@ -194,7 +198,7 @@ plot(1, 1, xlim=c(0,5), ylim=c(0, 14), type="n", ann=FALSE, axes=FALSE)  # Make 
   points(Nitrite ~ Nitrate, data=nutrients, pch=19, col="blue")  # Add nitrite points
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-13-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Images/BasePlotImages/unnamed-chunk-14-1.png" width="600pt" style="display: block; margin: auto;" />
 
 The `axis` function has many optional parameters. The help file (`?axis`) gives you a list, and also notes that other graphical `par`ameters can be passed to this function. The one required argument is `side`. Plot sides are represented by a number from 1 to 4, where 1 is the bottom, and the numbering goes clockwise around the plot (i.e., the left side is 2). This makes it straightforward to add a separate axis on the right side, i.e. by specifying `side=4`.   
 
@@ -219,7 +223,7 @@ plot(100, 100, xlim=c(0,5), ylim=c(0, 14), xlab="", ylab="", axes=FALSE)
   points(Nitrite ~ Nitrate, data=nutrients, pch=19, col="blue")
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-14-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Images/BasePlotImages/unnamed-chunk-15-1.png" width="600pt" style="display: block; margin: auto;" />
 
 Now let's add a legend. You can do this with the `legend` function. Important arguments to the `legend` function include those that specify its position, the legend text, the line size or point type, and the symbol colors. For the position, you can specify `x` and `y` with values, or you can give descriptive strings to `x`: "topright", "topleft", "bottomright", "bottomleft", and "center". We'll specify the position with coordinates.
 
@@ -237,7 +241,7 @@ plot(100, 100, xlim=c(0,5), ylim=c(0, 14), xlab="", ylab="", axes=FALSE)  # Make
   legend(x=0.1, y=14, legend=c("Ammonium", "Nitrate"), pch=19, col=c("red","blue"))  # Add legend
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-15-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Images/BasePlotImages/unnamed-chunk-16-1.png" width="600pt" style="display: block; margin: auto;" />
 
 Notice that the legend is not connected to the contents of the plot. This means that you have to carefully check that you've specified the colors, lines, etc. correctly, to avoid displaying the wrong information. However, it also means that you have more control on the legend contents and formatting.   
 
@@ -246,7 +250,7 @@ Take a look at `?legend` for details on things like specifying text size and lin
 
 #### Challenge {#challengeBuildUp}
 
-* Make a plot that is similar to the one above, but plot different symbols for different values of `Treatment`.
+4. Make a plot that is similar to the one above, but plot different symbols for different values of `Treatment`.
 
 
 ## Plotting text {#plotText}
@@ -267,7 +271,7 @@ plot(100, 100, xlim=c(0,5), ylim=c(0, 14), xlab="", ylab="", axes=FALSE)
   legend(x=0.1, y=14, legend=c("Ammonium", "Nitrate"), pch=21, col=c("red","blue")) 
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-16-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Images/BasePlotImages/unnamed-chunk-17-1.png" width="600pt" style="display: block; margin: auto;" />
 
 We can conclude from this plot that if you try to make up random numbers for concentrations, you may still end up following a subconscious pattern!
 
@@ -306,7 +310,7 @@ barplot(nutrients_mean %>%
 				, las=1, ylab="Concentration")
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-18-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Images/BasePlotImages/unnamed-chunk-19-1.png" width="600pt" style="display: block; margin: auto;" />
 
 We probably don't want a stacked bar plot here - it would make more sense to have the bars next to each other. To do that, we can specify `beside=TRUE`. To help with spacing, we will also specify the space between each set of bars, using `space`. For multiple bars in each group, `space` is a vector with two values, where the first value is the space between bars within the group, and the secong value is the space between groups, both as a fraction of the bar width. We'll separate the bars within the groups just a little bit.   
 
@@ -320,7 +324,7 @@ barplot(nutrients_mean %>%
         , beside=TRUE, space=c(0.1,1), ylim=c(0,10), las=1, ylab="Concentration")
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-19-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Images/BasePlotImages/unnamed-chunk-20-1.png" width="600pt" style="display: block; margin: auto;" />
 
 And last, as with scatterplots, we can add a legend to differentiate between treatments. Remember that you have to specify the colors in a legend, so it's important to be sure that you get this right!
 
@@ -333,7 +337,7 @@ barplot(nutrients_mean %>%
 legend("topright", pch=22, col="black", pt.bg=gray.colors(2), legend=c("Treatment 1", "Treatment 2"))
 ```
 
-<img src="Lesson_-_Plotting_Base_Package_files/figure-html/unnamed-chunk-20-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Images/BasePlotImages/unnamed-chunk-21-1.png" width="600pt" style="display: block; margin: auto;" />
 
 
 # Outputting plots {#outputPlots}
@@ -400,11 +404,26 @@ dev.off()
 ```
 
 
-<img src="../Figures/Nutrients.pdf" width="600pt" style="display: block; margin: auto;" />
 
-In case you are looking at this lesson in a browser that doesn't render the above pdf file, here is the same image as a png.
 
-<img src="../Figures/Nutrients.png" width="600pt" style="display: block; margin: auto;" />
+<br>
+
+<img src="Images/Nutrients.png" width="600pt" style="display: block; margin: auto;" />
+
+<br>
+
+(The above image is in .png form to sidestep issues with some browsers not rendering pdfs properly.)
+
+
+___
+
+# The next step: ggplot2 {#ggplot2}
+
+`ggplot2` is a package that contains functions that can simplify plotting, even for relatively advanced, complex, or multi-layered plots.  Although we are not covering it in this course, it is a very good tool to learn.  
+
+There are many online resources for learning this package, including a highly recommended [Data Carpentry lesson on using ggplot2](http://www.datacarpentry.org/R-ecology-lesson/05-visualization-ggplot2.html); take a look at that lesson to get a sense of what `ggplot2` can do. 
+
+More info on `ggplot2` can be found on the [official website](http://ggplot2.org).
 
 ___
 

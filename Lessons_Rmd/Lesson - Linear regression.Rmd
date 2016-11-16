@@ -1,12 +1,27 @@
 ---
 title: "Linear regression"
-author: "CRI R Workshop"
 output:
   html_document:
+    highlight: tango
     keep_md: yes
+    lib_dir: libs
+    self_contained: no
+    theme: cerulean
   pdf_document: default
 layout: topic
 ---
+
+```{r opts, echo = FALSE}
+# To output plots as .png figures, run this.
+# If nec., use a variation of this line in the terminal to change the names as desired:
+#  ls -1 | awk '/png/{old=$0;gsub("-1.png",".png",$0);system("mv \""old"\" "$0)}'
+# See this page for some details: http://theunixshell.blogspot.ca/2013/01/bulk-renaming-of-files-in-unix.html
+
+knitr::opts_chunk$set(
+  fig.path = "Images/LMImages/"
+)
+```
+
 
 ```{r, eval = TRUE, echo=FALSE, message=FALSE}
 ## Load packages that would theoretically have been loaded during previous lessons, to allow for functioning as a standalone script
@@ -50,12 +65,18 @@ $\alpha$ and $\beta$ are called parameters, where $\alpha$ gives the intercept a
 
 Simple linear regression estimates the relationship between x and y by fitting a straight line through the data points. The residuals are calculated as the differences between the modeled and measured values of the dependent variables for each value of the independent variable. To fit the model, linear regression uses the method of least squares, meaning that the sum of the squared residuals is minimized. 
 
-To put this into practice, let's use the Inverts data from the functions lesson.
+We'll run a simple linear regression using the `Inverts` data.  Read in the data if it's not already in your environment:
 
-```{r}
+```{r, eval = FALSE}
+# Read in Inverts data (first introduced in functions lesson)
+Inverts <- read.csv(file="Data/Inverts.csv", stringsAsFactors=TRUE, header=TRUE)
+```
+
+```{r, echo=FALSE}
 # Read in Inverts data (first introduced in functions lesson)
 Inverts <- read.csv(file="../Data/Inverts.csv", stringsAsFactors=TRUE, header=TRUE)
 ```
+
 
 ## Look at your data! {#lookAt}
 
@@ -222,7 +243,7 @@ For simple regression, the t-value and p-value for the linear fit between the tw
 
 #### Challenge {#challengelm}
 
-* Use a simple linear regression to look at whether species richness is dependent on mean stream temperature in the `Inverts` data frame.
+1. Use a simple linear regression to look at whether species richness is dependent on mean stream temperature in the `Inverts` data frame.
 
 ```{r, echo=FALSE, eval=FALSE}
 # Look at data
@@ -235,7 +256,7 @@ For simple regression, the t-value and p-value for the linear fit between the tw
 		# The model is not significant!
 ```
 
-* Read in the `genes.csv` data file from the lesson on joining data frames. Examine the relationship between the abundance of nirS and the abundance of nosZ by plotting the data and then fitting a linear regression model. What are the p-value and the adjusted r^2^ of the overall model? Is the linear relationship significant?
+2. Read in the `genes.csv` data file from the lesson on joining data frames. Examine the relationship between the abundance of nirS and the abundance of nosZ by plotting the data and then fitting a linear regression model. What are the p-value and the adjusted r^2^ of the overall model? Is the linear relationship significant?
 
 ```{r, eval=FALSE, echo=FALSE}
 genes <- read.csv(file="Data/genes.csv") # Read in data
@@ -243,7 +264,7 @@ plot(nirS~nosZ, data=genes, pch=19, las=1) # Plot data
 summary(lm(nirS~nosZ, data=genes)) # Look at summary of linear model
 ```
 
-* Read in the `climates.csv` data file from the lesson on joining data frames. Examine the relationship between mean annual precipitation (MAP) and mean annual temperature (MAT) by plotting the data and then fitting a linear regression model. What are the p-value and the adjusted r^2^ of the overall model? Is the linear relationship significant?
+3. Read in the `climates.csv` data file from the lesson on joining data frames. Examine the relationship between mean annual precipitation (MAP) and mean annual temperature (MAT) by plotting the data and then fitting a linear regression model. What are the p-value and the adjusted r^2^ of the overall model? Is the linear relationship significant?
 
 ```{r, eval=FALSE, echo=FALSE}
 climates <- read.csv(file="Data/climates.csv") # Read in data
@@ -251,7 +272,7 @@ plot(MAP~MAT, data=climates, pch=19, las=1) # Plot data
 summary(lm(MAP~MAT, data=climates)) # Look at summary of linear model
 ```
 
-* Extract the slope, intercept, p-value, and adjusted r^2^ of the linear regression model of the relationship between MAP and MAT.
+4. Extract the slope, intercept, p-value, and adjusted r^2^ of the linear regression model of the relationship between MAP and MAT. That is to say, write a line of code that, when run, returns the desired value.
 
 ```{r, echo=FALSE, eval=FALSE}
 # Create model
@@ -266,7 +287,7 @@ summary(lm(MAP~MAT, data=climates)) # Look at summary of linear model
 	summary(climateModel)$adj.r.squared # Adjusted r^2
 ```
 
-* Write a function that returns a vector with the slope and intercept of a simple linear regression model.
+5. Write a function that returns a vector with the slope and intercept of a simple linear regression model. Test your function with the model that you created in the previous challenge question.
 
 ```{r, echo=FALSE, eval=FALSE}
 getSlopeIntercept <- function(lmodel){

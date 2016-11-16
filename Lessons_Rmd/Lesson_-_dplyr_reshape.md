@@ -1,5 +1,7 @@
 # Reshaping data frames with dplyr
-CRI R Workshop  
+
+
+
 
 
 
@@ -53,9 +55,10 @@ write.csv(nutrients_long,"Data/nutrients_long.csv", row.names=FALSE)
 
 
 ```r
-nutrients_long <- read.csv("../Data/nutrients_long.csv")
+nutrients_long <- read.csv("Data/nutrients_long.csv")
 nutrients_long
 ```
+
 
 ```
 ##   SampleID Nutrient Concentration
@@ -70,14 +73,13 @@ nutrients_long
 ## 9        3  Nitrite           0.8
 ```
 
-
 Here is the same data frame, using color to help you visualize the structure:
 
-<img src="../Images/DataBlocks_long.png" width="360pt" style="display: block; margin: auto;" />
+<img src="Images/DataBlocks_long.png" width="360pt" style="display: block; margin: auto;" />
 
 But what if we want all of the data from one sample to be in a single row, with each nutrient in a separate column?  This would be called wide format, and it would look like this:   
 
-<img src="../Images/DataBlocks_wide.png" width="480pt" style="display: block; margin: auto;" />
+<img src="Images/DataBlocks_wide.png" width="480pt" style="display: block; margin: auto;" />
 
 This is an example of "tidy" data ([Wickham 2014](https://www.jstatsoft.org/article/view/v059i10)).  It has the following characteristics:
 
@@ -92,13 +94,13 @@ The data you work with is likely more complex than in this example, and it can t
 
 If the structure of your experiment involves groups between which you want to compare aggregate data (mean, maximum, etc.), these groups should usually be specified by a variable (i.e., a column), with each sample in each group in a separate row. For example, say you have two treatments applied to each `SampleID`, and you want to compare nutrient concentrations between treatments. Ideally, you would include a `Treatment` variable in your data frame, and each `SampleID` would be associated with 2 rows, one for each `Treatment`. The structure would be the same if you had multiple sampling dates instead of multiple treatments. It would also be similar if you had two `Treatments` that each had 3 replicates, with the variable name `Replicate` replacing `SampleID`. 
 
-<img src="../Images/DataBlocks_wide_reps.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Images/DataBlocks_wide_reps.png" width="600pt" style="display: block; margin: auto;" />
 
 This is a tidy dataset!  
 
 In contrast, the following "messy" dataset has separate columns for different replicates of each treatment. This will make things much more difficult later and should be avoided. However, if your data comes this way, e.g. as output from an analytical instrument, it is straightforward to use reshaping functions to put it into a tidier form!
 
-<img src="../Images/DataBlocks_wide_awful.png" width="900pt" style="display: block; margin: auto;" />
+<img src="Images/DataBlocks_wide_awful.png" width="900pt" style="display: block; margin: auto;" />
 
 For more on tidy data, here is Hadley Wickham's informal version of his full tidy data paper: [https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)  
   
@@ -192,9 +194,10 @@ Sometimes a variable may contain information that really makes up two variables.
 
 
 ```r
-nutrients_dbl <- read.csv("../Data/nutrients_dbl.csv")
+nutrients_dbl <- read.csv("Data/nutrients_dbl.csv")
 nutrients_dbl
 ```
+
 
 ```
 ##    Treatment Nutrient_Rep Concentration
@@ -251,34 +254,35 @@ Voilà! One column has become two.  Now we are in a position to further tidy the
 
 #### Challenge {#challengeDataFormat}
 
-* The `trees` data frame is in long format: every observation (count) is in its own row, and the tree species is specified by the variable `Species`. Convert this data frame to wide format, with counts for different species in different columns.
+1. The `trees` data frame is in long format: every observation (count) is in its own row, and the tree species is specified by the variable `Species`. Convert this data frame to wide format, with counts for different species in different columns.
 
 
 
-* Similarly, convert the original `trees` data frame to wide format, but with data from different plot replicates (specified by `Plot`) in different columns.
+2. Similarly, convert the original `trees` data frame to wide format, but with data from different plot replicates (specified by `Plot`) in different columns.
 
 
 
-* Sometimes it may take multiple steps to tidy a dataset!  Above, we used `separate` to start to put `nutrients_dbl` into a tidier form. Do this again, but now convert the new, `separate`d data frame into a tidy data frame in wide format, with concentrations of different nutrients in different columns.
+3. Sometimes it may take multiple steps to tidy a dataset!  Above, we used `separate` to start to put `nutrients_dbl` into a tidier form. Do this again, but now convert the new, `separate`d data frame into a tidy data frame in wide format, with concentrations of different nutrients in different columns.
 
 
 
-* Let's start one step back! Use `gather`, `spread`, and `separate` to tidy the following "messy" data set into a tidy one, i.e., by converting it to `nutrients_dbl` and then tidying it as above. 
+4. Let's start one step back! Use `gather`, `spread`, and `separate` to tidy a "messy" data set ("Experiment_nutrients_messy.csv") into a tidy one, i.e., by converting it to `nutrients_dbl` and then tidying it as above. 
 
+	
+	```r
+	nutrients_messy <- read.csv(file="Data/Experiment_nutrients_messy.csv")
+	nutrients_messy
+	```
 
-```r
-nutrients_messy <- read.csv(file="../Data/Experiment_nutrients_messy.csv")
-nutrients_messy
-```
-
-```
-##   Treatment Ammonium_1 Nitrate_1 Nitrite_1 Ammonium_2 Nitrate_2 Nitrite_2
-## 1         1        8.2       1.7       0.4        6.9       3.6       1.5
-## 2         2       10.5       0.4       0.7        8.6       2.7       1.2
-##   Ammonium_3 Nitrate_3 Nitrite_3
-## 1       12.1       2.8       0.8
-## 2        7.8       4.1       0.9
-```
+	
+	```
+	##   Treatment Ammonium_1 Nitrate_1 Nitrite_1 Ammonium_2 Nitrate_2 Nitrite_2
+	## 1         1        8.2       1.7       0.4        6.9       3.6       1.5
+	## 2         2       10.5       0.4       0.7        8.6       2.7       1.2
+	##   Ammonium_3 Nitrate_3 Nitrite_3
+	## 1       12.1       2.8       0.8
+	## 2        7.8       4.1       0.9
+	```
 
 
 

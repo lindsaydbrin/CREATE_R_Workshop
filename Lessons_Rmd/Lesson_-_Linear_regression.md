@@ -1,5 +1,7 @@
 # Linear regression
-CRI R Workshop  
+
+
+
 
 
 ___
@@ -39,19 +41,22 @@ $\alpha$ and $\beta$ are called parameters, where $\alpha$ gives the intercept a
 
 Simple linear regression estimates the relationship between x and y by fitting a straight line through the data points. The residuals are calculated as the differences between the modeled and measured values of the dependent variables for each value of the independent variable. To fit the model, linear regression uses the method of least squares, meaning that the sum of the squared residuals is minimized. 
 
-To put this into practice, let's use the Inverts data from the functions lesson.
+We'll run a simple linear regression using the `Inverts` data.  Read in the data if it's not already in your environment:
 
 
 ```r
 # Read in Inverts data (first introduced in functions lesson)
-Inverts <- read.csv(file="../Data/Inverts.csv", stringsAsFactors=TRUE, header=TRUE)
+Inverts <- read.csv(file="Data/Inverts.csv", stringsAsFactors=TRUE, header=TRUE)
 ```
+
+
+
 
 ## Look at your data! {#lookAt}
 
 If you're interested in the relationship between two variables, the first step should always be to look at the data. This is important because it is possible for pairs of vectors with very different relationships to each other to have exactly the same summary statistics. An example of this is [Anscombe's quartet](https://en.wikipedia.org/wiki/Anscombe%27s_quartet), constructed by the statistician Francis Anscombe in 1973. Each of these data sets has the same mean for x, the same mean for y (to 2 decimal places), the same correlation between x and y (to 3 decimal places) and the same linear regression (to 2 decimal places for the intercept and 3 for the slope).    
 
-<img src="Lesson_-_Linear_regression_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
+<img src="Images/LMImages/unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
 
 Despite the similarities in summary statistics, it is clear that blindly implementing simple linear regression would be a very poor choice! Linear regression does a good job of describing the relationship between x and y for (a), but not for (b) and (d), and in (c), a single outlier leads to a less appropriate linear regression fit. (For underlying data, see `anscombe`.)   
 
@@ -64,7 +69,7 @@ Let's look at the relationship between richness and TOC in the Inverts dataset. 
 plot(Richness ~ TOC, data=Inverts, pch=19, las=1)
 ```
 
-<img src="Lesson_-_Linear_regression_files/figure-html/unnamed-chunk-4-1.png" width="500pt" style="display: block; margin: auto;" />
+<img src="Images/LMImages/unnamed-chunk-5-1.png" width="500pt" style="display: block; margin: auto;" />
 
 It looks like a linear regression would be a reasonable approach for this data set.   
 
@@ -152,7 +157,7 @@ To assess the residuals, we will look at a plot of the residuals against the fit
 plot(resid(Inverts.lm) ~ fitted(Inverts.lm), xlab="Fitted values", ylab="Residuals")
 ```
 
-<img src="Lesson_-_Linear_regression_files/figure-html/unnamed-chunk-9-1.png" width="500pt" style="display: block; margin: auto;" />
+<img src="Images/LMImages/unnamed-chunk-10-1.png" width="500pt" style="display: block; margin: auto;" />
 
 Fortunately, it doesn't look like the residuals are dependent on the fitted values.   
 
@@ -165,7 +170,7 @@ We use the function `hist` to make a histogram of the residuals. The groupings a
 hist(resid(Inverts.lm), xlab = "Residuals", main = "Histogram of residuals of Inverts.lm")
 ```
 
-<img src="Lesson_-_Linear_regression_files/figure-html/unnamed-chunk-10-1.png" width="500pt" style="display: block; margin: auto;" />
+<img src="Images/LMImages/unnamed-chunk-11-1.png" width="500pt" style="display: block; margin: auto;" />
 
 The distribution of values looks relatively normal. There might be a slight skew, but given the relatively small sample size, the histogram does not give us evidence to reject normality.    
 
@@ -177,7 +182,7 @@ qqnorm(resid(Inverts.lm))
 qqline(resid(Inverts.lm))
 ```
 
-<img src="Lesson_-_Linear_regression_files/figure-html/unnamed-chunk-11-1.png" width="500pt" style="display: block; margin: auto;" />
+<img src="Images/LMImages/unnamed-chunk-12-1.png" width="500pt" style="display: block; margin: auto;" />
 
 When the data do not fall on the line, the shape of their curve can tell you about the distribution of the data. In our case, the QQ plot indicates that the residuals are normally distributed.
 
@@ -323,23 +328,23 @@ For simple regression, the t-value and p-value for the linear fit between the tw
 
 #### Challenge {#challengelm}
 
-* Use a simple linear regression to look at whether species richness is dependent on mean stream temperature in the `Inverts` data frame.
+1. Use a simple linear regression to look at whether species richness is dependent on mean stream temperature in the `Inverts` data frame.
 
 
 
-* Read in the `genes.csv` data file from the lesson on joining data frames. Examine the relationship between the abundance of nirS and the abundance of nosZ by plotting the data and then fitting a linear regression model. What are the p-value and the adjusted r^2^ of the overall model? Is the linear relationship significant?
+2. Read in the `genes.csv` data file from the lesson on joining data frames. Examine the relationship between the abundance of nirS and the abundance of nosZ by plotting the data and then fitting a linear regression model. What are the p-value and the adjusted r^2^ of the overall model? Is the linear relationship significant?
 
 
 
-* Read in the `climates.csv` data file from the lesson on joining data frames. Examine the relationship between mean annual precipitation (MAP) and mean annual temperature (MAT) by plotting the data and then fitting a linear regression model. What are the p-value and the adjusted r^2^ of the overall model? Is the linear relationship significant?
+3. Read in the `climates.csv` data file from the lesson on joining data frames. Examine the relationship between mean annual precipitation (MAP) and mean annual temperature (MAT) by plotting the data and then fitting a linear regression model. What are the p-value and the adjusted r^2^ of the overall model? Is the linear relationship significant?
 
 
 
-* Extract the slope, intercept, p-value, and adjusted r^2^ of the linear regression model of the relationship between MAP and MAT.
+4. Extract the slope, intercept, p-value, and adjusted r^2^ of the linear regression model of the relationship between MAP and MAT. That is to say, write a line of code that, when run, returns the desired value.
 
 
 
-* Write a function that returns a vector with the slope and intercept of a simple linear regression model.
+5. Write a function that returns a vector with the slope and intercept of a simple linear regression model. Test your function with the model that you created in the previous challenge question.
 
 
 
@@ -359,7 +364,7 @@ plot(Richness ~ TOC, data=Inverts, pch=19, xlim=c(0, 1.6), ylim=c(0, 120)
 abline(Inverts.lm) # Plot linear regression
 ```
 
-<img src="Lesson_-_Linear_regression_files/figure-html/unnamed-chunk-23-1.png" width="500pt" style="display: block; margin: auto;" />
+<img src="Images/LMImages/unnamed-chunk-24-1.png" width="500pt" style="display: block; margin: auto;" />
 
 However, you can see that the line extends to the end of the plot margins, which can look awkward if you've specified the placement of your axes. An alternative approach is to draw a line with x and y coordinates of your choosing. For this plot, we might want to use x = 0.3 and 1.4. To calculate the appropriate y-values, we can use the `predict` function. This function uses the linear regression to calculate modeled values for the response variable based on the selected values for the explanatory variable. Once we have the y values, we can use the function `lines` to draw a line with specified x and y coordinates. We can use many of the same `par` arguments for `lines` as we can with `points`.
 
@@ -377,7 +382,7 @@ yvals <- predict(Inverts.lm, newdata=data.frame(TOC = c(0.3, 1.4)))
 lines(x = c(0.3, 1.4), y = yvals, col="mediumorchid", lwd=2)
 ```
 
-<img src="Lesson_-_Linear_regression_files/figure-html/unnamed-chunk-24-1.png" width="500pt" style="display: block; margin: auto;" />
+<img src="Images/LMImages/unnamed-chunk-25-1.png" width="500pt" style="display: block; margin: auto;" />
 
 # Multiple regression {#multipleRegression}
 
@@ -392,7 +397,7 @@ Again, it's a good idea to look at your data!  Let's look at the relationship be
 plot(Richness ~ CurrentVariability, data=Inverts, pch=19, las=1)
 ```
 
-<img src="Lesson_-_Linear_regression_files/figure-html/unnamed-chunk-25-1.png" width="500pt" style="display: block; margin: auto;" />
+<img src="Images/LMImages/unnamed-chunk-26-1.png" width="500pt" style="display: block; margin: auto;" />
 
 It really doesn't look like there's a relationship between these two variables, does it - linear or otherwise.  Nonetheless, we'll proceed with a multiple regression model, to demonstrate the process.
 
@@ -477,7 +482,7 @@ We will check the residuals similarly to above, but with our multiple regression
 	qqline(resid(Inverts2.lm))
 ```
 
-<img src="Lesson_-_Linear_regression_files/figure-html/unnamed-chunk-29-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Images/LMImages/unnamed-chunk-30-1.png" width="600pt" style="display: block; margin: auto;" />
 
 ```r
 # Set plot layout and margins
@@ -492,7 +497,7 @@ We will check the residuals similarly to above, but with our multiple regression
 	par(mfrow=c(1,1), mar=c(5,5,2,2))  
 ```
 
-<img src="Lesson_-_Linear_regression_files/figure-html/unnamed-chunk-29-2.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Images/LMImages/unnamed-chunk-30-2.png" width="600pt" style="display: block; margin: auto;" />
 
 The residuals look a little skewed in the histogram, but the QQ plot suggests that they are reasonably normal, and the plots of residuals against fitted values and explanatory variables suggests homogeneity. (Keep in mind that even with normally distributed data, these plots can look a little funny when _n_, sample size, is low.) So you can safely report your conclusion that species richness is significantly related to organic carbon and not to current variability.   
 

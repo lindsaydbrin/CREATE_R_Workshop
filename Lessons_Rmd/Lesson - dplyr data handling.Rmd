@@ -1,0 +1,308 @@
+---
+title: "Data manipulation and analysis with dplyr"
+output:
+  html_document:
+    highlight: tango
+    keep_md: yes
+    lib_dir: libs
+    self_contained: no
+    theme: cerulean
+    toc: yes
+  pdf_document: default
+layout: topic
+---
+
+```{r opts, echo = FALSE}
+# To output plots as .png figures, run this.
+
+knitr::opts_chunk$set(
+  fig.path = "Images/dplyr/"
+)
+```
+
+___
+
+# Why, and what? {#motivation}
+
+There are multiple types of data manipulation that you are likely to use consistently across different projects and datasets. Subsetting, as covered in the previous lesson, is just one of them.  While subsetting with brackets is useful, it can be cumbersome to work with, especially if you want to work with many different subsets of your data. This is where `dplyr` comes in. `dplyr` is a package for making data manipulation easier.
+
+Packages are collections of functions (and sometimes data sets) that build upon the base functionality of R. R comes with many built-in functions, including the ones that we have been using so far (such as `read.csv()`, `round()`, and `c()`, as well as operators like `+`, `-`, and `>=`). As we will see later on, you can also write new functions, to extend what you can do in R. Researchers and others who write functions in R often bundle these new functions into packages, which can then be distributed more broadly. This is a major reason why R is so powerful; as people come up with new approaches and methods for working with data, these approaches can be made available to the wider community of R users.
+
+Before you can use a new package for the first time, you need to download and install it on your computer.  You only need to do this once.  Once you've installed it, you will need to load it into R each time you want to access it.  However, it is easy to write code at the top of your script to automatically load the packages that you need for that script.
+
+To download `dplyr`, run the following:
+
+```{r, eval=FALSE}
+install.packages("dplyr")
+```
+
+You may or may not be asked to choose a CRAN mirror, which means that you have to decide which site from which to download the package.  It doesn't really matter which you choose, as the package will be the same in all locations.
+
+In general, if you try to install a package and you get an error message saying that your version of R or RStudio is too old, then it is a good idea to update both of those (and then install the package).
+
+Once you've installed `dplyr`, you can load it into your R session as follows:
+
+```{r, message = FALSE}
+library("dplyr")  # Load the package
+```
+
+```{r, echo=FALSE}
+# Sometimes I load other packages that have functions called select, 
+# but I want to be sure to use the one in dplyr.
+select <- dplyr::select
+```
+
+If it has been loaded properly, you should be able to call up a help file with the following code:
+
+```{r}
+?select
+```
+
+___
+
+# Data manipulation using dplyr
+
+The `dplyr` package contains functions that help with the most common data manipulation tasks, and it was designed to work directly with data frames.  It ports much of the computation to C++, which can speed up run time. It can also work with data stored in an external database. For our purposes, though, it has some very useful functions that work quickly!
+
+You may find this [dplyr cheatsheet](http://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) useful, both for the functions that we cover in class and for other useful functions that you may be interested in using later on.
+
+___
+
+## Selecting columns and filtering rows
+
+In this lesson, we will learn some of the most commonly used `dplyr` functions: `select()`, `filter()`, `mutate()`, `group_by()`, and `summarize()`.  We'll work with the data frame `trees` that we've used in previous lessons.  Be sure to read in the file again if you are working in a new R session.  Take a look at the output of `str(trees)` if you need a reminder of the data that this file contains.
+
+```{r, eval=FALSE}
+trees <- read.csv(file = "Data/trees.csv", stringsAsFactors = FALSE)
+```
+
+```{r, echo=FALSE}
+trees <- read.csv(file = "../Data/trees.csv", stringsAsFactors = FALSE)
+```
+
+
+The first `dplyr` function that we will use, `select()`, allows you to subset a data frame by extracting specific variables (columns). The first argument to the function is the data frame (`trees`), and the next arguments are the columns to be selected.  For example, here are the first few lines of the result of a call to `select()` on `trees`:
+
+```{r, eval=FALSE}
+select(trees, Site, Species, Count)  # Your output will have more lines
+```
+
+```{r, echo=FALSE}
+select(trees, Site, Species, Count) %>% head()
+```
+
+What if we want to extract only specific rows, such as the observations where more than 40 trees of a certain species were counted?  To do this, we can subset the data frame using the function `filter()`. As with select, the first argument is the data frame, but the next arguments are logical statements specifying the data that we want to extract.
+
+```{r}
+filter(trees, Count > 40)
+```
+
+You can assign the result to a new variable. For example:
+
+```{r}
+trees_40 <- filter(trees, Count > 40)
+trees_40
+```
+
+You can also include multiple conditions within the same `filter()` function call. To do this, we can use the AND `&` and OR `|` functions that were introduced in the lesson *Introduction to R*. For example, we can subset the data to include observations with fewer than 20 trees for sites in New Brunswick (try this for yourself):
+
+```{r, eval=FALSE}
+filter(trees, Count < 20 & Province == "New Brunswick")
+```
+
+
+## Pipes
+
+But what if you wanted to both select columns and filter rows on the same data set, at the same time?  Say, for example, you want to see all of the observations where more than 40 trees were counted, and you only want the `Species` and `Count` variables. There are several different ways to do this.
+
+One option would be to filter rows, assign the result to an intermediate data frame, and then select columns of this new data frame.  For example:
+
+```{r}
+trees_40 <- filter(trees, Count > 40)
+trees_40_speciesCount <- select(trees_40, Species, Count)
+trees_40_speciesCount
+```
+
+
+However, you now have an unnecessary data frame cluttering your environment, and as you work with your data, this can very quickly lead to a lot of unnecessary objects being stored.  
+
+A second option would be to nest statements inside each other.  For example:
+
+```{r}
+select(filter(trees, Count > 40), Species, Count)
+```
+
+In this case, the result of the `filter()` step is being used as the input to the `select()` step.  While this works fine, it can be difficult to interpret the code, especially if your statement becomes more complex.
+
+The third option is to use a pipe.  Pipes let you take the output from one function in R and send it (pipe it) directly to a second function.  Pipes are a fairly recent addition to R, and are made available via the `magrittr` package that is installed as part of `dplyr`.  ([This](https://en.wikipedia.org/wiki/The_Treachery_of_Images) might help explain the Magritte pun.)  Pipes use an *inline* function that looks like this: `%>%`.  Operators for inline functions are used the way `+` or `-` would be used, i.e., they are placed in line with the rest of the code, rather than having a function name followed by parentheses that surround, or wrap, the code.
+
+When you use a pipe, you don't need to specify the first, required argument of the next function. This is because the first argument will be the output of the previous function.
+
+With pipes, we would do the same filtering and selecting steps as above by running the following code:
+
+```{r}
+# Note that the data frame argument for filter() and select()
+# are not specified because it is implied that that is the output
+# of the previous code.
+trees %>% 
+	filter(Count > 40) %>% 
+	select(Species, Count) 
+```
+
+If you want to use pipes but aren't sure about each part of the function, you can try running just one part at a time, selecting code up to (but not including) the pipe operator.  For example, you can run `trees`, then `trees %>% filter(Count > 30)`, then the whole line. (If you run the pipe operator, R will expect more input. Try this out to demonstrate it to yourself.)
+
+As before, we can assign the results to a new variable. Note that the name of the final, newly created variable is still all the way on the left, before the assignment operator `<-`.
+
+```{r}
+trees_sm <- trees %>% 
+	filter(Count > 30) %>% 
+	select(Species, Count) 
+```
+
+### Challenge
+
+1. Using pipes, subset `trees` to include only the observations in plot 1 of each site. Do this both without and with pipes.
+
+2. Use pipes and subsetting to determine how many species have fewer than 10 individuals in plot 2 in Saint John.
+
+3. Using pipes, subset `trees` to include only the observations from Fredericton, and only the columns indicating species and the number of each species counted. Assign the result to a new variable called `trees_Fredericton`.  Does it matter whether you use `filter()` or `select()` first?  Why or why not?
+
+4. Using pipes, `filter()`, and `str()`, figure out how many observations there are in a subset of `trees` where the `Plot` number is 4 and each species has at least 10 trees in that plot.
+
+
+## Mutate
+
+Often you'll want to make a new column based on the content of a column that already exists. For example, you might want to do a unit conversion, or find the ratio of values in two columns. To do this, we can use the function `mutate()`. With `mutate()`, the first argument is the data set (passed to the function via a pipe). The following arguments consist of the name of the new variable, followed by the equal sign `=` and code indicating how the new variable is formed.
+
+For example, say each plot in the `trees` study was 1,000 m^2^, and we wanted to convert this to the number of trees per hectare (1 ha = 10,000 m^2^). To figure this out, we'd want to multiply `Count` by 10.  We could do this using `mutate()` as follows:
+
+```{r, eval = FALSE}
+trees %>% 
+	mutate(Count_ha = Count * 10)
+```
+
+If your output runs off the screen and you only want the top 6 lines to be displayed, you can pipe the output to the function `head()`.
+
+```{r}
+trees %>% 
+	mutate(Count_ha = Count * 10) %>%
+	head()
+```
+
+You can also reassign the new data frame to the original `trees` variable, so that the new variable `Count_ha` is included in the `trees` data frame. 
+
+```{r}
+trees <- trees %>% 
+	mutate(Count_ha = Count * 10)
+```
+
+### Challenge
+
+5. Create a new data frame from the `trees` data that includes the variables `Site`, `Species`, and `Count_half` where `Count_half` is equal to half the value of `Count` and there are no `Count_half` values less than 10.  Hint: Think carefully about the order of operations!
+
+
+## Split-apply-combine and the `summarize()` function
+
+Very often, you will want to apply an analysis to groups within your entire data set - for example, with the `trees` data, you might be interested in total tree count per plot, or mean count per species across plots. This type of analysis can be approached with the "split-apply-combine" paradigm: split the data into groups, apply some analysis to each group, and then combine the results. With `dplyr`, you can do this easily with the `group_by()` function.
+
+The `group_by()` function is often used along with the function `summarize()`, which collapses each group into a single-row summary of that group. The arguments to `group_by()` are the column names that contain the categorical variables for which you want to calculate the summary statistics, and `summarize()` (or `summarise()`) defines the summary column, similarly to how new columns were defined with `mutate()`. 
+
+For example, to view the mean `Count` by `Species` across all sites and plots:
+
+```{r}
+trees %>%
+	group_by(Species) %>%
+	summarize(meanCount = mean(Count))
+```
+
+You can also group by multiple columns by including both as arguments to the `group_by()` function. For example, to view the mean `Count` by both site and species, you could do the following:
+
+```{r}
+trees %>%
+	group_by(Site, Species) %>%
+	summarize(meanCount = mean(Count))
+```
+
+Note that the output no longer runs off the screen. This is becuase dplyr has changed the `data.frame` to a `tbl_df`. This data structure is very similar to a data frame, and can be used in the same way, but it automatically shows fewer lines, to make the output more readable. If you want to display more lines on the screen, you can pipe the result to the `print()` function, with the argument `n` specifying the number of rows to display. 
+
+```{r}
+trees %>%
+	group_by(Site, Species) %>%
+	summarize(meanCount = mean(Count)) %>%
+	print(n = 15)
+```
+
+Once you have grouped your data, you can summarize multiple variables at the same time, even on different variables. For example, we could find the minimum number of trees counted for each species using `min()`, and also the highest plot number of each group using `max()`. 
+
+```{r}
+trees %>%
+	group_by(Site, Species) %>%
+	summarize(meanCount = mean(Count), minCount = min(Count))
+```
+
+
+## Tallying
+
+You may often want to know the number of observations found for each factor or combination of factors. One way to do this would be to use `group_by()` and `summarize()` along with `length()`, to figure out the length of the vector with elements from each group.  However, `dplyr` also provides a function that does this directly: `tally()`. For example, if we wanted to know how many individual species counts were made in each province, we could do the following:
+
+```{r}
+trees %>%
+	group_by(Province) %>%
+	tally()
+```
+
+In the above code, `tally()` is applied to each of the groups created by `group_by()`, and it counts the total number of records for each category.
+
+### Challenge
+
+For the following questions, use `dplyr` functions and pipes to display output that will answer the question.
+
+6. For each site in the study, what is the mean number of trees counted in an observation (for any species)?
+
+7. For each site in the study, what is the mean number of trees counted in an observation of Acer rubrum (red maple)? (Hint: What subset of the data do you want to group and summarize?)
+
+8. How many observations are there for each site in the study?
+
+9. Are there any observations for which no trees of a given species were counted?  If so, which observations are they?
+
+10. Using pipes and `dplyr` functions, make a new data frame that shows how many species are found in each plot across the entire data set.  Then, extend this code to subset the data and show whether any plots do not include all 6 species. (Hint: Be sure that you don't include observations with 0 trees!)
+
+# Exporting data
+
+Once you have used `dplyr` functions to extract the data that you want to work with, or to summarize your raw data, you might want to export these new datasets to archive them, have them available for later use (e.g., plotting), or share them with colleagues.
+
+To do this, you can use the `write.csv()` function, which works similarly to the `read.csv()` function. The `write.csv()` function creates .csv files from data frames.
+
+In the *Organization and R Basics* lesson, you should have created a folder in your working directory for output data, with a name along the lines of `Data_output`. This is where you should put your newly generated, organized data frame. It is a good idea to keep your raw data and organized data separately.  If your raw data is kept in its own folder, it lessens the chance of accidentally deleting or modifying it.  On the other hand, the data in your `Data_output` folder may be consistently generated by your scripts, and you know that you can delete the files because you have the scripts to recreate them.
+
+Let's say that we want to create a data set that shows the total number of trees counted for each plot in New Brunswick, and we want to write this data to file to share with a colleague.  We can start by creating the new data frame and taking a look at it:
+
+```{r}
+treeCount_NB <- trees %>% 
+	filter(Province == "New Brunswick") %>%
+	group_by(Site, Plot) %>%
+	summarize(treeCount = sum(Count))
+
+treeCount_NB
+```
+
+Then we call `write.csv()` to write this data to file, in our `Data_output` folder. This function requires as input the name of the data frame to write and the path (again, relative to your working directory) and filename of the file, including the file extension. You can also specify whether or not to include a separate variable for row names, which is done by default. In this case, that would be a column with the numbers 1 through 15, which we don't want, so we will set `row.names` to `FALSE`:
+
+```{r, eval = FALSE}
+write.csv(treeCount_NB, file = "Data_output/treeCount_NB.csv", row.names = FALSE)
+```
+
+Once you've done this, look in your `Data_output` folder in the `Files` pane to check that the file was written as expected.  Now you have a file that you can read back into R in a separate script, or open in a text editor or in Excel.
+
+
+___
+
+# *Attribution*
+
+*This lesson is based on materials from Data Carpentry's Data Analysis and Visualization in R curriculum (as of 11 October 2016), which is licensed under the [Creative Commons CC-BY](https://creativecommons.org/licenses/by/2.0/).  This license allows sharing and adapting materials for any purpose, as long as attribution is given.  Generally, the content, concepts, and flow are similar to the original lesson, but the words and some specific examples differ.*
+
+
+
+
+
+

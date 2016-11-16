@@ -1,5 +1,7 @@
 # Data Workflow Challenge
-CRI R Workshop  
+
+
+
 ___
 
 # Why, and what?
@@ -66,7 +68,7 @@ Then, write another script that uses this clean data and looks for differences b
 	+ Read in sample inventory with treatment data
 	+ Merge the clean data with the sample treatment information from the inventory
 	+ Make a plot to look at differences in NO~3~^-^ concentrations among treatments
-	+ Run an ANOVA to assess differences in NO~3~^-^ concentrations among treatments
+	+ Run an ANOVA to assess differences in NO~3~^-^ concentrations among treatments, and be sure to check model assumptions and run any relevant post-hoc tests
 	
 <br>
 <hr>

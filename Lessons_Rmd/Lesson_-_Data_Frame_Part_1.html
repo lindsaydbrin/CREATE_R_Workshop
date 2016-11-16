@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Data Frames Part 1: Creating and inspecting data frames</title>
+
+<script src="libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Data Frames Part 1: Creating and inspecting data frames</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#motivation">Why, and what?</a></li>
+<li><a href="#reading-in-data-frames">Reading in data frames</a></li>
+<li><a href="#creating-data-frames-manually">Creating data frames manually</a><ul>
+<li><a href="#challenge">Challenge</a></li>
+</ul></li>
+<li><a href="#attribution"><em>Attribution</em></a></li>
+</ul>
+</div>
+
+<hr />
+<div id="motivation" class="section level1">
+<h1>Why, and what?</h1>
+<p>Data frames are the workhorse of R data. They are the <em>de facto</em> data structure for most tabular data, and are what is generally used for statistics and plotting. In the previous lesson, we read in <code>trees.csv</code> and introduced you to the structure of data frames: collections of vectors (data frame columns), each containing a single data type (e.g., character, numeric, factor, logical), with rows representing different observations. In this lesson, we will briefly discuss reading in data and the handling of different data types, then introduce creating data frames.</p>
+<hr />
+</div>
+<div id="reading-in-data-frames" class="section level1">
+<h1>Reading in data frames</h1>
+<p>As shown with the <code>trees</code> data frame in the previous lesson, the most common way to start to work with a data frame in R is to import tabular data, often in the form of a .csv file. The file extension .csv indicates that the data in the file are separated by commas, i.e., <strong>c</strong>omma <strong>s</strong>eparated <strong>v</strong>alues.</p>
+<p>Files can be imported using the functions <code>read.csv()</code> or <code>read.table()</code>, and can be read from your hard drive or from the web (i.e., with a url rather than a hard drive directory path). In this class, we will be using <code>read.csv()</code>. If you want to read in a file and assign it to an object, the general structure of the code is as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_data_file &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;Data/my_data_file.csv&quot;</span>)</code></pre></div>
+<p>The object can have any name you choose (subject to the naming guidelines presented earlier), but it is often helpful to give it the same name as the file for clarity. (Of course, you should do what makes the most sense to you.) Remember that the file directory is <em>relative to your working directory</em> - so remember to set your working directory first! If you try to read in data and get an error, check your file name in the output in the console. The most common mistakes are (1) not using the appropriate working directory, and (2) having a typo in your file path or file name.</p>
+<p>As we saw in the previous lesson, when reading in data, columns that contain character strings (text) are coerced (converted) into the <code>factor</code> data type. Depending on what you want you want to do with the data later, this might be ideal, or you might want to keep these columns as <code>character</code>. To do so, you can use the argument <code>stringsAsFactors</code>, which can be set to FALSE. This also works for <code>read.table()</code>, and, as we will see later, can be used when creating data frames manually.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trees &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;Data/trees.csv&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+<span class="kw">str</span>(trees)</code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    300 obs. of  5 variables:
+##  $ Province: chr  &quot;Ontario&quot; &quot;Ontario&quot; &quot;Ontario&quot; &quot;Ontario&quot; ...
+##  $ Site    : chr  &quot;Ottawa&quot; &quot;Ottawa&quot; &quot;Ottawa&quot; &quot;Ottawa&quot; ...
+##  $ Plot    : int  1 1 1 1 1 1 2 2 2 2 ...
+##  $ Species : chr  &quot;Pinus strobus&quot; &quot;Acer rubrum&quot; &quot;Cornus florida&quot; &quot;Quercus alba&quot; ...
+##  $ Count   : int  11 18 28 15 18 30 30 23 37 20 ...</code></pre>
+<p>Now, the variables <code>Province</code>, <code>Site</code>, and <code>Species</code> are the data type <code>character</code> rather than <code>factor</code>.</p>
+<hr />
+</div>
+<div id="creating-data-frames-manually" class="section level1">
+<h1>Creating data frames manually</h1>
+<p>To create a data frame manually, you can use the function <code>data.frame()</code>. Within the function, you indicate names for each of the variables (columns) and use the equal sign <code>=</code> to assign vectors to each variable name. All vectors must be the same length, and, as with any vector, all elements within a vector should be the same kind of data (or they will be coerced to a single data type).</p>
+<p>This function can also take the argument <code>stringsAsFactors</code>. Compare the output of these examples, and, in particular, the difference between when the data are being read as <code>character</code> and when they are being read as <code>factor</code>. Also, note that you can add line breaks to make your code easier to read, as long as you are still within the parentheses of the function. (This is true for any function in R.)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">example_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">animal =</span> <span class="kw">c</span>(<span class="st">&quot;dog&quot;</span>, <span class="st">&quot;cat&quot;</span>, <span class="st">&quot;sea cucumber&quot;</span>, <span class="st">&quot;sea urchin&quot;</span>),
+                                                     <span class="dt">feel =</span> <span class="kw">c</span>(<span class="st">&quot;furry&quot;</span>, <span class="st">&quot;furry&quot;</span>, <span class="st">&quot;squishy&quot;</span>, <span class="st">&quot;spiny&quot;</span>),
+                                                     <span class="dt">weight =</span> <span class="kw">c</span>(<span class="dv">45</span>, <span class="dv">8</span>, <span class="fl">1.1</span>, <span class="fl">0.8</span>))
+<span class="kw">str</span>(example_data)</code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    4 obs. of  3 variables:
+##  $ animal: Factor w/ 4 levels &quot;cat&quot;,&quot;dog&quot;,&quot;sea cucumber&quot;,..: 2 1 3 4
+##  $ feel  : Factor w/ 3 levels &quot;furry&quot;,&quot;spiny&quot;,..: 1 1 3 2
+##  $ weight: num  45 8 1.1 0.8</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">example_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">animal =</span> <span class="kw">c</span>(<span class="st">&quot;dog&quot;</span>, <span class="st">&quot;cat&quot;</span>, <span class="st">&quot;sea cucumber&quot;</span>, <span class="st">&quot;sea urchin&quot;</span>),
+                                                     <span class="dt">feel =</span> <span class="kw">c</span>(<span class="st">&quot;furry&quot;</span>, <span class="st">&quot;furry&quot;</span>, <span class="st">&quot;squishy&quot;</span>, <span class="st">&quot;spiny&quot;</span>),
+                                                     <span class="dt">weight =</span> <span class="kw">c</span>(<span class="dv">45</span>, <span class="dv">8</span>, <span class="fl">1.1</span>, <span class="fl">0.8</span>),
+                                                     <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+<span class="kw">str</span>(example_data)</code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    4 obs. of  3 variables:
+##  $ animal: chr  &quot;dog&quot; &quot;cat&quot; &quot;sea cucumber&quot; &quot;sea urchin&quot;
+##  $ feel  : chr  &quot;furry&quot; &quot;furry&quot; &quot;squishy&quot; &quot;spiny&quot;
+##  $ weight: num  45 8 1.1 0.8</code></pre>
+<p>The automatic conversion of data type is sometimes helpful and sometimes annoying. Be aware that it exists, learn the rules, and double-check that the data that you import are of the correct type within your data frame. If not, use it to your advantage to detect mistakes that might have been introduced during data entry, e.g., a letter in a column that should only contain numbers.</p>
+<div id="challenge" class="section level3">
+<h3>Challenge</h3>
+<ol style="list-style-type: decimal">
+<li><p>Find and fix the mistakes in this hand-crafted <code>data.frame</code>. Don’t hesitate to experiment!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">author_book &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">author_first =</span> <span class="kw">c</span>(<span class="st">&quot;Charles&quot;</span>, <span class="st">&quot;Ernst&quot;</span>, <span class="st">&quot;Theodosius&quot;</span>),
+                        <span class="dt">author_last =</span> <span class="kw">c</span>(Darwin, Mayr, Dobzhansky),
+                        <span class="dt">year =</span> <span class="kw">c</span>(<span class="dv">1942</span>, <span class="dv">1937</span>))</code></pre></div></li>
+<li><p>Predict the class for each of the columns in the following example, then check your guesses using str(country_climate).</p>
+<ul>
+<li>Which data type did you expect for each variable? Are they what you expected? Why or why not?</li>
+<li>What would have been different if we had added <code>stringsAsFactors = FALSE</code> to the function call?</li>
+<li>Make the necessary changes to ensure that each column has the correct data type, and check the structure of your new data frame.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">country_climate &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">country =</span> <span class="kw">c</span>(<span class="st">&quot;Canada&quot;</span>, <span class="st">&quot;Panama&quot;</span>, <span class="st">&quot;South Africa&quot;</span>, <span class="st">&quot;Australia&quot;</span>),
+                        <span class="dt">climate =</span> <span class="kw">c</span>(<span class="st">&quot;cold&quot;</span>, <span class="st">&quot;hot&quot;</span>, <span class="st">&quot;temperate&quot;</span>, <span class="st">&quot;hot/temperate&quot;</span>),
+                        <span class="dt">temperature =</span> <span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">30</span>, <span class="dv">18</span>, <span class="st">&quot;15&quot;</span>),
+                        <span class="dt">northern_hemisphere =</span> <span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="st">&quot;FALSE&quot;</span>),
+                        <span class="dt">has_kangaroo =</span> <span class="kw">c</span>(<span class="ot">FALSE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>, <span class="dv">1</span>) )</code></pre></div></li>
+<li><p>We’ve introduced the <code>data.frame()</code> and <code>read.csv()</code> functions for creating data frames. What if we are starting with some vectors? The best way to do this is to pass those vectors to the <code>data.frame()</code> function, similarly to above.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">color &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;yellow&quot;</span>)
+counts &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">50</span>, <span class="dv">60</span>, <span class="dv">65</span>, <span class="dv">82</span>)
+new_dataframe &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">colors =</span> color, <span class="dt">counts =</span> counts)
+<span class="kw">str</span>(new_dataframe)</code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    4 obs. of  2 variables:
+##  $ colors: Factor w/ 4 levels &quot;blue&quot;,&quot;green&quot;,..: 3 2 1 4
+##  $ counts: num  50 60 65 82</code></pre>
+<p>Make your own data frame using this approach, i.e. by creating vectors and then putting them together using <code>data.frame()</code>. Your data frame should have at least 4 variables and should contain 3 different data types. Check the class of your data frame with <code>class()</code> and examine the data frame using <code>str()</code>.</p></li>
+</ol>
+<hr />
+</div>
+</div>
+<div id="attribution" class="section level1">
+<h1><em>Attribution</em></h1>
+<p><em>This lesson is based on materials from Data Carpentry’s Data Analysis and Visualization in R curriculum (as of 11 October 2016), which is licensed under the <a href="https://creativecommons.org/licenses/by/2.0/">Creative Commons CC-BY</a>. This license allows sharing and adapting materials for any purpose, as long as attribution is given. Generally, the content, concepts, and flow are similar to the original lesson, but the words and some specific examples differ.</em></p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,5 +1,5 @@
 # Day 1 Scripting Challenge
-CRI R Workshop  
+
 ___
 
 * [What, and why?](#motivation) 

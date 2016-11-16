@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Control structures 2: for loops</title>
+
+<script src="libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Control structures 2: <code>for</code> loops</h1>
+
+</div>
+
+
+<hr />
+<ul>
+<li><a href="#motivation">What, and why?</a><br />
+</li>
+<li><a href="#forloops"><code>for</code> loops</a>
+<ul>
+<li><a href="#butwhy">But why would I want to use a for loop, you ask?</a></li>
+<li><em><a href="#challengeforloop">Challenge</a></em></li>
+</ul></li>
+</ul>
+<hr />
+<div id="motivation" class="section level1">
+<h1>Why, and what?</h1>
+<p>Control structures allow us to alter the flow of a program, and to make decisions about when or how many times an action occurs. These tools can help you automate processes that require decision-making or repeated actions.</p>
+<p>Here we will introduce you to the second of two control structures covered in this course: for loops.</p>
+<hr />
+</div>
+<div id="forloops" class="section level1">
+<h1><code>for</code> loops</h1>
+<p>Another useful control structure that we can use in R is a <strong>for loop</strong>. For loops iterate over values in a vector, and execute code for each value. This can be extremely helpful if you want to perform an action multiple times! For example, you might want to read in multiple files, or do the same thing to multiple data tables. The flow of a for loop looks like this:</p>
+<p><img src="Images/CtrlStr_for/unnamed-chunk-2-1.png" width="500pt" style="display: block; margin: auto;" /></p>
+<p>The code in R has this general structure:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">for (n in <span class="kw">c</span>(your vector)) {
+  do this thing involving n
+}</code></pre></div>
+<p>In this loop, <code>n</code> will be set iteratively to each of the values in your vector, and the code in brackets will be executed for each value of <code>n</code>. To demonstrate how this works, let’s print every number in a vector.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">for (n in <span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">5</span>)) {
+  <span class="kw">print</span>(n)
+}</code></pre></div>
+<pre><code>## [1] 1
+## [1] 2
+## [1] 3
+## [1] 4
+## [1] 5</code></pre>
+<p>It’s not important what variable we put in the place of <code>n</code>. We can name this variable <code>x</code>, or <code>trees</code>, or <code>fabulousvariable</code>, or <code>Constantinople</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">for (Constantinople in <span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">5</span>)) {
+  <span class="kw">print</span>(Constantinople)
+}</code></pre></div>
+<pre><code>## [1] 1
+## [1] 2
+## [1] 3
+## [1] 4
+## [1] 5</code></pre>
+<p>We can even create a vector of character strings, and have the for loop step through each element of this character vector.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">for (colors in <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;yellow&quot;</span>, <span class="st">&quot;orange&quot;</span>, <span class="st">&quot;white&quot;</span>)) {
+    <span class="kw">print</span>(colors)
+}</code></pre></div>
+<pre><code>## [1] &quot;red&quot;
+## [1] &quot;blue&quot;
+## [1] &quot;green&quot;
+## [1] &quot;yellow&quot;
+## [1] &quot;orange&quot;
+## [1] &quot;white&quot;</code></pre>
+<p>And, we can do whatever we want with the variable inside the for loop. For example, we can multiply the value of a numeric variable by 2, or we could put a character variable into a sentence.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Multiply each element of a numeric vector by 2, and print this new value</span>
+for (Constantinople in <span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">5</span>)){
+    <span class="kw">print</span>(Constantinople *<span class="st"> </span><span class="dv">2</span>)
+}</code></pre></div>
+<pre><code>## [1] 2
+## [1] 4
+## [1] 6
+## [1] 8
+## [1] 10</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Print a sentence with each element of a character vector</span>
+<span class="co"># (Use paste to put the character strings into one)</span>
+for (colors in <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;yellow&quot;</span>, <span class="st">&quot;orange&quot;</span>, <span class="st">&quot;white&quot;</span>)) {
+    <span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;I am sure that&quot;</span>,colors,<span class="st">&quot;is the best color of all!&quot;</span>))
+}</code></pre></div>
+<pre><code>## [1] &quot;I am sure that red is the best color of all!&quot;
+## [1] &quot;I am sure that blue is the best color of all!&quot;
+## [1] &quot;I am sure that green is the best color of all!&quot;
+## [1] &quot;I am sure that yellow is the best color of all!&quot;
+## [1] &quot;I am sure that orange is the best color of all!&quot;
+## [1] &quot;I am sure that white is the best color of all!&quot;</code></pre>
+<div id="butwhy" class="section level2">
+<h2>But why would I want to use a for loop, you ask?</h2>
+<p>For loops can be useful for applying the same action to multiple objects. For example, let’s say that you have many data frames with the variable “Species_Names”, and you want to rename that column to simply be “Species.” Let’s read in files like this, with bird count data from several different months.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Read in bird count data</span>
+    birds_jan &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file=</span><span class="st">&quot;~/Documents/R/CREATE_R_Workshop/Data/birds_jan.csv&quot;</span>)    
+    birds_feb &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file=</span><span class="st">&quot;~/Documents/R/CREATE_R_Workshop/Data/birds_feb.csv&quot;</span>)    
+    birds_mar &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file=</span><span class="st">&quot;~/Documents/R/CREATE_R_Workshop/Data/birds_mar.csv&quot;</span>)    
+    birds_apr &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file=</span><span class="st">&quot;~/Documents/R/CREATE_R_Workshop/Data/birds_apr.csv&quot;</span>)    
+
+<span class="kw">head</span>(birds_jan)</code></pre></div>
+<pre><code>##           SpeciesNames Count
+## 1 Haemorhous purpureus    58
+## 2     Sturnus vulgaris    48
+## 3     Accipitridae sp.    39
+## 4   Dryocopus pileatus    54
+## 5     Mergus merganser    46
+## 6  Phasianus colchicus    37</code></pre>
+<p>You can rename a variable in a data frame using the function <code>rename</code> in <code>dplyr</code>. Note that within the function, the syntax is <code>NewName = OldName</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Rename variable from &quot;SpeciesNames&quot; to &quot;Species&quot;</span>
+birds_jan &lt;-<span class="st"> </span><span class="kw">rename</span>(birds_jan, <span class="dt">Species =</span> SpeciesNames)
+
+<span class="kw">head</span>(birds_jan)</code></pre></div>
+<pre><code>##                Species Count
+## 1 Haemorhous purpureus    58
+## 2     Sturnus vulgaris    48
+## 3     Accipitridae sp.    39
+## 4   Dryocopus pileatus    54
+## 5     Mergus merganser    46
+## 6  Phasianus colchicus    37</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Reset original name</span>
+birds_jan &lt;-<span class="st"> </span><span class="kw">rename</span>(birds_jan, <span class="dt">SpeciesNames =</span> Species)</code></pre></div>
+<p>Alternatively, we can do this with <code>assign</code> to be more concise. <code>assign</code> is exactly like <code>&lt;-</code>, except that the variable name and the value are specified inside the function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Rename variable from &quot;SpeciesNames&quot; to &quot;Species&quot;</span>
+<span class="kw">assign</span>(<span class="dt">x=</span><span class="st">&quot;birds_jan&quot;</span>, <span class="dt">value=</span><span class="kw">rename</span>(birds_jan, <span class="dt">Species =</span> SpeciesNames))  
+
+<span class="kw">head</span>(birds_jan)</code></pre></div>
+<pre><code>##                Species Count
+## 1 Haemorhous purpureus    58
+## 2     Sturnus vulgaris    48
+## 3     Accipitridae sp.    39
+## 4   Dryocopus pileatus    54
+## 5     Mergus merganser    46
+## 6  Phasianus colchicus    37</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Reset original name</span>
+birds_jan &lt;-<span class="st"> </span><span class="kw">rename</span>(birds_jan, <span class="dt">SpeciesNames =</span> Species)</code></pre></div>
+<p>But what if we want to change the variable name in every single data frame? With four data frames, it might not be terrible to write out a line for each one, but with more data frames, this could quickly become an unwieldy time sink.</p>
+<p>Enter <em>for loops</em>. With for loops, we can approach the problem differently. First, we will create a vector with the names of all the data frames. Then, we will use a for loop to step through every element of that vector - i.e., each data frame name - and change the variable name for each one.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a vector with the names of all the data frames we want to work on</span>
+    dfnames &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;birds_jan&quot;</span>, <span class="st">&quot;birds_feb&quot;</span>, <span class="st">&quot;birds_mar&quot;</span>, <span class="st">&quot;birds_apr&quot;</span>)
+
+<span class="co"># Step through the above vector and rename the SpeciesNames variable to Species</span>
+    for (dataframe in dfnames){
+        <span class="kw">assign</span>(<span class="dt">x =</span> dataframe, <span class="dt">value =</span> <span class="kw">rename</span>(<span class="kw">get</span>(dataframe), <span class="dt">Species =</span> SpeciesNames))
+    }</code></pre></div>
+<p><strong>Code trick sidenote</strong>: In the above code, we needed to use the function <code>get</code> to specify the data frame in <code>rename</code>. This is because what we have is a character vector that is the name of the data frame (e.g., <code>&quot;birds_jan&quot;</code>), but <code>rename</code> is looking for the data frame itself (e.g., <code>birds_jan</code>). <code>get</code> gets the value of the variable that you pass to it.</p>
+<p>To explore this, try typing <code>dfnames[1]</code>, and then try typing <code>get(dfnames[1])</code>.</p>
+<p>The output of the first one is the first element of dfnames, which is the name of the data frame. The second one, however, gives us the value of the data frame that has that name. <code>get</code> searches for an object with the name specified by the <code>x</code> argument. This allows you to pass a vector or list of names of variables to other functions.</p>
+<p>As another example, try running <code>x &lt;- 5</code>, then try <code>&quot;x&quot;</code> versus <code>get(&quot;x&quot;)</code>.</p>
+<p>And now we can use another for loop to look at the results of our code!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">for (dataframe in dfnames){
+    dataframe %&gt;%<span class="st"> </span><span class="kw">print</span>()                 <span class="co"># Print name of data frame to screen</span>
+    <span class="kw">get</span>(dataframe) %&gt;%<span class="st"> </span><span class="kw">head</span>() %&gt;%<span class="st"> </span><span class="kw">print</span>()   <span class="co"># Get data frame from its name, show head, print to screen</span>
+}
+
+## Note that we could also have set this up with a numeric vector of 1:4, 
+##   instead of the vector dfnames:
+<span class="co">#   for (n in 1:length(dfnames)){</span>
+<span class="co">#       dfnames[n] %&gt;% print()</span>
+<span class="co">#       get(dfnames[n]) %&gt;% heads() %&gt;% print()</span>
+<span class="co">#   }</span></code></pre></div>
+<pre><code>## [1] &quot;birds_jan&quot;
+##                Species Count
+## 1 Haemorhous purpureus    58
+## 2     Sturnus vulgaris    48
+## 3     Accipitridae sp.    39
+## 4   Dryocopus pileatus    54
+## 5     Mergus merganser    46
+## 6  Phasianus colchicus    37
+## [1] &quot;birds_feb&quot;
+##                  Species Count
+## 1        Regulus satrapa    27
+## 2 Zonotrichia albicollis    40
+## 3   Eremophila alpestris     2
+## 4     Larus delawarensis    18
+## 5         Spinus tristis    12
+## 6      Picoides villosus    47
+## [1] &quot;birds_mar&quot;
+##                                Species Count
+## 1                       Cathartes aura    16
+## 2                Plectrophenax nivalis     9
+## 3 Junco hyemalis hyemalis/carolinensis    58
+## 4                     Accipitridae sp.    12
+## 5            Icterus bullockii/galbula    18
+## 6                 Poecile atricapillus    52
+## [1] &quot;birds_apr&quot;
+##                        Species Count
+## 1              Regulus satrapa    25
+## 2           Poecile hudsonicus    49
+## 3               Spinus tristis    37
+## 4 Columba livia (Feral Pigeon)    13
+## 5        Plectrophenax nivalis    27
+## 6       Zonotrichia albicollis    18</code></pre>
+<div id="another-example-reading-in-multiple-files" class="section level3">
+<h3>Another example: Reading in multiple files</h3>
+<p>A slightly more complicated, but potentially very useful, example could be if you want to read in multiple data files automatically and assign them to different data frames. To do this, we can start with a data frame specifying the names of the files and the data frame names that we want to give to them.</p>
+<!--This is not evaluated because these file names work from the working directory, but not the directory the Rmd file is in.-->
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ExperimentFiles &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">files =</span> <span class="kw">c</span>(<span class="st">&quot;Data/Experiment_carbon.csv&quot;</span>, <span class="st">&quot;Data/Experiment_nutrients.csv&quot;</span>)
+                              ,<span class="dt">names =</span> <span class="kw">c</span>(<span class="st">&quot;carbon&quot;</span>, <span class="st">&quot;nutrients&quot;</span>)
+                              ,<span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+ExperimentFiles</code></pre></div>
+<!--This has the right file paths to be run within the r chunk. Yes, I will probably do it differently next time...-->
+<pre><code>##                              files     names
+## 1    ../Data/Experiment_carbon.csv    carbon
+## 2 ../Data/Experiment_nutrients.csv nutrients</code></pre>
+<p>Now we can step through the observations in ExperimentFiles, read in each file, and assign it to a data frame with a specified name.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">for (n in <span class="dv">1</span>:<span class="dv">2</span>) {
+  <span class="kw">assign</span>(<span class="dt">x =</span> ExperimentFiles$names[n], <span class="dt">value =</span> <span class="kw">read.csv</span>(<span class="dt">file =</span> ExperimentFiles$files[n]))
+  <span class="kw">get</span>(<span class="dt">x =</span> ExperimentFiles$names[n])
+}</code></pre></div>
+<p>There are several layers to this piece of code. The <code>assign</code> function assigns the value specified by <code>value</code> to a variable named <code>x</code>. When <code>n</code> is 1, the name of the variable will be first observation 1 in <code>ExperimentFiles$names</code>, and the value of the variable is the .csv file that we’re reading in, specified by observation 1 in <code>ExperimentFiles$files</code>. When <code>n</code> is 2, the name and value of the variable will be the second observations in our data frame.</p>
+<p>The last line in the for loop uses the <code>get</code> function, as above. Try typing <code>ExperimentFiles$names[n]</code> without the <code>get</code> function.</p>
+<p>The output is the <code>n</code>th character in that variable, i.e. <code>&quot;carbon&quot;</code> or <code>&quot;nutrients&quot;</code>. What we want, though, is the value of the variable that has that name. To do that, we use the <code>get</code> function, which searches for an object with the name specified by the <code>x</code> argument. This allows you to pass a list of names of variables to other functions.</p>
+<div id="challengeforloop" class="section level4">
+<h4>Challenge</h4>
+<ol style="list-style-type: decimal">
+<li><p>Write a for loop that steps through a numeric vector and prints a number that is 4 times the number of the changing variable.</p></li>
+<li><p>The code within the brackets <code>{ }</code> of a for loop does not necessarily have to refer to the values in the controlling vector! Write a for loop that loops through 10 times, and each time, adds 1 to a given variable (<em>not</em> specified in the controlling vector) and then prints the value of that variable.</p></li>
+<li><p>Write a for loop that goes through the rows of the <code>trees</code> data frame and prints the value of <code>Count</code> if the <code>Species</code> is <code>Acer rubrum</code>.</p></li>
+<li>Write a for loop that goes through the <code>nutrients</code> data frame and prints the value of each <code>Nitrite</code> observation plus 1.
+<ul>
+<li>Next, create a vector called <code>nitrite_plus</code>, and modify your for loop to add the “Nitrite plus 1” values to the end of this vector.</li>
+</ul></li>
+</ol>
+</div>
+<div id="bonus-challenge" class="section level4">
+<h4>Bonus challenge</h4>
+<ol start="5" style="list-style-type: decimal">
+<li>Write a for loop that goes through the <code>nutrients</code> data and prints out whether or not dissolved inorganic nitrogen (the sum of nitrate, ammonium, and nitrite) is greater than 12. Use the <code>dplyr</code> function <code>slice</code>, which lets you select rows of a data frame by their order.</li>
+</ol>
+<br>
+<hr>
+<p><br></p>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

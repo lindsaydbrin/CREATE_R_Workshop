@@ -15,3 +15,7 @@ Scripts/
 
 # Ignore website directory
 gh-pages/
+
+# Ignore solutions files
+*Solution*
+

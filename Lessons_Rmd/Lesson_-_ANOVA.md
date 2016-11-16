@@ -1,5 +1,7 @@
 # ANOVA
-CRI R Workshop  
+
+
+
 
 
 ___
@@ -36,9 +38,11 @@ We'll start with a one-way ANOVA, using the `Inverts` data from the previous few
 To run an ANOVA, we need our explanatory variable to be a factor (i.e., rather than a character string). If you don't have `Inverts` in your environment, read it in, and make sure that `stringsAsFactors` is set to `TRUE`. If you already have it in your environment, but `Type` and `Country` are characters, you can use `mutate` and `as.factor` to convert them to factors.
 
 
+
+
 ```r
 # Read in Inverts data (first introduced in functions lesson)
-	Inverts <- read.csv(file="../Data/Inverts.csv", stringsAsFactors=TRUE, header=TRUE)
+	Inverts <- read.csv(file="Data/Inverts.csv", stringsAsFactors=TRUE, header=TRUE)
 
 # Or, if Inverts is already in your environment with Type and Country as characters, 
 #   convert them to factors
@@ -54,7 +58,7 @@ Once again, we will start by looking at our data!  Let's see if there is any evi
 plot(Richness ~ Type, data=Inverts)
 ```
 
-<img src="Lesson_-_ANOVA_files/figure-html/unnamed-chunk-3-1.png" width="500pt" style="display: block; margin: auto;" />
+<img src="Images/ANOVA/unnamed-chunk-4-1.png" width="500pt" style="display: block; margin: auto;" />
 
 It looks like invertebrate species richness is fairly comparable between streams in agricultural and forested areas, but lower in urban areas. However, there is enough variation that we don't know if this will be a statistically significant difference. So let's run an ANOVA and find out.   
 
@@ -123,7 +127,7 @@ plot(fitted(InvertsType.mod), resid(InvertsType.mod), las=1)  # Do residuals var
 plot(Inverts$Type, resid(InvertsType.mod), las=1)  # Do the residuals vary by group?
 ```
 
-<img src="Lesson_-_ANOVA_files/figure-html/unnamed-chunk-7-1.png" width="600 pt" style="display: block; margin: auto;" />
+<img src="Images/ANOVA/unnamed-chunk-8-1.png" width="600 pt" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(1,1))  # Re-set plot layout
@@ -139,7 +143,7 @@ par(mfrow=c(2,2))  # Set plot layout for 4 plots
 plot(InvertsType.mod, las=1)  # Plot residuals for our ANOVA
 ```
 
-<img src="Lesson_-_ANOVA_files/figure-html/unnamed-chunk-8-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Images/ANOVA/unnamed-chunk-9-1.png" width="600pt" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(1,1))  # Re-set plot layout
@@ -179,11 +183,11 @@ The table below `$Type` gives us the *p*-values for comparisons between groups. 
 
 #### Challenge {#challengeaov}
 
-* Read in the `trees` data set that we used in the lesson on reshaping data frames with dplyr. Across all sites, does tree abundance (`Count`) vary by species? If so, which species differ? Whether or not the model is significant, check whether the model assumptions are met.
+1. Read in the `trees` data set that we used in the lesson on reshaping data frames with dplyr. Across all sites, does tree abundance (`Count`) vary by species? If so, which species differ? Whether or not the model is significant, check whether the model assumptions are met.
 
 
 
-* The file `allbirds.csv` contains count data on 24 bird species that were observed at one site during 4 different months. Read in this data, and use an ANOVA to determine whether species counts varied by month. If so, run a post-hoc test to determine which months vary. Use a boxplot to assess data visually, and be sure to check model assumptions!
+2. The file `allbirds.csv` contains count data on 24 bird species that were observed at one site during 4 different months. Read in this data, and use an ANOVA to determine whether species counts varied by month. If so, run a post-hoc test to determine which months vary. Use a boxplot to assess data visually, and be sure to check model assumptions!
 
 
 
@@ -204,7 +208,7 @@ p <- par(mar=c(10,4,2,2))  # Save current parameters & re-set margins to allow f
 boxplot(Richness ~ Type + Country, data=Inverts, las=2)
 ```
 
-<img src="Lesson_-_ANOVA_files/figure-html/unnamed-chunk-12-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Images/ANOVA/unnamed-chunk-13-1.png" width="600pt" style="display: block; margin: auto;" />
 
 ```r
 par(p)  # Reset margins
@@ -317,7 +321,7 @@ par(mfrow=c(2,2))  # Set plot layout
 plot(Inverts2way.mod, las=1)
 ```
 
-<img src="Lesson_-_ANOVA_files/figure-html/unnamed-chunk-15-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Images/ANOVA/unnamed-chunk-16-1.png" width="600pt" style="display: block; margin: auto;" />
 
 ```r
 par(mfrow=c(1,1))  # Re-set plot layout
@@ -348,14 +352,10 @@ library("lsmeans")
 ```
 
 ```
-## The 'multcompView' package must be installed to use cld methods
-```
-
-```
 ##  Type         lsmean       SE df lower.CL upper.CL .group
-##  Urban        53.875 3.464102 18 44.76064 62.98936  ?    
-##  Agricultural 71.625 3.464102 18 62.51064 80.73936  ?    
-##  Forest       75.250 3.464102 18 66.13564 84.36436  ?    
+##  Urban        53.875 3.464102 18 44.76064 62.98936  a    
+##  Agricultural 71.625 3.464102 18 62.51064 80.73936   b   
+##  Forest       75.250 3.464102 18 66.13564 84.36436   b   
 ## 
 ## Results are averaged over the levels of: Country 
 ## Confidence level used: 0.95 

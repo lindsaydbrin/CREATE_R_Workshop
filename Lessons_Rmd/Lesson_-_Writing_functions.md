@@ -1,5 +1,7 @@
-# Writing functions
-CRI R Workshop  
+# Writing Functions
+
+
+
 
 
 ___
@@ -185,31 +187,31 @@ As a last tip, it often helps to keep your functions short and modular. This can
 
 #### Challenge {#challengefn}
 
-* Write a function that takes two arguments and adds them together.
+1. Write a function that takes two arguments and adds them together.
 
 
 
-* Write a function that converts a weight in kg to a weight in g.
+2. Write a function that converts a weight in kg to a weight in g.
 
 
 
-* Write a function that converts a temperature in Fahrenheit to a temperature in Celsius.
+3. Write a function that converts a temperature in Fahrenheit to a temperature in Celsius.
 
 
 
-* Write a function that returns the absolute value of a number without using the `abs` function.
+4. Write a function that returns the absolute value of a number without using the `abs` function.
 
 
 
-* Dig deep and remember this from algebra class: When you have a quadratic equation of the form _ax^2^_ + _bx_ + _c_ = 0, you can find its roots using the quadratic formula: _x_ = (-_b_ &plusmn; sqrt(_b^2^_ - 4\*_ac_) )/(2\*_a_). Write a function to find both values of _x_ given _a_, _b_, and _c_.
+5. Dig deep and remember this from algebra class: When you have a quadratic equation of the form _ax^2^_ + _bx_ + _c_ = 0, you can find its roots using the quadratic formula: _x_ = (-_b_ &plusmn; sqrt(_b^2^_ - 4\*_ac_) )/(2\*_a_). Write a function to find both values of _x_ given _a_, _b_, and _c_. Test your function by finding the roots of _x^2^_ + 5 _x_ + 6.
 
 
 
-* Write a function that takes two arguments, divides one by the other, and then prints out a sentence with the result. (Hint: Use the `paste` function!)
+6. Write a function that takes two arguments, divides one by the other, and then prints out a sentence with the result. (Hint: Use the `paste` function!)
 
 
 
-* Write a function that takes a vector as its argument, prints a warning message if the vector includes `NA`s, and returns a vector with the mean, minimum, and maximum of the vector (i.e., with the NA values removed).
+7. Write a function that takes a vector as its argument, prints a warning message if the vector includes `NA`s, and returns a vector with the mean, minimum, and maximum of the vector (i.e., with the NA values removed).
 
 
 
@@ -253,17 +255,17 @@ This can be useful when you want to have an option to specify a parameter, but o
 
 #### Challenge: Using functions with data frames {#challengefn2}
 
-Say you have data from multiple years on stream invertebrate species richness, along with other stream characteristics: total organic carbon (TOC, percent C), current variability (cm/s), and mean temperature (degrees C). One year of this data is in the _Inverts.csv_ file that you downloaded earlier. Your goal is to write a script that contains functions that can be used repeatedly to analyze multiple years of data.
+8. Say you have data from multiple years on stream invertebrate species richness, along with other stream characteristics: total organic carbon (TOC, percent C), current variability (cm/s), and mean temperature (degrees C). One year of this data is in the _Inverts.csv_ file that you downloaded earlier. Your goal is to write a script that contains functions that can be used repeatedly to analyze multiple years of data.
 
-Set up your script as if it were a part of your own analysis workflow: Begin the script with commented lines with the file name, your name, the date, and a description of the script, and also comment liberally throughout the script to indicate what your code does! 
+	Set up your script as if it were a part of your own analysis workflow: Begin the script with commented lines with the file name, your name, the date, and a description of the script, and also comment liberally throughout the script to indicate what your code does! 
 
-Your script should read in _Inverts.csv_, then contain the following functions:   
+	Your script should read in _Inverts.csv_, then contain the following functions:   
 
-* A data checking function that does the following:   
-    + Checks whether there are any variables that are not numeric, and prints a statement reporting the conclusion   
-    + Returns observations for sites that have missing values (`NA`) for any measurement variables
-* A function that counts how many sites have richness greater than 40, and returns a sentence with the answer.
-* A function that plots any variable in the Inverts data set against Richness. You can use `get` in the form `get("variable name")` to call a variable using its name as a character string, which may help with passing variable names into a function. If you're feeling more adventurous, set the plot's y-limits to go from 0 to the maximum of the variable being plotted.
+	* A data checking function that does the following:   
+	    + Checks whether there are any variables that are not numeric, and prints a statement reporting the conclusion   
+	    + Returns observations for sites that have missing values (`NA`) for any measurement variables
+	* A function that counts how many sites have richness greater than 40, and returns a sentence with the answer.
+	* A function that plots any variable in the Inverts data set against Richness. You can use `get` in the form `get("variable name")` to call a variable using its name as a character string, which may help with passing variable names into a function. If you're feeling more adventurous, set the plot's y-limits to go from 0 to the maximum of the variable being plotted.
 
 <br>
 

@@ -1,5 +1,6 @@
 # Joining data frames with dplyr
-CRI R Workshop  
+
+
 
 
 
@@ -94,7 +95,7 @@ Let's say that we want to add data on carbon concentration to the observations i
 
 The term *left join* can be explained using a Venn diagram. The circle on the left is data frame `x`, and the one on the right is data frame `y`. The overlap between the two circles represents the observations with keys that are present in both data frames. The result of a left join is all of data frame `x`, plus the parts of data frame `y` with overlapping keys - i.e., the left side of the Venn diagram.   
 
-<img src="../Images/Join_LeftJoin.png" width="400pt" style="display: block; margin: auto;" />
+<img src="Images/Join_LeftJoin.png" width="400pt" style="display: block; margin: auto;" />
 
 To do a left join on `nutrients`, adding variables from `carbon`, we would use the following syntax.
 
@@ -149,15 +150,15 @@ Note that this may not be what you wanted, but it does not result in an error or
 
 #### Challenge
 
-* Write out the code specifying the above left join (adding `carbon` data to `nutrients` data) with and without a pipe (`%>%`).
+1. Write out the code specifying the above left join (adding `carbon` data to `nutrients` data) with and without a pipe (`%>%`).
 
-* What happens if you use a left join to add `nutrients` data to the `carbon` data set, rather than vice versa?
+2. What happens if you use a left join to add `nutrients` data to the `carbon` data set, rather than vice versa?
 
-* The data frame `climates` has information on mean annual temperature and precipitation for the sites in the `trees` data frame. Read in `climates.csv` (and `trees.csv` if you have not already done so), and use a `left_join` to add these climate data to `trees`. Take a look at the data first to determine which variable(s) to join by.
+3. The data frame `climates` has information on mean annual temperature and precipitation for the sites in the `trees` data frame. Read in `climates.csv` (and `trees.csv` if you have not already done so), and use a `left_join` to add these climate data to `trees`. Take a look at the data first to determine which variable(s) to join by.
 
 
 
-* Read in two files, `genes.csv` and `metals.csv`, and call the resulting data frames `genes` and `metals`. `genes` has data on the abundance of different nitrogen cycling genes in soils at several agricultural sites, and `metals` has data on concentrations of different metals in soils at some of the same agricultural sites. Use a left join to add the metal concentration data to the observations in `genes`. Why do you get a warning message? (Hint: Think back to the lesson on factors!)
+4. Read in two files, `genes.csv` and `metals.csv`, and call the resulting data frames `genes` and `metals`. `genes` has data on the abundance of different nitrogen cycling genes in soils at several agricultural sites, and `metals` has data on concentrations of different metals in soils at some of the same agricultural sites. Use a left join to add the metal concentration data to the observations in `genes`. Why do you get a warning message? (Hint: Think back to the lesson on factors!)
 
 
 
@@ -166,7 +167,7 @@ Note that this may not be what you wanted, but it does not result in an error or
 
 A right join is conceptually similar to a left join, but includes all the observations of data frame `y` and matching observations in data frame `x` - the right side of the Venn diagram.  
 
-<img src="../Images/Join_RightJoin.png" width="400pt" style="display: block; margin: auto;" />
+<img src="Images/Join_RightJoin.png" width="400pt" style="display: block; margin: auto;" />
 
 What would you expect to get as a result of a right join using x = `nutrients` and y = `carbon`?
 
@@ -190,7 +191,7 @@ nutrients %>%
 
 #### Challenge {#challengeLeftRightJoin}  
 
-* How does the result from `right_join(x=nutrients, y=carbon)` compare to that of `left_join(x=carbon, y=nutrients)`?   
+5. How does the result from `right_join(x=nutrients, y=carbon)` compare to that of `left_join(x=carbon, y=nutrients)`?   
 
 
 ## Inner join {#innerJoin}
@@ -199,7 +200,7 @@ What if you want to include only the observations in both data frames, and omit 
 
 An inner join includes observations with keys that are present in both data frames. This is the same as keeping only the observations in `x` that have a matching observation in `y`.   
 
-<img src="../Images/Join_InnerJoin.png" width="400pt" style="display: block; margin: auto;" />
+<img src="Images/Join_InnerJoin.png" width="400pt" style="display: block; margin: auto;" />
 
 What would you expect to get as a result of an inner join using x = `nutrients` and y = `carbon`?
 
@@ -222,14 +223,14 @@ You can see that `Replicate` 2 of `Treatment` 1 is not included because there wa
 
 #### Challenge {#challengeInnerJoin}
 
-* What would you expect to get as a result of the above join function if the `carbon` data set included an `NA` for the missing `Replicate` 2 for `Treatment` 1?
+6. What would you expect to get as a result of the above join function if the `carbon` data set included an `NA` for the missing `Replicate` 2 for `Treatment` 1?
 
 
 ## Full join {#fullJoin}
 
 You might want a data frame that includes all data from both data sets, whether or not observations are missing in one or the other.  This is analogous to including both circles in a Venn diagram.
 
-<img src="../Images/Join_FullJoin.png" width="400pt" style="display: block; margin: auto;" />
+<img src="Images/Join_FullJoin.png" width="400pt" style="display: block; margin: auto;" />
 
 Which observations would you expect to be included in the result of a full join using x = `nutrients` and y = `carbon`?
 
@@ -254,7 +255,7 @@ nutrients %>%
 
 #### Challenge {#challengeFullJoin}
 
-* Create a data frame with data from all sites included in the data frames `genes` and `metals`, which we used for the left join challenges above.
+7. Create a data frame with data from all sites included in the data frames `genes` and `metals`, which we used for the left join challenges above.
 
 
 
@@ -272,7 +273,7 @@ There are two types of filtering joins:
 
 Semi joins keep all observations in `x` that have a match in `y`. The Venn diagram depicting this join is the same as that for an `inner_join`. 
 
-<img src="../Images/Join_InnerJoin.png" width="400pt" style="display: block; margin: auto;" />
+<img src="Images/Join_InnerJoin.png" width="400pt" style="display: block; margin: auto;" />
 
 The observations in the resulting data frame are also often the same as a `inner_join`. For example, compare the following:
 
@@ -308,7 +309,7 @@ nutrients %>%
 Notice that the observations in both data frames are the same, but that the inner join adds the variable `Carbon` from the data frame `carbon`, whereas the semi join only uses the `carbon` data frame to determine which observations to keep.
 
 #### Challenge {#challengeSemiJoin}
-  * A semi join can be useful for determining the action of a `left_join` before calling it, i.e., to see what observations will have values that will be included, rather than `NA`. Compare the output from following commands. 
+8. A semi join can be useful for determining the action of a `left_join` before calling it, i.e., to see what observations will have values that will be included, rather than `NA`. Compare the output from following commands. Why are the data frames different if the data frames are joined using `by=c("Treatment")`?
 
     
     ```r
@@ -319,13 +320,13 @@ Notice that the observations in both data frames are the same, but that the inne
       left_join(y=carbon, by=c("Treatment", "Replicate"))
     ```
   
-  Why are the data frames different if the data frames are joined using `by=c("Treatment")`?
+  
 
 ## Anti joins  {#antiJoin}
 
 Anti joins keep all observations in `x` that do not have a match in `y`. This might be useful if, for example, you have your main data in table `x`, and a second table that specifies data that you'd like to omit. Alternatively, this type of join might be part of a pipeline comparing an updated data frame to an older version to determine which observations are new.
 
-<img src="../Images/Join_AntiJoin.png" width="400pt" style="display: block; margin: auto;" />
+<img src="Images/Join_AntiJoin.png" width="400pt" style="display: block; margin: auto;" />
 
 An anti join can be used to determine which observations in `x` are missing data in `y`. Say we want to know which observations in `nutrients` are missing data in `carbon`. In this case, we could do the following:  
 
@@ -341,7 +342,7 @@ An anti join can be used to determine which observations in `x` are missing data
 ```
 
 #### Challenge {#challengeAntiJoin}
-  * What do you expect to see as a result of calling an anti join on `carbon`, specifying `nutrients` as data frame `y`?
+9. What do you expect to see as a result of calling an anti join on `carbon`, specifying `nutrients` as data frame `y`? Describe this in words.
   
 <br>
 <hr>

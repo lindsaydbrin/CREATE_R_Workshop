@@ -1,12 +1,24 @@
 ---
 title: "Plotting with the base package"
-author: "CRI R Workshop"
 output:
-  pdf_document: default
   html_document:
+    highlight: tango
     keep_md: yes
+    lib_dir: libs
+    self_contained: no
+    theme: cerulean
+  pdf_document: default
 layout: topic
 ---
+
+```{r opts, echo = FALSE}
+
+# To output plots as .png figures, run this.
+
+knitr::opts_chunk$set(
+  fig.path = "Images/BasePlotImages/"
+)
+```
 
 ___
 
@@ -21,10 +33,12 @@ ___
 	+ [Plotting text](#plotText)
 * [Bar plots](#barPlots)
 * [Outputting plots](#outputPlots)
+* [The next step: ggplot2](#ggplot2)
 * [Resources](#resources)  
 
 
 ___
+
 
 ```{r, eval = TRUE, echo=FALSE, message=FALSE}
 ## Load packages that would theoretically have been loaded during previous lessons, to allow for functioning as a standalone script
@@ -60,7 +74,15 @@ Scatterplots can be made with the function `plot`, and only require x and y vect
 
 We can also plot variables that are contained within a data frame.  Let's read in a data file of fake fruit heights and weights.
 
-```{r}
+```{r, eval = FALSE}
+# Read in data
+	fruitData <- read.csv(file="Data/fruitData.csv")
+
+# Take a look at the data frame structure
+	str(fruitData) 
+```
+
+```{r, echo = FALSE}
 # Read in data
 	fruitData <- read.csv(file="../Data/fruitData.csv")
 
@@ -91,7 +113,7 @@ plot(fruitWeight ~ fruitHeight, data=fruitData)
 
 #### Challenge {#challengeScatter}
 
-* Using the `metals` data frame from the lesson on joins, plot Pb concentrations against Cu concentrations. Then plot Pb concentrations against Fe concentrations.
+1. Using the `metals` data frame from the lesson on joins, plot Pb concentrations against Cu concentrations. Then plot Pb concentrations against Fe concentrations.
 
 ```{r, eval=FALSE, echo=FALSE}
 # Read in data set (if necessary)
@@ -101,7 +123,7 @@ plot(fruitWeight ~ fruitHeight, data=fruitData)
 	plot(Pb ~ Fe, data=metals) # Lead versus iron
 ```
 
-* The syntax where the data set is specified only once in the plot function can make it simpler to plot subsets of data. Using what you learned about subsetting with `dplyr`, make a scatterplot of fruit weight versus fruit height using only data on pears, i.e., by specifying the appropriate data set in the `data` argument of the plot function.
+2. The syntax where the data set is specified only once in the plot function can make it simpler to plot subsets of data. Using what you learned about subsetting with `dplyr`, make a scatterplot of fruit weight versus fruit height using only data on pears, i.e., by specifying the appropriate data set in the `data` argument of the plot function.
 
 ```{r, eval=FALSE, echo=FALSE, fig.align='center', out.width='600pt'}
 plot(fruitWeight ~ fruitHeight, data=filter(fruitData, fruitType=="Pear"))
@@ -157,7 +179,7 @@ plot(1:25, 1:25, pch=1:25, col="red", bg="gray")
 You can see that `col` specifies point color, but sometimes this refers to the outline of an open symbol. For `pch` = 21 through 25, `bg` specifies the fill color of the point.
 
 #### Challenge {#challengeAes}
-* Using the nutrient data, make a plot of ammonium versus nitrate data that specifies all of the above parameters. Try a few different values for each.
+3. Using the nutrient data, make a plot of ammonium versus nitrate data that specifies all of the above parameters. Try a few different values for each.
 
 ## Building up plots {#buildUp}
 
@@ -228,7 +250,7 @@ Take a look at `?legend` for details on things like specifying text size and lin
 
 #### Challenge {#challengeBuildUp}
 
-* Make a plot that is similar to the one above, but plot different symbols for different values of `Treatment`.
+4. Make a plot that is similar to the one above, but plot different symbols for different values of `Treatment`.
 
 
 ## Plotting text {#plotText}
@@ -358,15 +380,30 @@ dev.off()
 ```
 
 
-```{r, echo=FALSE, fig.align='center', out.width='600pt'}
+```{r, echo=FALSE, fig.align='center', out.width='600pt', eval=FALSE}
 knitr::include_graphics("../Figures/Nutrients.pdf")
 ```
 
-In case you are looking at this lesson in a browser that doesn't render the above pdf file, here is the same image as a png.
+<br>
 
 ```{r, echo=FALSE, fig.align='center', out.width='600pt'}
-knitr::include_graphics("../Figures/Nutrients.png")
+knitr::include_graphics("Images/Nutrients.png")
 ```
+
+<br>
+
+(The above image is in .png form to sidestep issues with some browsers not rendering pdfs properly.)
+
+
+___
+
+# The next step: ggplot2 {#ggplot2}
+
+`ggplot2` is a package that contains functions that can simplify plotting, even for relatively advanced, complex, or multi-layered plots.  Although we are not covering it in this course, it is a very good tool to learn.  
+
+There are many online resources for learning this package, including a highly recommended [Data Carpentry lesson on using ggplot2](http://www.datacarpentry.org/R-ecology-lesson/05-visualization-ggplot2.html); take a look at that lesson to get a sense of what `ggplot2` can do. 
+
+More info on `ggplot2` can be found on the [official website](http://ggplot2.org).
 
 ___
 

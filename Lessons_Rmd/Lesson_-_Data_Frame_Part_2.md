@@ -1,5 +1,6 @@
 # Data Frames Part 2: Sequences and subsetting
-CRI R Workshop  
+
+
 
 * [What, and why?](#motivation)   
 * [Sequences](#sequences) 
@@ -11,7 +12,9 @@ ___
 
 # Why, and what? {#motivation}
 
-This lesson is meant to replace the comparable part of the Data Carpentry lesson.  It has been edited to use a new data set, `trees`, which is smaller than the surveys data set.  The idea is that this will make it easier to see the results of different manipulations, since it's possible to see the contents of the entire data frame.
+In this lesson, we address two things that can become cumbersome: precisely typing out long sequences of numbers, and pulling out specific data from a data frame. These things can be made much more efficient through the use of functions in R!
+
+To this end, we will introduce the concept of sequences and the associated function seq, as well as approaches for subsetting data frames. You will then have the opportunity to put the two concepts together in the challenge, which will ideally begin to give you a sense for their general usefulness.
 
 ___
 
@@ -56,11 +59,15 @@ seq(1, 8, by=3) # Sequence stops to stay below upper limit
 
 #### Challenge {#challengeSequences}
 
-* Create a vector with 6 elements that counts up from 27.
-* Create a vector with 5 equally spaced elements between 100 and 200.
-* Create a vector of every other number between 24 and 42.
-* Create a vector of numbers less than 100 that are divisible by 5.
-* Why does the following code give an error? `seq(2, 10, by=2, length.out=6)`
+1. Create a vector with 6 elements that counts up from 27.
+
+2. Create a vector with 5 equally spaced elements between 100 and 200.
+
+3. Create a vector of every other number between 24 and 42.
+
+4. Create a vector of numbers less than 100 that are divisible by 5.
+
+5. Why does the following code give an error? `seq(2, 10, by=2, length.out=6)`
 
 
 ## Subsetting data frames {#dfsubset}
@@ -69,9 +76,10 @@ Let's work with the data frame `trees`.
 
 
 ```r
-trees <- read.csv(file="~/Documents/R/CREATE_R_Workshop/Data/trees.csv")
+trees <- read.csv(file="Data/trees.csv")
 str(trees)
 ```
+
 
 ```
 ## 'data.frame':	300 obs. of  5 variables:
@@ -151,17 +159,17 @@ It is better to be explicit, and indicate the full name of the variable.  Beside
 
 #### Challenge {#challengeDFSubsetting}
 
-* Create a new data frame that contains only the 250th row of `trees`.
+6. Create a new data frame that contains only the 250th row of `trees`.
 
-* Create a new data frame that includes the 10th through 20th rows of `trees`.
+7. Create a new data frame that includes the 10th through 20th rows of `trees`.
 
-* Create a new data frame that only includes data where `Count` is equal to 30. (Hint: How would you identify which rows are the correct ones?)
+8. Create a new data frame that only includes data where `Count` is equal to 30. (Hint: How would you identify which rows are the correct ones?)
 
-* The function `nrow` on a data frame returns the number of rows. Use `nrow` to make a data frame with only the last row of trees.
+9. The function `nrow` on a data frame returns the number of rows. Use `nrow` to make a data frame with only the last row of trees.
 
-* Use `nrow` again, in conjuction with `seq()`, to create a new data frame that includes every 10th row of `trees` starting at row 10 (10, 20, 30, ...).  (Hint: start by creating the appropriate sequence!)
+10. Use `nrow` again, in conjuction with `seq()`, to create a new data frame that includes every 10th row of `trees` starting at row 10 (10, 20, 30, ...).  (Hint: start by creating the appropriate sequence!)
 
-* Now that you've seen how `nrow()` can be used to stand in for a row index, let's combine that behavior with the `-` notation above to reproduce the behavior of `head(surveys)`. I.e., exclude the 7th through final row of the `surveys` dataset without explicitly specifying the final row number.
+11. Now that you've seen how `nrow()` can be used to stand in for a row index, let's combine that behavior with the `-` notation above to reproduce the behavior of `head(surveys)`. I.e., exclude the 7th through final row of the `surveys` dataset without explicitly specifying the final row number.
 
 <hr>
 

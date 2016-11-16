@@ -1,12 +1,12 @@
 # Introduction to R for Ecological Data Analysis
-2016 September 22-23  
+CRI CREATE Workshop  
 ___
 
 Welcome to Introduction to R for Ecological Data Analysis, a 2-day workshop at the University of New Brunswick taught by [Dr. Lindsay Brin](http://www.lindsaydbrin.com). This workshop is part of the [Watershed and Aquatics Training in Environmental Research (WATER)](http://canadianriversinstitute.com/training/water-program/) program at the [Canadian Rivers Institute](http://canadianriversinstitute.com), funded by an NSERC Collaborative Research and Training Experience (CREATE) grant. 
 
 The in-person workshop covers most of the lessons below, roughly in the order in which they are listed. Additional content is provided on this site as a reference. (For example: in the control structures lesson, we will cover if statements in class, but lesson materials for for loops are also provided here; the same is true for simple versus multiple regression, the latter of which we will refer to only briefly.)
 
-The workshop builds off the [Data Carpentry](http://www.datacarpentry.org) lessons on [R for data analysis for Ecology](http://www.datacarpentry.org/R-ecology-lesson/), which are distributed under the [CC-BY license](https://creativecommons.org/licenses/by/2.0/).
+The workshop builds off the [Data Carpentry](http://www.datacarpentry.org) lessons on [R for data analysis for Ecology](http://www.datacarpentry.org/R-ecology-lesson/), which are distributed under the [CC-BY license](https://creativecommons.org/licenses/by/2.0/).  The alternate versions of these lessons follow the Data Carpentry lesson plan very closely but are re-written to include CRI workshop-specific data sets and to provide more details to allow participants to more easily go through lessons on their own (i.e., when missing a portion of the workshop for required classes).
 
 Course details can be found [below](#courseInfo). Data for the workshop can be downloaded from [github](https://github.com/lindsaydbrin/CREATE_R_Workshop/blob/master/DataForParticipants.zip). This information can be accessed online at [http://lindsaydbrin.github.io/CREATE_R_Workshop](http://lindsaydbrin.github.io/CREATE_R_Workshop/).
 
@@ -15,22 +15,32 @@ ___
 ## Workshop lessons outline
 
 #### Introduction to R
-* [Before we start *(Data Carpentry)*](http://www.datacarpentry.org/R-ecology-lesson/00-before-we-start.html)
-* [Introduction to R *(Data Carpentry)*](http://www.datacarpentry.org/R-ecology-lesson/01-intro-to-R.html)
+* Organization and R Basics
+	- [Organization and R basics *(CRI version)*](Lesson_-_Organization_and_R_Basics.html)
+	- [Before we start *(Data Carpentry)*](http://www.datacarpentry.org/R-ecology-lesson/00-before-we-start.html)
+* Introduction to R
+	- [*Data Carpentry*](http://www.datacarpentry.org/R-ecology-lesson/01-intro-to-R.html)
+	- [*CRI version*](Lesson_-_Introduction_to_R.html)
 
 #### Working with Data
-* [Starting with data *(Data Carpentry)*](http://www.datacarpentry.org/R-ecology-lesson/02-starting-with-data.html)
-* [The `data.frame` class *(Data Carpentry)*](http://www.datacarpentry.org/R-ecology-lesson/03-data-frames.html)
-* [The `data.frame` class - part 2 (Substitute for second half of Data Carpentry lesson)](Lesson_-_Data_Frame_Part_2.html)
+* Starting with data 
+	- [*Data Carpentry*](http://www.datacarpentry.org/R-ecology-lesson/02-starting-with-data.html)
+	- [*CRI version*](Lesson_-_Starting_with_data.html)
+* The `data.frame` class
+	- [*Data Carpentry*](http://www.datacarpentry.org/R-ecology-lesson/03-data-frames.html)
+	- *CRI version*
+		- [The `data.frame` class - part 1](Lesson_-_Data_Frame_Part_1.html)
+		- [The `data.frame` class - part 2 (Substitute for second half of Data Carpentry lesson)](Lesson_-_Data_Frame_Part_2.html)
 
 #### Data manipulation
-* [Data manipulation using `dplyr` *(Data Carpentry)*](http://www.datacarpentry.org/R-ecology-lesson/04-dplyr.html)
+* Data manipulation using `dplyr` 
+	- [*Data Carpentry*](http://www.datacarpentry.org/R-ecology-lesson/04-dplyr.html)
+	- [*CRI version*](Lesson_-_dplyr_data_handling.html)
 * [Reshaping data frames: `dplyr` reshape](Lesson_-_dplyr_reshape.html)
 * [Joining data frames: `dplyr` join](Lesson_-_dplyr_join.html)
 
 #### Pull it all together
 * [Day 1 Scripting Challenge](Lesson_-_Day_1_Scripting_Challenge.html)
-	+ [Day 1 Scripting Challenge Solution](Lesson_-_Day_1_Scripting_Challenge_Solution.html) - _Don't peek until you've tried it yourself!_
 
 #### Computing
 * [Control structures](Lesson_-_Control_structures.html)
@@ -46,7 +56,6 @@ ___
 
 #### Pull it all together
 * [Data Workflow Challenge](Lesson_-_Data_Workflow_Challenge.html)
-	+ [Data Workflow Challenge: One possible solution](Lesson_-_Data_Workflow_Challenge_Solutions.html)
 
 <br>
 

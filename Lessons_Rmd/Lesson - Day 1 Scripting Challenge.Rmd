@@ -1,12 +1,16 @@
 ---
 title: "Day 1 Scripting Challenge"
-author: "CRI R Workshop"
 output:
-  pdf_document: default
   html_document:
+    highlight: tango
     keep_md: yes
+    lib_dir: libs
+    self_contained: no
+    theme: cerulean
+  pdf_document: default
 layout: topic
 ---
+
 ___
 
 * [What, and why?](#motivation) 
