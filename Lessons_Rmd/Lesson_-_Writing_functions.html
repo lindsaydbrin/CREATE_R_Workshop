@@ -121,6 +121,7 @@ button.code-folding-btn:focus {
 </style>
 
 
+
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
@@ -218,6 +219,42 @@ $(document).ready(function () {
 <pre><code>## [1] TRUE</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">exists</span>(<span class="st">&quot;otherFunctionName&quot;</span>)  <span class="co"># Should not exist, unless you have defined it on your own computer!</span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
+<div id="functions-with-multiple-arguments" class="section level2">
+<h2>Functions with multiple arguments</h2>
+<p>It is straightforward to add more arguments to your function. To do this, add the argument names as arguments to <code>function()</code>, and include them in the function definition. For example, let’s say that you want to write a function called <code>multiply</code>, which multiplies two numbers together. In this case, you would need to be able to specify both numbers within the call to <code>multiply</code>. You could write this function as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">multiply &lt;-<span class="st"> </span>function(x, y){
+    value =<span class="st"> </span>x *<span class="st"> </span>y
+    <span class="kw">return</span>(value)
+}</code></pre></div>
+<p>Here, the function <code>multiply</code> takes two arguments, <code>x</code> and <code>y</code>, multiplies them together, and returns the result.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">multiply</span>(<span class="dt">x =</span> <span class="dv">4</span>, <span class="dt">y =</span> <span class="dv">6</span>)</code></pre></div>
+<pre><code>## [1] 24</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">multiply</span>(<span class="dt">x =</span> <span class="dv">12</span>, <span class="dt">y =</span> <span class="dv">3</span>)</code></pre></div>
+<pre><code>## [1] 36</code></pre>
+</div>
+<div id="returning-multiple-elements" class="section level2">
+<h2>Returning multiple elements</h2>
+<p>As mentioned above, if you want to return multiple elements, you can do so by combining them into one object. For example, if you want to return 2 values, you can create a vector with both elements, and then return the vector.</p>
+<p>Let’s say that we want to write a function that returns two sentences: one restating the number, and one stating the square root. We could do so as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">squareRootSentence &lt;-<span class="st"> </span>function(x){
+    sentence1 &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;The original number was &quot;</span>, x, <span class="st">&quot;.&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)
+    sentence2 &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;The square root of &quot;</span>, x, <span class="st">&quot; is &quot;</span>, <span class="kw">sqrt</span>(x),<span class="st">&quot;.&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)
+    result &lt;-<span class="st"> </span><span class="kw">c</span>(sentence1, sentence2)
+    <span class="kw">return</span>(result)
+}
+
+<span class="kw">squareRootSentence</span>(<span class="dv">16</span>)</code></pre></div>
+<pre><code>## [1] &quot;The original number was 16.&quot; &quot;The square root of 16 is 4.&quot;</code></pre>
+<p>We can then access each part of the result using square bracketing, either with the original function or by assigning the function’s result to a variable:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using the function output directly</span>
+    <span class="kw">squareRootSentence</span>(<span class="dv">16</span>)[<span class="dv">1</span>]</code></pre></div>
+<pre><code>## [1] &quot;The original number was 16.&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># OR by assigning the function&#39;s result to a variable</span>
+    sentences &lt;-<span class="st"> </span><span class="kw">squareRootSentence</span>(<span class="dv">16</span>)
+    sentences[<span class="dv">1</span>]</code></pre></div>
+<pre><code>## [1] &quot;The original number was 16.&quot;</code></pre>
+<p>Of course, this could also be be done with a numeric vector (or any other class).</p>
+</div>
 <div id="ifFunctions" class="section level2">
 <h2>Another example: <code>if</code> statements within functions</h2>
 <p>You can combine functions with everything else that you have learned so far. For example, you can put an <code>if</code> statement into a function. Let’s try this using an example from the lesson on <code>if</code> statements: an <code>if</code> statement that indicates whether a number is even or odd. The original code required us to specify the value of a variable first, and then run the line of code with the <code>if</code> statement. If we instead write a function, we can re-use this line of code much more simply.</p>
@@ -285,97 +322,21 @@ $(document).ready(function () {
 </li>
 <li>Returns observations for sites that have missing values (<code>NA</code>) for any measurement variables</li>
 </ul></li>
-<li>A function that counts how many sites have richness greater than 40, and returns a sentence with the answer.</li>
-<li>A function that plots any variable in the Inverts data set against Richness. You can use <code>get</code> in the form <code>get(&quot;variable name&quot;)</code> to call a variable using its name as a character string, which may help with passing variable names into a function. If you’re feeling more adventurous, set the plot’s y-limits to go from 0 to the maximum of the variable being plotted.</li>
+<li>A function that counts how many sites have richness greater than 60, and returns a sentence with the answer.</li>
+<li><p>A function that plots any variable in the Inverts data set against Richness. You can use <code>get</code> in the form <code>get(&quot;variable name&quot;)</code> to call a variable using its name as a character string, which may help with passing variable names into a function. For example, to select the <code>MeanTemperature</code> variable in the <code>Inverts</code> data frame, you could do the following:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Inverts %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">select</span>(<span class="kw">get</span>(<span class="st">&quot;MeanTemperature&quot;</span>))
+
+<span class="co"># OR </span>
+
+variable_name &lt;-<span class="st"> &quot;MeanTemperature&quot;</span>
+Inverts %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">select</span>(<span class="kw">get</span>(variable_name))</code></pre></div>
+<p>Try the above code on your own, and see the help file for get with <code>?get</code> to learn more about this.</p>
+<p>If you’re feeling more adventurous, set the plot’s y-limits to go from 0 to the maximum of the variable being plotted.</p></li>
 </ul></li>
 </ol>
 <p><br></p>
-<!--
-_______
-<br>
-#### Challenge solutions {#challengeSolns}
-
-* Here is one solution for a function that checks whether any variables are non-numeric and returns observations with missing data:
-
-
-```r
-Inverts <- read.csv(file="../Data/Inverts.csv", stringsAsFactors=FALSE, header=TRUE)
-
-checkData <- function(dataset){
-  # Print output based on whether any variables are not numeric
-  if (any(!is.numeric(dataset$Richness), !is.numeric(dataset$TOC), !is.numeric(dataset$CurrentVariability), !is.numeric(dataset$MeanTemperature)) == TRUE) {print("At least one variable is not numeric")} else {
-    print("All variables are numeric") 
-    }
-  # Which observations have NA values for one of the measured variables?
-    print("The following observations (if any) have NA values for at least one of the measured variables:")
-    dataset %>%
-      filter(is.na(Richness) | is.na(TOC) | is.na(CurrentVariability) | is.na(MeanTemperature) | is.na(Type) | is.na(Country))
-}
-
-checkData(Inverts)
-```
-
-```
-## [1] "All variables are numeric"
-## [1] "The following observations (if any) have NA values for at least one of the measured variables:"
-```
-
-```
-##   Site Richness  TOC CurrentVariability MeanTemperature   Type Country
-## 1   20       69 0.89               47.5              NA Forest  Canada
-```
-
-<br>
-
-* Here is an option for a function that counts how many sites have richness greater than 40.
-
-
-```r
-richnessThreshold <- function(dataset){
-  # Count how many sites have species richness greater than 40
-    richSites <- dataset %>%
-      filter(Richness > 40) %>%
-      tally()
-  return(paste("There are ",richSites," sites that have richness greater than 40.", sep="") )
-}
-
-richnessThreshold(Inverts)  
-```
-
-```
-## [1] "There are 24 sites that have richness greater than 40."
-```
-
-<br>
-
-* Here is an example of a function that will plot a variable in the Inverts data set against species richness.
-
-
-```r
-plotVsRichness <- function(dataset, yvariable){
-  # Find y-axis limits to be able to start at 0 (not necessary, but helps with plot aesthetics)
-    ymax <- dataset %>%
-              select(get(yvariable)) %>%  
-              unlist() %>%  # Take out of list form
-              max(na.rm=T) %>%   # Find maximum value
-                # Round up to the nearest two:
-                        `/`(2) %>%  # Divide by two, using the division inline function as a normal function via `
-              ceiling %>%  # Ceiling rounds up to the nearest whole number
-                        `*`(2)  # Multiply by two, using the * inline function as a normal function via `
-  # Make plot  
-    plot(get(yvariable) ~ Richness, data=dataset, ann=FALSE, axes=FALSE, pch=19, ylim=c(0,ymax), xlim=c(0,100))
-    # Add axes and labels
-      axis(1, pos=0) # Only if the plot is set to start at 0
-        mtext(side=1,line=2,"Richness")
-      axis(2, pos=0, las=1)
-        mtext(side=2, line=2, yvariable)
-}
-
-plotVsRichness(Inverts, "MeanTemperature")  # Plot mean temperature against richness
-plotVsRichness(Inverts, "TOC")  # Plot total organic carbon against richness
-```
-
--->
 <hr />
 </div>
 <div id="resources" class="section level2">
@@ -402,6 +363,7 @@ plotVsRichness(Inverts, "TOC")  # Plot total organic carbon against richness
 $(document).ready(function () {
   $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
 });
+
 
 </script>
 

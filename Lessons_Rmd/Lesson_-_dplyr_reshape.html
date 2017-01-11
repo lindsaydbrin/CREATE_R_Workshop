@@ -121,6 +121,7 @@ button.code-folding-btn:focus {
 </style>
 
 
+
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
@@ -264,7 +265,7 @@ nutrients_wide %&gt;%
 <p>What happens if you only select two of the three columns of data?</p>
 <div id="one-more-trick-separate" class="section level2">
 <h2>One more trick: <code id="separate">separate</code></h2>
-<p>Sometimes a variable may contain information that really makes up two variables. For example, the following data frame has one column that indicates both the nutrient analyzed and the sample replicate.</p>
+<p>Sometimes a variable may contain information that really makes up two variables. For example, the following data frame has one column that indicates both the nutrient analyzed and the sample replicate. (Note that <code>dbl</code> is the letters dbl, short for “double”, and not db1.)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nutrients_dbl &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;Data/nutrients_dbl.csv&quot;</span>)
 nutrients_dbl</code></pre></div>
 <pre><code>##    Treatment Nutrient_Rep Concentration
@@ -311,7 +312,7 @@ nutrients_dbl</code></pre></div>
 <div id="challengeDataFormat" class="section level4">
 <h4>Challenge</h4>
 <ol style="list-style-type: decimal">
-<li><p>The <code>trees</code> data frame is in long format: every observation (count) is in its own row, and the tree species is specified by the variable <code>Species</code>. Convert this data frame to wide format, with counts for different species in different columns.</p></li>
+<li><p>The <code>trees</code> data frame is in long format: every observation (count) is in its own row, and the tree species is specified by the variable <code>Species</code>. Re-read in this data frame, then convert it to wide format, with counts for different species in different columns.</p></li>
 <li><p>Similarly, convert the original <code>trees</code> data frame to wide format, but with data from different plot replicates (specified by <code>Plot</code>) in different columns.</p></li>
 <li><p>Sometimes it may take multiple steps to tidy a dataset! Above, we used <code>separate</code> to start to put <code>nutrients_dbl</code> into a tidier form. Do this again, but now convert the new, <code>separate</code>d data frame into a tidy data frame in wide format, with concentrations of different nutrients in different columns.</p></li>
 <li><p>Let’s start one step back! Use <code>gather</code>, <code>spread</code>, and <code>separate</code> to tidy a “messy” data set (“Experiment_nutrients_messy.csv”) into a tidy one, i.e., by converting it to <code>nutrients_dbl</code> and then tidying it as above.</p>
@@ -349,6 +350,7 @@ nutrients_messy</code></pre></div>
 $(document).ready(function () {
   $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
 });
+
 
 </script>
 

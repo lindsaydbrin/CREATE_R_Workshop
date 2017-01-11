@@ -155,7 +155,7 @@ ifelse(test = a %% 2 == 0, yes = "even", no = "odd")
 
 Here, if the remainder after division by two is equal to 0, the test case is true, and "even" is printed. Otherwise, if the test case is false, "odd" is printed. With `a` equal to 43, the remainder was 1, and therefore "odd" was printed. Try a few values of `a` for yourself to see how this works.
 
-Let's work with the `nutrients` data to demonstrate when this could be helpful. As a reminder, here is the data frame:
+Let's work with the `nutrients` data (from `Experiment_nutrients.csv`) to demonstrate when this could be helpful. As a reminder, here is the data frame:
 
 
 ```r

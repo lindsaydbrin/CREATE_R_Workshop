@@ -91,14 +91,14 @@ You can name this object however you want, but it's good to be consistent with y
 
 
 ```r
-InvertsType.mod <- aov(Richness ~ Type, data=Inverts)
+InvertsType_mod <- aov(Richness ~ Type, data=Inverts)
 ```
 
 Now let's take a look at the model object with `summary`. 
 
 
 ```r
-summary(InvertsType.mod)
+summary(InvertsType_mod)
 ```
 
 ```
@@ -120,11 +120,11 @@ Of course, we can't use this model unless we know that we have satisfied the mod
 
 ```r
 par(mfrow=c(2,2))  # Set plot layout
-hist(resid(InvertsType.mod), las=1)  # Look at distribution of residuals
-qqnorm(resid(InvertsType.mod), las=1)  # Compare distribution of residuals to a normal distribution
-qqline(resid(InvertsType.mod))
-plot(fitted(InvertsType.mod), resid(InvertsType.mod), las=1)  # Do residuals vary by fitted values?
-plot(Inverts$Type, resid(InvertsType.mod), las=1)  # Do the residuals vary by group?
+hist(resid(InvertsType_mod), las=1)  # Look at distribution of residuals
+qqnorm(resid(InvertsType_mod), las=1)  # Compare distribution of residuals to a normal distribution
+qqline(resid(InvertsType_mod))
+plot(fitted(InvertsType_mod), resid(InvertsType_mod), las=1)  # Do residuals vary by fitted values?
+plot(Inverts$Type, resid(InvertsType_mod), las=1)  # Do the residuals vary by group?
 ```
 
 <img src="Images/ANOVA/unnamed-chunk-8-1.png" width="600 pt" style="display: block; margin: auto;" />
@@ -140,7 +140,7 @@ We can also make similar plots by making a function call to `plot` using the mod
 
 ```r
 par(mfrow=c(2,2))  # Set plot layout for 4 plots
-plot(InvertsType.mod, las=1)  # Plot residuals for our ANOVA
+plot(InvertsType_mod, las=1)  # Plot residuals for our ANOVA
 ```
 
 <img src="Images/ANOVA/unnamed-chunk-9-1.png" width="600pt" style="display: block; margin: auto;" />
@@ -159,7 +159,7 @@ We've interpreted the results to mean that species richness varies with catchmen
 
 
 ```r
-TukeyHSD(InvertsType.mod)
+TukeyHSD(InvertsType_mod)
 ```
 
 ```
@@ -222,8 +222,8 @@ Implementing a two-way ANOVA is similar to implementing ANOVA, in that we will u
 
 
 ```r
-Inverts2way.mod <- aov(Richness ~ Type * Country, data=Inverts)
-summary(Inverts2way.mod)  # F-test with Type I Sum of Squares (probably not appropriate!)
+Inverts2way_mod <- aov(Richness ~ Type * Country, data=Inverts)
+summary(Inverts2way_mod)  # F-test with Type I Sum of Squares (probably not appropriate!)
 ```
 
 ```
@@ -257,7 +257,7 @@ If we want the results of an F-test using type III SS, we have several options -
 
 ```r
 # With drop1, the scope argument designates the terms to be dropped; the . means all of them.
-drop1(Inverts2way.mod, scope = ~., test="F")  
+drop1(Inverts2way_mod, scope = ~., test="F")  
 ```
 
 ```
@@ -290,7 +290,7 @@ library("car")
 ```
 
 ```r
-Anova(Inverts2way.mod, type="III")  # Specify Type III SS
+Anova(Inverts2way_mod, type="III")  # Specify Type III SS
 ```
 
 ```
@@ -318,7 +318,7 @@ To use this model, we need to check that its assumptions have been met. We will 
 
 ```r
 par(mfrow=c(2,2))  # Set plot layout
-plot(Inverts2way.mod, las=1)
+plot(Inverts2way_mod, las=1)
 ```
 
 <img src="Images/ANOVA/unnamed-chunk-16-1.png" width="600pt" style="display: block; margin: auto;" />
@@ -333,6 +333,8 @@ And as before, our residuals look fairly normal and homogeneous, so we can repor
 
 We may still wonder about the differences between levels of the significant factor, `Type`. With a 2-way ANOVA, we can apply a Tukey test using the function `lsmeans` in the package `lsmeans`, along with the function `cld`, which controls the output that is displayed. The first argument to `cld` is an object created by `lsmeans`. `lsmeans` requires us to specify the model as well as the variable to test (e.g., `Type`), and give us confidence intervals as output, which we could use to determine which groups differ. We can also use `cld` to figure this out for us. For `cld`, we can to specify the *p*-value as `alpha`, the post-hoc test to use as `adjust`, and whether to use letters instead of the default to numbers for comparing groups.
 
+If you have not already done so, be sure to install `lsmeans` and associated dependencies, i.e. with `install.packages("lsmeans", dependencies = TRUE)`.
+
 
 ```r
 library("lsmeans")
@@ -344,7 +346,7 @@ library("lsmeans")
 
 ```r
 # Which Types vary from the others, using a Tukey test?
-	cld(lsmeans(Inverts2way.mod, specs="Type"), alpha=0.05, adjust="tukey", Letters=letters) 
+	cld(lsmeans(Inverts2way_mod, specs="Type"), alpha=0.05, adjust="tukey", Letters=letters) 
 ```
 
 ```

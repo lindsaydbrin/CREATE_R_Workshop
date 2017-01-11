@@ -62,44 +62,51 @@ Despite the similarities in summary statistics, it is clear that blindly impleme
 
 In conclusion: *plot your data!*   
 
-Let's look at the relationship between richness and TOC in the Inverts dataset. We will start with a scatterplot of the two variables.
+If you want to get a broad overview of the relationships between your variables, you can start by running `plot()` on the full dataset, which will plot every variable against every other variable.  Try this on your own for the `Inverts` dataset by running the following:
+
+
+```r
+plot(Inverts)
+```
+
+For this lesson, let's look at the relationship between richness and TOC. We will start with a scatterplot of the two variables.
 
 
 ```r
 plot(Richness ~ TOC, data=Inverts, pch=19, las=1)
 ```
 
-<img src="Images/LMImages/unnamed-chunk-5-1.png" width="500pt" style="display: block; margin: auto;" />
+<img src="Images/LMImages/unnamed-chunk-6-1.png" width="500pt" style="display: block; margin: auto;" />
 
-It looks like a linear regression would be a reasonable approach for this data set.   
+It looks like a linear regression would be a reasonable approach to look at the relationship between these variables in this dataset.   
 
 ## Running a linear regression {#fitModel}
 
-For linear regression in R, we use the function `lm`. We call the function, and assign the resulting model to a variable, using this general syntax (where the data are in a data frame called `dataset`):
+For linear regression in R, we use the function `lm`. We call the function, and assign the resulting model to a variable, using this general syntax (where the data are in a data frame called `dataset`; `x.variable`, `y.variable`, and `dataset` would be substituted with the names of your x variable, y variable, and data frame respectively):
 
 
 ```r
 # Linear regression of y variable versus x variable
-	model <- lm(dataset$y.variable ~ dataset$x.variable) 
+	model <- lm(dataset$y_variable ~ dataset$x_variable) 
 
 # OR
 
 # Same result, cleaner syntax
-	model <- lm(y.variable ~ x.variable, data=dataset) 
+	model <- lm(y_variable ~ x_variable, data=dataset) 
 ```
 
 So, for the Inverts data:
 
 
 ```r
-Inverts.lm <- lm(Richness ~ TOC, data = Inverts)
+Inverts_lm <- lm(Richness ~ TOC, data = Inverts)
 ```
 
 Looking at the model object will give us the information about the coefficients - i.e., the intercept and the slope of the model - along with the original model formula.
 
 
 ```r
-Inverts.lm
+Inverts_lm
 ```
 
 ```
@@ -116,7 +123,7 @@ To get more information about the linear regression, we can use the `summary` fu
 
 
 ```r
-summary(Inverts.lm)
+summary(Inverts_lm)
 ```
 
 ```
@@ -150,14 +157,14 @@ You could obtain the same information by piping the output of the model to `summ
 
 ## Check model assumptions {#checkAssumptions}
 
-To assess the residuals, we will look at a plot of the residuals against the fitted values, to see if there are any apparent patterns. We can access the residuals using `resid(Inverts.lm)`, and the fitted values using `fitted(Inverts.lm)`.
+To assess the residuals, we will look at a plot of the residuals against the fitted values, to see if there are any apparent patterns. We can access the residuals using `resid(Inverts_lm)`, and the fitted values using `fitted(Inverts_lm)`.
 
 
 ```r
-plot(resid(Inverts.lm) ~ fitted(Inverts.lm), xlab="Fitted values", ylab="Residuals")
+plot(resid(Inverts_lm) ~ fitted(Inverts_lm), xlab="Fitted values", ylab="Residuals")
 ```
 
-<img src="Images/LMImages/unnamed-chunk-10-1.png" width="500pt" style="display: block; margin: auto;" />
+<img src="Images/LMImages/unnamed-chunk-11-1.png" width="500pt" style="display: block; margin: auto;" />
 
 Fortunately, it doesn't look like the residuals are dependent on the fitted values.   
 
@@ -167,10 +174,10 @@ We use the function `hist` to make a histogram of the residuals. The groupings a
 
 
 ```r
-hist(resid(Inverts.lm), xlab = "Residuals", main = "Histogram of residuals of Inverts.lm")
+hist(resid(Inverts_lm), xlab = "Residuals", main = "Histogram of residuals of Inverts_lm")
 ```
 
-<img src="Images/LMImages/unnamed-chunk-11-1.png" width="500pt" style="display: block; margin: auto;" />
+<img src="Images/LMImages/unnamed-chunk-12-1.png" width="500pt" style="display: block; margin: auto;" />
 
 The distribution of values looks relatively normal. There might be a slight skew, but given the relatively small sample size, the histogram does not give us evidence to reject normality.    
 
@@ -178,11 +185,11 @@ Now we'll plot a QQ plot.  A QQ plot compares the distribution of two given sets
 
 
 ```r
-qqnorm(resid(Inverts.lm)) 
-qqline(resid(Inverts.lm))
+qqnorm(resid(Inverts_lm)) 
+qqline(resid(Inverts_lm))
 ```
 
-<img src="Images/LMImages/unnamed-chunk-12-1.png" width="500pt" style="display: block; margin: auto;" />
+<img src="Images/LMImages/unnamed-chunk-13-1.png" width="500pt" style="display: block; margin: auto;" />
 
 When the data do not fall on the line, the shape of their curve can tell you about the distribution of the data. In our case, the QQ plot indicates that the residuals are normally distributed.
 
@@ -192,7 +199,7 @@ If you're working with lots of linear regressions at once, e.g. if you are calcu
 
 
 ```r
-summary(Inverts.lm)
+summary(Inverts_lm)
 ```
 
 ```
@@ -217,7 +224,7 @@ summary(Inverts.lm)
 ```
 
 ```r
-attributes(summary(Inverts.lm))
+attributes(summary(Inverts_lm))
 ```
 
 ```
@@ -234,7 +241,7 @@ We can access the different attributes by name from the summary object. For exam
 
 
 ```r
-summary(Inverts.lm)$adj.r.squared
+summary(Inverts_lm)$adj.r.squared
 ```
 
 ```
@@ -245,7 +252,7 @@ Pulling out the regression equation and the p-value of the model take a few more
 
 
 ```r
-summary(Inverts.lm)$coefficients
+summary(Inverts_lm)$coefficients
 ```
 
 ```
@@ -259,7 +266,7 @@ To pull out a particular value, you could access it by specifying its position i
 
 ```r
 # Get p-value for TOC, which is in the 2nd row and 4th column
-summary(Inverts.lm)$coefficients[2, 4]
+summary(Inverts_lm)$coefficients[2, 4]
 ```
 
 ```
@@ -271,7 +278,7 @@ Alternatively, you can specify the names of the rows and columns.
 
 ```r
 # Get p-value for TOC using row and column names
-summary(Inverts.lm)$coefficients["TOC", "Pr(>|t|)"]
+summary(Inverts_lm)$coefficients["TOC", "Pr(>|t|)"]
 ```
 
 ```
@@ -361,10 +368,10 @@ plot(Richness ~ TOC, data=Inverts, pch=19, xlim=c(0, 1.6), ylim=c(0, 120)
 		mtext(side=1, line=2, text="Total organic carbon (%)", cex=1.2)
 	axis(2, pos=0, las=1, cex.axis=1.2)  # Add y-axis; place it at x = 0
 		mtext(side=2, line=2, text="Species richness", cex=1.2)
-abline(Inverts.lm) # Plot linear regression
+abline(Inverts_lm) # Plot linear regression
 ```
 
-<img src="Images/LMImages/unnamed-chunk-24-1.png" width="500pt" style="display: block; margin: auto;" />
+<img src="Images/LMImages/unnamed-chunk-25-1.png" width="500pt" style="display: block; margin: auto;" />
 
 However, you can see that the line extends to the end of the plot margins, which can look awkward if you've specified the placement of your axes. An alternative approach is to draw a line with x and y coordinates of your choosing. For this plot, we might want to use x = 0.3 and 1.4. To calculate the appropriate y-values, we can use the `predict` function. This function uses the linear regression to calculate modeled values for the response variable based on the selected values for the explanatory variable. Once we have the y values, we can use the function `lines` to draw a line with specified x and y coordinates. We can use many of the same `par` arguments for `lines` as we can with `points`.
 
@@ -378,11 +385,11 @@ plot(Richness ~ TOC, data=Inverts, pch=19, xlim=c(0, 1.6), ylim=c(0, 120)
 		mtext(side=2, line=2, text="Species richness", cex=1.2)
 
 # Calculate y values given specified x values, then plot x and y values
-yvals <- predict(Inverts.lm, newdata=data.frame(TOC = c(0.3, 1.4)))
+yvals <- predict(Inverts_lm, newdata=data.frame(TOC = c(0.3, 1.4)))
 lines(x = c(0.3, 1.4), y = yvals, col="mediumorchid", lwd=2)
 ```
 
-<img src="Images/LMImages/unnamed-chunk-25-1.png" width="500pt" style="display: block; margin: auto;" />
+<img src="Images/LMImages/unnamed-chunk-26-1.png" width="500pt" style="display: block; margin: auto;" />
 
 # Multiple regression {#multipleRegression}
 
@@ -397,7 +404,7 @@ Again, it's a good idea to look at your data!  Let's look at the relationship be
 plot(Richness ~ CurrentVariability, data=Inverts, pch=19, las=1)
 ```
 
-<img src="Images/LMImages/unnamed-chunk-26-1.png" width="500pt" style="display: block; margin: auto;" />
+<img src="Images/LMImages/unnamed-chunk-27-1.png" width="500pt" style="display: block; margin: auto;" />
 
 It really doesn't look like there's a relationship between these two variables, does it - linear or otherwise.  Nonetheless, we'll proceed with a multiple regression model, to demonstrate the process.
 
@@ -406,8 +413,8 @@ To do a multiple linear regression, we add variables to the formula in the `lm `
 
 
 ```r
-Inverts2.lm <- lm(Richness ~ TOC + CurrentVariability, data=Inverts)
-summary(Inverts2.lm)
+Inverts2_lm <- lm(Richness ~ TOC + CurrentVariability, data=Inverts)
+summary(Inverts2_lm)
 ```
 
 ```
@@ -442,14 +449,14 @@ If we replaced the `+` with `*`, the model would include both explanatory variab
 	lm(Richness ~ TOC * CurrentVariability, data=Inverts)  
 
 # Specify main effects separately from the interaction
-	lm(Richness ~ TOC + CurrentVariability + TOC:CurrentVariability)  
+	lm(Richness ~ TOC + CurrentVariability + TOC:CurrentVariability, data = Inverts)  
 ```
 
 Let's go back to the original model. If you want to do an F-test and compare F-values rather than t-values, you can use the `drop1` function, which looks at the effect on the entire model of adding the specified variable last. This will be more important in the next lesson on ANOVA. In short, for a linear regression, you get the same p-values as you do using `summary`, but `drop1` lets you pull out the F-values if you need them. In the function call, you give as arguments the original model, an argument specifying the terms to be considered for adding or dropping (`.~.` for all terms), and the test statistic of interest.
 
 
 ```r
-drop1(Inverts2.lm, .~., test="F")
+drop1(Inverts2_lm, .~., test="F")
 ```
 
 ```
@@ -476,28 +483,28 @@ We will check the residuals similarly to above, but with our multiple regression
 # Set plot layout and margins
 	par(mfrow=c(1,2), mar=c(8,5,7,2))
 # Plot histogram
-	hist(resid(Inverts2.lm))  
+	hist(resid(Inverts2_lm))  
 # Make QQ plot to check normality
-	qqnorm(resid(Inverts2.lm))  
-	qqline(resid(Inverts2.lm))
+	qqnorm(resid(Inverts2_lm))  
+	qqline(resid(Inverts2_lm))
 ```
 
-<img src="Images/LMImages/unnamed-chunk-30-1.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Images/LMImages/unnamed-chunk-31-1.png" width="600pt" style="display: block; margin: auto;" />
 
 ```r
 # Set plot layout and margins
 	par(mfrow=c(2,2), mar=c(5,5,2,2))  
 # Plot residuals against TOC (explanatory variable)
-	plot(Inverts$TOC, resid(Inverts2.lm), pch=19, las=1)  
+	plot(Inverts$TOC, resid(Inverts2_lm), pch=19, las=1)  
 # Plot residuals against Current Variability (explanatory variable)
-	plot(Inverts$CurrentVariability, resid(Inverts2.lm), pch=19, las=1)
+	plot(Inverts$CurrentVariability, resid(Inverts2_lm), pch=19, las=1)
 # Plot residuals against fitted values
-	plot(fitted(Inverts2.lm), resid(Inverts2.lm), pch=19, las=1)  
+	plot(fitted(Inverts2_lm), resid(Inverts2_lm), pch=19, las=1)  
 # Reset plot layout and margins
 	par(mfrow=c(1,1), mar=c(5,5,2,2))  
 ```
 
-<img src="Images/LMImages/unnamed-chunk-30-2.png" width="600pt" style="display: block; margin: auto;" />
+<img src="Images/LMImages/unnamed-chunk-31-2.png" width="600pt" style="display: block; margin: auto;" />
 
 The residuals look a little skewed in the histogram, but the QQ plot suggests that they are reasonably normal, and the plots of residuals against fitted values and explanatory variables suggests homogeneity. (Keep in mind that even with normally distributed data, these plots can look a little funny when _n_, sample size, is low.) So you can safely report your conclusion that species richness is significantly related to organic carbon and not to current variability.   
 

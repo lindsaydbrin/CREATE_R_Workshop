@@ -11,7 +11,7 @@
 
 
 
-<title>Day 1 Scripting Challenge</title>
+<title>Scripting Challenge</title>
 
 <script src="libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -78,6 +78,7 @@ button.code-folding-btn:focus {
 </style>
 
 
+
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
@@ -99,7 +100,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Day 1 Scripting Challenge</h1>
+<h1 class="title toc-ignore">Scripting Challenge</h1>
 
 </div>
 
@@ -112,25 +113,48 @@ $(document).ready(function () {
 <hr />
 <div id="motivation" class="section level1">
 <h1>Why, and what?</h1>
-<p>Let’s put together everything you’ve learned! This lesson will give you practice with the contents of today’s lesson, and give you an example of the kind of R script that you might write for your own work.</p>
+<p>Let’s put together everything you’ve learned! This lesson will give you practice with the contents of the lessons so far, and give you an example of the kind of R script that you might write for your own work.</p>
 <hr />
 </div>
 <div id="mission" class="section level1">
 <h1>Your mission</h1>
-<p>The data file <code>Fundybirds.csv</code> contains data on bird species counted in Fundy National Park during the Audubon Society’s annual <a href="http://www.audubon.org/conservation/science/christmas-bird-count">Christmas Bird Count</a>. Your goal is to write a new R script that does a basic analysis of these data.</p>
-<p>Be sure to begin the script with commented lines with the file name, your name, the date, and a description of the script, and also comment liberally throughout the script to indicate what your code does!</p>
+<p>The data file <code>Fundybirds.csv</code> contains data on bird species counted in Fundy National Park during the Audubon Society’s annual <a href="http://www.audubon.org/conservation/science/christmas-bird-count">Christmas Bird Count</a>. Your goal is to write a new R script that does a basic analysis of these data.<br />
+<code>Fundybirds.csv</code> is a list of birds that were sighted during the bird count. Each observation (row) in <code>Fundybirds.csv</code> represents one bird sighting. The dataset contains the following variables:</p>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Column</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>CommonName</td>
+<td>Common name for the observed bird</td>
+</tr>
+<tr class="even">
+<td>ScientificName</td>
+<td>Scientific name for the observed bird</td>
+</tr>
+<tr class="odd">
+<td>Hour</td>
+<td>Hour during which the bird was counted</td>
+</tr>
+</tbody>
+</table>
 <p>Your script should do the following:</p>
 <ul>
-<li><p>Read in the file <code>Fundybirds.csv</code></p></li>
-<li><p>Look at the structure of the data</p></li>
+<li><p>Read in the file <code>Fundybirds.csv</code>.</p></li>
+<li><p>Look at the structure of the data.</p></li>
 <li><p>Create data frames that answer the following questions: (Hint: Use <code>dplyr</code> functions!)</p>
 <ul>
 <li><p>How many times was each type of bird counted?</p></li>
 <li><p>Which birds were counted more than 10 times?</p></li>
 </ul></li>
-<li><p>Make a table that shows how many species were counted each hour</p></li>
-<li><p>Plot this table using a barplot</p></li>
+<li><p>Make a table that shows how many birds were counted each hour.</p></li>
+<li><p>Plot this table using a barplot.</p></li>
 </ul>
+<p>Be sure to begin the script with commented lines with the file name, your name, the date, and a description of the script, and also comment liberally throughout the script to indicate what your code does!</p>
 </div>
 
 
@@ -144,6 +168,7 @@ $(document).ready(function () {
 $(document).ready(function () {
   $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
 });
+
 
 </script>
 

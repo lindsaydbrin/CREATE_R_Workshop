@@ -46,7 +46,9 @@ trees <- read.csv(file = "Data/trees.csv")
 
 
 
-This does not print any result to the screen. To check that the file was loaded, you can print the value of the variable `trees` (try this):
+If you don't tell it otherwise, this function assumes that the first line of your file is a header giving the name of different variables.  If this is not the case, then you can include the argument `header = FALSE` in your call to `read.csv()`.  (By default, i.e. if you don't specify, `header = TRUE`.)
+
+A call to `read.csv()` does not print any result to the screen. To check that the file was loaded, you can print the value of the variable `trees` (try this):
 
 
 ```r
@@ -66,11 +68,11 @@ head(trees)
 ## 2  Ontario Ottawa    1             Acer rubrum    18
 ## 3  Ontario Ottawa    1          Cornus florida    28
 ## 4  Ontario Ottawa    1            Quercus alba    15
-## 5  Ontario Ottawa    1 Liriodendrum tulipifera    18
+## 5  Ontario Ottawa    1 Liriodendron tulipifera    18
 ## 6  Ontario Ottawa    1        Tsuga canadensis    30
 ```
 
-This is the top of the `trees` data frame. A data frame can be created by reading in tabular data, as we did here, or by using the function `data.frame`, which we will do in the next lesson. In a data frame, the format is a table where the columns are all vectors that are the same length. Because each column is a vector, all elements in a column are the same kind of data. To demonstrate this, we can use `str()` to look at the data frame's structure.  This will also give information on the number of observations and the number of variables.
+This is the top of the `trees` data frame. A data frame can be created by reading in tabular data, as we did here, or by using the function `data.frame`, which we will do in the next lesson. In a data frame, the format is a table where the columns are all vectors that are the same length. Because each column is a vector, all elements in a column are the same kind of data. To demonstrate this, we can use `str()` to look at the data frame's structure.  This will also give information on the number of observations (i.e., rows) and the number of variables. 
 
 
 ```r
@@ -177,6 +179,7 @@ min(food)
 
 In R's memory, these factors are represented by integers (1, 2, 3), but they are more informative than integers because their names have information: `"low"`, `"medium"`, and `"high"` are more descriptive than `1`, `2`, `3`. If you wanted to know which level was "low," for example, the integer data alone wouldn't tell you.  Factors, on the other hand, have this information built in.  This can be very helpful in cases where there are many levels, such as in `Site` in the `trees` data set.
 
+
 ## Converting factors
 
 To convert a factor to a character vector, you can use the function `as.character()`. 
@@ -251,11 +254,59 @@ In the second approach, three important steps occur:
 2. These levels are converted to numeric values using `as.numeric(levels(concentrations))`.
 3. These numeric values are accessed *in the correct order* using the underlying integers of the factor `concentrations` inside the square brackets.
 
+## Assessing factors
+
+If you want to know the distribution of elements among different levels of a factor, one way to do this is with the function `table()`.  For example, we can create a table that shows us how many elements are in each level of the factor `food`:
+
+
+```r
+table(food)
+```
+
+```
+## food
+##    low medium   high 
+##      2      2      3
+```
+
+You can do the same thing with vectors.  For example, here is the vector `animals` from the lesson *Introduction to R*:
+
+
+```r
+animals <- c("mouse", "rat", "dog", "cat", "rat")
+table(animals)
+```
+
+```
+## animals
+##   cat   dog mouse   rat 
+##     1     1     1     2
+```
+
+You can visualize this kind of table graphically by passing it to the function `barplot()`:
+
+
+```r
+barplot(table(food))
+```
+
+<img src="Images/StartingWithData/unnamed-chunk-20-1.png" width="60%" style="display: block; margin: auto;" />
+
+Now we have a barplot showing us how many elements are in each level of the factor.  With a vector, it would show us how many elements are equal to each unique element of the vector.  Try this yourself with `animals` as in the following code:
+
+
+```r
+barplot(table(animals))
+```
+
+These kinds of summarizing assessments become even more helpful when you're working with much larger factors or vectors! 
+
+
 ### Challenge
 
-4. Create a factor called "grades" with 10 different grades between A and F, where A is the highest level and F is the lowest level (ignore +'s and -'s, like A+ or C-). Examine the value of the factor and include that output in your answer.
+4. Create a factor called "grades" with 10 elements, and with the levels A, B, C, D, and F, where A is the highest level and F is the lowest level. Examine the value of the factor and include that output in your answer.
 
-5. The function `plot()` can be used to quickly create a bar plot of a factor. For example, for the following factor:
+5. The function `plot()` can be used to quickly create a bar plot of a factor, rather than using `table()` and `barplot()` as above. For example, for the following factor:
 	
 	
 	```r
@@ -267,8 +318,7 @@ In the second approach, three important steps occur:
 	+ What determines the order in which the treatments are listed in the plot?  (Hint: use `str()` to inspect the factor.)
 	+ How can you recreate this plot with "control" listed last instead of first?  Include the plot output in your answer.
 
-<img src="Images/StartingWithData/unnamed-chunk-19-1.png" width="700pt" style="display: block; margin: auto;" />
-
+<img src="Images/StartingWithData/unnamed-chunk-23-1.png" width="60%" style="display: block; margin: auto;" />
 
 ___
 

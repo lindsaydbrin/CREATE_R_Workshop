@@ -131,13 +131,14 @@ For loops can be useful for applying the same action to multiple objects. For ex
 
 ```r
 # Read in bird count data
-	birds_jan <- read.csv(file="~/Documents/R/CREATE_R_Workshop/Data/birds_jan.csv")	
-	birds_feb <- read.csv(file="~/Documents/R/CREATE_R_Workshop/Data/birds_feb.csv")	
-	birds_mar <- read.csv(file="~/Documents/R/CREATE_R_Workshop/Data/birds_mar.csv")	
-	birds_apr <- read.csv(file="~/Documents/R/CREATE_R_Workshop/Data/birds_apr.csv")	
+	birds_jan <- read.csv(file="Data/birds_jan.csv")	
+	birds_feb <- read.csv(file="Data/birds_feb.csv")	
+	birds_mar <- read.csv(file="Data/birds_mar.csv")	
+	birds_apr <- read.csv(file="Data/birds_apr.csv")	
 
 head(birds_jan)
 ```
+
 
 ```
 ##           SpeciesNames Count
@@ -313,24 +314,24 @@ The last line in the for loop uses the `get` function, as above. Try typing `Exp
 The output is the `n`th character in that variable, i.e. `"carbon"` or `"nutrients"`. What we want, though, is the value of the variable that has that name. To do that, we use the `get` function, which searches for an object with the name specified by the `x` argument. This allows you to pass a list of names of variables to other functions.   
 
 #### Challenge {#challengeforloop}
-1. Write a for loop that steps through a numeric vector and prints a number that is 4 times the number of the changing variable.
+1. Write a for loop that steps through a numeric vector and prints a number that is 4 times the number of the numeric vector.
 
 
 
-2. The code within the brackets `{ }` of a for loop does not necessarily have to refer to the values in the controlling vector! Write a for loop that loops through 10 times, and each time, adds 1 to a given variable (*not* specified in the controlling vector) and then prints the value of that variable.
+2. The code within the brackets `{ }` of a for loop does not necessarily have to refer to the values in the controlling vector!  The controlling vector can be there just to determine the number of times to go through the loop. Write a for loop that loops through 10 times, and each time, adds 1 to a given variable (specified *before* the for loop) and then prints the value of that variable.  (I.e, the variable should increase in value with each loop.)
 
 
 
-3. Write a for loop that goes through the rows of the `trees` data frame and prints the value of `Count` if the `Species` is `Acer rubrum`.
+3. Write a for loop that goes through the rows of the `trees` data frame and prints the value of `Count` if the `Species` is `Acer rubrum`. In this case, the for loop should be used to indicate which row of `trees` (or, which element of a variable within `trees`), to examine.
 
 
 
-4. Write a for loop that goes through the `nutrients` data frame and prints the value of each `Nitrite` observation plus 1. 
-    + Next, create a vector called `nitrite_plus`, and modify your for loop to add the "Nitrite plus 1" values to the end of this vector.   
+4. Write a for loop that goes through the `nutrients` data frame and prints the value of each `Nitrite` observation plus 1. As above, the for loop effectively indicates which row to examine.
+    + Next, create an empty vector called `nitrite_plus`. (You can do this with `c()`.) Then, modify your for loop so that it adds each "Nitrite plus 1" value to the end of this vector.   
 
 #### Bonus challenge
 
-5. Write a for loop that goes through the `nutrients` data and prints out whether or not dissolved inorganic nitrogen (the sum of nitrate, ammonium, and nitrite) is greater than 12. Use the `dplyr` function `slice`, which lets you select rows of a data frame by their order.
+5. Write a for loop that goes through the `nutrients` data by row and prints out the result of a conditional statement testing whether or not dissolved inorganic nitrogen (the sum of nitrate, ammonium, and nitrite) is greater than 12. Use the `dplyr` function `slice`, which lets you select rows of a data frame by their order. (Try `slice(nutrients, 2)` with several numeric values, and look at the help file for `slice` for more information on this function.)
 
 <br>
 <hr>

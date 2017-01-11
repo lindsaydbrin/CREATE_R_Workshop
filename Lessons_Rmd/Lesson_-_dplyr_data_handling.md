@@ -374,7 +374,7 @@ trees %>%
 
 ## Tallying
 
-You may often want to know the number of observations found for each factor or combination of factors. One way to do this would be to use `group_by()` and `summarize()` along with `length()`, to figure out the length of the vector with elements from each group.  However, `dplyr` also provides a function that does this directly: `tally()`. For example, if we wanted to know how many individual species counts were made in each province, we could do the following:
+You may often want to know the number of observations found for each factor or combination of factors in a data frame. `dplyr` provides a function that does this directly: `tally()`. For example, if we wanted to know how many individual species counts were made in each province, we could do the following:
 
 
 ```r
@@ -393,6 +393,26 @@ trees %>%
 ```
 
 In the above code, `tally()` is applied to each of the groups created by `group_by()`, and it counts the total number of records for each category.
+
+We could also do this with the `summarize()` function introduced above, by using it with the function `n()`, which counts the number of observations in a group.
+
+
+```r
+trees %>%
+	group_by(Province) %>%
+	summarize(Records = n())
+```
+
+```
+## # A tibble: 3 × 2
+##        Province Records
+##           <chr>   <int>
+## 1 New Brunswick      90
+## 2       Ontario     120
+## 3        Quebec      90
+```
+
+Here, we have the same output as above, except that we've defined the variable that indicates the number of records for each province.  Note that there are often multiple ways to accomplish the same task in R!
 
 ### Challenge
 

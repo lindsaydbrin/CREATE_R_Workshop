@@ -12,6 +12,8 @@ layout: topic
 ---
 
 ```{r opts, echo = FALSE}
+setwd("~/Documents/R/CREATE_R_Workshop/Lessons_Rmd")
+
 # To output plots as .png figures, run this.
 # If nec., use a variation of this line in the terminal to change the names as desired:
 #  ls -1 | awk '/png/{old=$0;gsub("-1.png",".png",$0);system("mv \""old"\" "$0)}'
@@ -110,46 +112,52 @@ Despite the similarities in summary statistics, it is clear that blindly impleme
 
 In conclusion: *plot your data!*   
 
-Let's look at the relationship between richness and TOC in the Inverts dataset. We will start with a scatterplot of the two variables.
+If you want to get a broad overview of the relationships between your variables, you can start by running `plot()` on the full dataset, which will plot every variable against every other variable.  Try this on your own for the `Inverts` dataset by running the following:
+
+```{r, eval = FALSE}
+plot(Inverts)
+```
+
+For this lesson, let's look at the relationship between richness and TOC. We will start with a scatterplot of the two variables.
 
 ```{r, out.width = '500pt', fig.align='center'}
 plot(Richness ~ TOC, data=Inverts, pch=19, las=1)
 ```
 
-It looks like a linear regression would be a reasonable approach for this data set.   
+It looks like a linear regression would be a reasonable approach to look at the relationship between these variables in this dataset.   
 
 ## Running a linear regression {#fitModel}
 
-For linear regression in R, we use the function `lm`. We call the function, and assign the resulting model to a variable, using this general syntax (where the data are in a data frame called `dataset`):
+For linear regression in R, we use the function `lm`. We call the function, and assign the resulting model to a variable, using this general syntax (where the data are in a data frame called `dataset`; `x.variable`, `y.variable`, and `dataset` would be substituted with the names of your x variable, y variable, and data frame respectively):
 
 ```{r, eval=FALSE}
 
 # Linear regression of y variable versus x variable
-	model <- lm(dataset$y.variable ~ dataset$x.variable) 
+	model <- lm(dataset$y_variable ~ dataset$x_variable) 
 
 # OR
 
 # Same result, cleaner syntax
-	model <- lm(y.variable ~ x.variable, data=dataset) 
+	model <- lm(y_variable ~ x_variable, data=dataset) 
 
 ```
 
 So, for the Inverts data:
 
 ```{r}
-Inverts.lm <- lm(Richness ~ TOC, data = Inverts)
+Inverts_lm <- lm(Richness ~ TOC, data = Inverts)
 ```
 
 Looking at the model object will give us the information about the coefficients - i.e., the intercept and the slope of the model - along with the original model formula.
 
 ```{r}
-Inverts.lm
+Inverts_lm
 ```
 
 To get more information about the linear regression, we can use the `summary` function.
 
 ```{r}
-summary(Inverts.lm)
+summary(Inverts_lm)
 ```
 
 Take a look at the `Coefficients` section of the output. The `Estimate` column tells us the intercept of the regression, as well as the slope of the relationship of Richness with TOC. The standard errors of these estimates is given in the next column over, `Std. Error`. The last column, `Pr(>|t|)`, gives us the p-values. A p-value indicates significance by indicating the likelihood of your data given the null hypothesis (that the coefficients have values equal to 0). Specifically, it is the probability of finding the observed (or a "more extreme") result if, in fact, the null hypothesis is correct. These p-values are based on the t-statistic given in the `t value` column.    
@@ -162,10 +170,10 @@ You could obtain the same information by piping the output of the model to `summ
 
 ## Check model assumptions {#checkAssumptions}
 
-To assess the residuals, we will look at a plot of the residuals against the fitted values, to see if there are any apparent patterns. We can access the residuals using `resid(Inverts.lm)`, and the fitted values using `fitted(Inverts.lm)`.
+To assess the residuals, we will look at a plot of the residuals against the fitted values, to see if there are any apparent patterns. We can access the residuals using `resid(Inverts_lm)`, and the fitted values using `fitted(Inverts_lm)`.
 
 ```{r, out.width = '500pt', fig.align='center'}
-plot(resid(Inverts.lm) ~ fitted(Inverts.lm), xlab="Fitted values", ylab="Residuals")
+plot(resid(Inverts_lm) ~ fitted(Inverts_lm), xlab="Fitted values", ylab="Residuals")
 ```
 
 Fortunately, it doesn't look like the residuals are dependent on the fitted values.   
@@ -175,7 +183,7 @@ Now we'll check the normality of the residuals. We can do that in two ways: firs
 We use the function `hist` to make a histogram of the residuals. The groupings are calculated by default, but you can change this with the argument `breaks` if you'd like.
 
 ```{r, out.width = '500pt', fig.align='center'}
-hist(resid(Inverts.lm), xlab = "Residuals", main = "Histogram of residuals of Inverts.lm")
+hist(resid(Inverts_lm), xlab = "Residuals", main = "Histogram of residuals of Inverts_lm")
 ```
 
 The distribution of values looks relatively normal. There might be a slight skew, but given the relatively small sample size, the histogram does not give us evidence to reject normality.    
@@ -183,8 +191,8 @@ The distribution of values looks relatively normal. There might be a slight skew
 Now we'll plot a QQ plot.  A QQ plot compares the distribution of two given sets of data by plotting quantiles against each other, hence the Qs in QQ plot. With the `qqnorm` function, the input vector (here, the residuals of our linear regression model) is compared against normally distributed data. To do this, both data sets are sorted and then plotted against each other. If the input data set is normal, the points should fall along the line where x equals y. The function `qqline` plots that line, to make it easier to assess the data.
 
 ```{r, out.width = '500pt', fig.align='center'}
-qqnorm(resid(Inverts.lm)) 
-qqline(resid(Inverts.lm))
+qqnorm(resid(Inverts_lm)) 
+qqline(resid(Inverts_lm))
 ```
 
 When the data do not fall on the line, the shape of their curve can tell you about the distribution of the data. In our case, the QQ plot indicates that the residuals are normally distributed.
@@ -194,34 +202,34 @@ When the data do not fall on the line, the shape of their curve can tell you abo
 If you're working with lots of linear regressions at once, e.g. if you are calculating rates for a linear process for many samples, it can be helpful to automatically extract summary statistics on the linear regression. Some of these are easier to extract than others. Let's take another look at the model summary output, along with the attributes of the model summary, using the function `attributes`.
 
 ```{r}
-summary(Inverts.lm)
-attributes(summary(Inverts.lm))
+summary(Inverts_lm)
+attributes(summary(Inverts_lm))
 ```
 
 We can access the different attributes by name from the summary object. For example, let's look at the adjusted r^2^.
 
 ```{r}
-summary(Inverts.lm)$adj.r.squared
+summary(Inverts_lm)$adj.r.squared
 ```
 
 Pulling out the regression equation and the p-value of the model take a few more steps. All of the values are in the `coefficients` table. 
 
 ```{r}
-summary(Inverts.lm)$coefficients
+summary(Inverts_lm)$coefficients
 ```
 
 To pull out a particular value, you could access it by specifying its position in the table.   
 
 ```{r}
 # Get p-value for TOC, which is in the 2nd row and 4th column
-summary(Inverts.lm)$coefficients[2, 4]
+summary(Inverts_lm)$coefficients[2, 4]
 ```
 
 Alternatively, you can specify the names of the rows and columns.
 
 ```{r}
 # Get p-value for TOC using row and column names
-summary(Inverts.lm)$coefficients["TOC", "Pr(>|t|)"]
+summary(Inverts_lm)$coefficients["TOC", "Pr(>|t|)"]
 
 ```
 
@@ -250,9 +258,9 @@ For simple regression, the t-value and p-value for the linear fit between the tw
 	plot(Richness ~ MeanTemperature, data = Inverts, pch=19, las=1)
 		# Doesn't look like much, but there may be a postive relationship, so let's check the model anyhow.
 # Create linear model
-	InvertsChallenge.lm <- lm(Richness ~ MeanTemperature, data = Inverts)
+	InvertsChallenge_lm <- lm(Richness ~ MeanTemperature, data = Inverts)
 # Look at summary of model
-	summary(InvertsChallenge.lm)
+	summary(InvertsChallenge_lm)
 		# The model is not significant!
 ```
 
@@ -311,7 +319,7 @@ plot(Richness ~ TOC, data=Inverts, pch=19, xlim=c(0, 1.6), ylim=c(0, 120)
 		mtext(side=1, line=2, text="Total organic carbon (%)", cex=1.2)
 	axis(2, pos=0, las=1, cex.axis=1.2)  # Add y-axis; place it at x = 0
 		mtext(side=2, line=2, text="Species richness", cex=1.2)
-abline(Inverts.lm) # Plot linear regression
+abline(Inverts_lm) # Plot linear regression
 ```
 
 However, you can see that the line extends to the end of the plot margins, which can look awkward if you've specified the placement of your axes. An alternative approach is to draw a line with x and y coordinates of your choosing. For this plot, we might want to use x = 0.3 and 1.4. To calculate the appropriate y-values, we can use the `predict` function. This function uses the linear regression to calculate modeled values for the response variable based on the selected values for the explanatory variable. Once we have the y values, we can use the function `lines` to draw a line with specified x and y coordinates. We can use many of the same `par` arguments for `lines` as we can with `points`.
@@ -325,7 +333,7 @@ plot(Richness ~ TOC, data=Inverts, pch=19, xlim=c(0, 1.6), ylim=c(0, 120)
 		mtext(side=2, line=2, text="Species richness", cex=1.2)
 
 # Calculate y values given specified x values, then plot x and y values
-yvals <- predict(Inverts.lm, newdata=data.frame(TOC = c(0.3, 1.4)))
+yvals <- predict(Inverts_lm, newdata=data.frame(TOC = c(0.3, 1.4)))
 lines(x = c(0.3, 1.4), y = yvals, col="mediumorchid", lwd=2)
 ```
 
@@ -347,8 +355,8 @@ It really doesn't look like there's a relationship between these two variables, 
 To do a multiple linear regression, we add variables to the formula in the `lm ` function. As an example, let's look at the relationship between the response variable `Richness` and the explanatory variables `TOC` and `CurrentVariability`. As with simple regression, we can look at the model with `summary`.
 
 ```{r}
-Inverts2.lm <- lm(Richness ~ TOC + CurrentVariability, data=Inverts)
-summary(Inverts2.lm)
+Inverts2_lm <- lm(Richness ~ TOC + CurrentVariability, data=Inverts)
+summary(Inverts2_lm)
 ```
 
 The output suggests that species richness is significantly dependent on total organic carbon but not variability in current speed, and adding current speed to the model is not necessary for explaining variability in species richness.
@@ -360,13 +368,13 @@ If we replaced the `+` with `*`, the model would include both explanatory variab
 	lm(Richness ~ TOC * CurrentVariability, data=Inverts)  
 
 # Specify main effects separately from the interaction
-	lm(Richness ~ TOC + CurrentVariability + TOC:CurrentVariability)  
+	lm(Richness ~ TOC + CurrentVariability + TOC:CurrentVariability, data = Inverts)  
 ```
 
 Let's go back to the original model. If you want to do an F-test and compare F-values rather than t-values, you can use the `drop1` function, which looks at the effect on the entire model of adding the specified variable last. This will be more important in the next lesson on ANOVA. In short, for a linear regression, you get the same p-values as you do using `summary`, but `drop1` lets you pull out the F-values if you need them. In the function call, you give as arguments the original model, an argument specifying the terms to be considered for adding or dropping (`.~.` for all terms), and the test statistic of interest.
 
 ```{r}
-drop1(Inverts2.lm, .~., test="F")
+drop1(Inverts2_lm, .~., test="F")
 ```
 
 Of course, to use this model, you should then check that your residuals are normally distributed and not dependent on the explanatory variables!
@@ -379,18 +387,18 @@ We will check the residuals similarly to above, but with our multiple regression
 # Set plot layout and margins
 	par(mfrow=c(1,2), mar=c(8,5,7,2))
 # Plot histogram
-	hist(resid(Inverts2.lm))  
+	hist(resid(Inverts2_lm))  
 # Make QQ plot to check normality
-	qqnorm(resid(Inverts2.lm))  
-	qqline(resid(Inverts2.lm))
+	qqnorm(resid(Inverts2_lm))  
+	qqline(resid(Inverts2_lm))
 # Set plot layout and margins
 	par(mfrow=c(2,2), mar=c(5,5,2,2))  
 # Plot residuals against TOC (explanatory variable)
-	plot(Inverts$TOC, resid(Inverts2.lm), pch=19, las=1)  
+	plot(Inverts$TOC, resid(Inverts2_lm), pch=19, las=1)  
 # Plot residuals against Current Variability (explanatory variable)
-	plot(Inverts$CurrentVariability, resid(Inverts2.lm), pch=19, las=1)
+	plot(Inverts$CurrentVariability, resid(Inverts2_lm), pch=19, las=1)
 # Plot residuals against fitted values
-	plot(fitted(Inverts2.lm), resid(Inverts2.lm), pch=19, las=1)  
+	plot(fitted(Inverts2_lm), resid(Inverts2_lm), pch=19, las=1)  
 # Reset plot layout and margins
 	par(mfrow=c(1,1), mar=c(5,5,2,2))  
 ```

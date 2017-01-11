@@ -128,6 +128,83 @@ exists("otherFunctionName")  # Should not exist, unless you have defined it on y
 ## [1] FALSE
 ```
 
+## Functions with multiple arguments
+
+It is straightforward to add more arguments to your function. To do this, add the argument names as arguments to `function()`, and include them in the function definition. For example, let's say that you want to write a function called `multiply`, which multiplies two numbers together.  In this case, you would need to be able to specify both numbers within the call to `multiply`.  You could write this function as follows:
+
+
+```r
+multiply <- function(x, y){
+	value = x * y
+	return(value)
+}
+```
+
+Here, the function `multiply` takes two arguments, `x` and `y`, multiplies them together, and returns the result.
+
+
+```r
+multiply(x = 4, y = 6)
+```
+
+```
+## [1] 24
+```
+
+```r
+multiply(x = 12, y = 3)
+```
+
+```
+## [1] 36
+```
+
+## Returning multiple elements
+
+As mentioned above, if you want to return multiple elements, you can do so by combining them into one object.  For example, if you want to return 2 values, you can create a vector with both elements, and then return the vector.
+
+Let's say that we want to write a function that returns two sentences: one restating the number, and one stating the square root.  We could do so as follows:
+
+
+```r
+squareRootSentence <- function(x){
+	sentence1 <- paste("The original number was ", x, ".", sep = "")
+	sentence2 <- paste("The square root of ", x, " is ", sqrt(x),".", sep = "")
+	result <- c(sentence1, sentence2)
+	return(result)
+}
+
+squareRootSentence(16)
+```
+
+```
+## [1] "The original number was 16." "The square root of 16 is 4."
+```
+
+We can then access each part of the result using square bracketing, either with the original function or by assigning the function's result to a variable:
+
+
+```r
+# Using the function output directly
+	squareRootSentence(16)[1]
+```
+
+```
+## [1] "The original number was 16."
+```
+
+```r
+# OR by assigning the function's result to a variable
+	sentences <- squareRootSentence(16)
+	sentences[1]
+```
+
+```
+## [1] "The original number was 16."
+```
+
+Of course, this could also be be done with a numeric vector (or any other class).
+
 ## Another example: `if` statements within functions {#ifFunctions}
 
 You can combine functions with everything else that you have learned so far. For example, you can put an `if` statement into a function.  Let's try this using an example from the lesson on `if` statements: an `if` statement that indicates whether a number is even or odd. The original code required us to specify the value of a variable first, and then run the line of code with the `if` statement.  If we instead write a function, we can re-use this line of code much more simply.
@@ -264,97 +341,28 @@ This can be useful when you want to have an option to specify a parameter, but o
 	* A data checking function that does the following:   
 	    + Checks whether there are any variables that are not numeric, and prints a statement reporting the conclusion   
 	    + Returns observations for sites that have missing values (`NA`) for any measurement variables
-	* A function that counts how many sites have richness greater than 40, and returns a sentence with the answer.
-	* A function that plots any variable in the Inverts data set against Richness. You can use `get` in the form `get("variable name")` to call a variable using its name as a character string, which may help with passing variable names into a function. If you're feeling more adventurous, set the plot's y-limits to go from 0 to the maximum of the variable being plotted.
+	* A function that counts how many sites have richness greater than 60, and returns a sentence with the answer.
+	* A function that plots any variable in the Inverts data set against Richness. You can use `get` in the form `get("variable name")` to call a variable using its name as a character string, which may help with passing variable names into a function. For example, to select the `MeanTemperature` variable in the `Inverts` data frame, you could do the following:
+	
+		
+		```r
+		Inverts %>% 
+			select(get("MeanTemperature"))
+			
+		# OR 
+		
+		variable_name <- "MeanTemperature"
+		Inverts %>% 
+			select(get(variable_name))
+		```
+	
+		Try the above code on your own, and see the help file for get with `?get` to learn more about this.
+	
+		If you're feeling more adventurous, set the plot's y-limits to go from 0 to the maximum of the variable being plotted.
 
 <br>
 
-<!--
-_______
-<br>
-#### Challenge solutions {#challengeSolns}
 
-* Here is one solution for a function that checks whether any variables are non-numeric and returns observations with missing data:
-
-
-```r
-Inverts <- read.csv(file="../Data/Inverts.csv", stringsAsFactors=FALSE, header=TRUE)
-
-checkData <- function(dataset){
-  # Print output based on whether any variables are not numeric
-  if (any(!is.numeric(dataset$Richness), !is.numeric(dataset$TOC), !is.numeric(dataset$CurrentVariability), !is.numeric(dataset$MeanTemperature)) == TRUE) {print("At least one variable is not numeric")} else {
-    print("All variables are numeric") 
-    }
-  # Which observations have NA values for one of the measured variables?
-  	print("The following observations (if any) have NA values for at least one of the measured variables:")
-    dataset %>%
-      filter(is.na(Richness) | is.na(TOC) | is.na(CurrentVariability) | is.na(MeanTemperature) | is.na(Type) | is.na(Country))
-}
-
-checkData(Inverts)
-```
-
-```
-## [1] "All variables are numeric"
-## [1] "The following observations (if any) have NA values for at least one of the measured variables:"
-```
-
-```
-##   Site Richness  TOC CurrentVariability MeanTemperature   Type Country
-## 1   20       69 0.89               47.5              NA Forest  Canada
-```
-
-<br>
-
-* Here is an option for a function that counts how many sites have richness greater than 40.
-
-
-```r
-richnessThreshold <- function(dataset){
-  # Count how many sites have species richness greater than 40
-    richSites <- dataset %>%
-      filter(Richness > 40) %>%
-      tally()
-  return(paste("There are ",richSites," sites that have richness greater than 40.", sep="") )
-}
-
-richnessThreshold(Inverts)  
-```
-
-```
-## [1] "There are 24 sites that have richness greater than 40."
-```
-
-<br>
-
-* Here is an example of a function that will plot a variable in the Inverts data set against species richness.
-
-
-```r
-plotVsRichness <- function(dataset, yvariable){
-  # Find y-axis limits to be able to start at 0 (not necessary, but helps with plot aesthetics)
-    ymax <- dataset %>%
-              select(get(yvariable)) %>%  
-              unlist() %>%  # Take out of list form
-              max(na.rm=T) %>%   # Find maximum value
-    			# Round up to the nearest two:
-    					`/`(2) %>%  # Divide by two, using the division inline function as a normal function via `
-              ceiling %>%  # Ceiling rounds up to the nearest whole number
-    					`*`(2)  # Multiply by two, using the * inline function as a normal function via `
-  # Make plot  
-    plot(get(yvariable) ~ Richness, data=dataset, ann=FALSE, axes=FALSE, pch=19, ylim=c(0,ymax), xlim=c(0,100))
-    # Add axes and labels
-      axis(1, pos=0) # Only if the plot is set to start at 0
-        mtext(side=1,line=2,"Richness")
-      axis(2, pos=0, las=1)
-        mtext(side=2, line=2, yvariable)
-}
-
-plotVsRichness(Inverts, "MeanTemperature")  # Plot mean temperature against richness
-plotVsRichness(Inverts, "TOC")  # Plot total organic carbon against richness
-```
-
--->
 
 _______
 

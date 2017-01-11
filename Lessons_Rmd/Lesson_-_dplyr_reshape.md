@@ -190,7 +190,7 @@ What happens if you only select two of the three columns of data?
 
 ## One more trick: `separate` {#separate}
 
-Sometimes a variable may contain information that really makes up two variables.  For example, the following data frame has one column that indicates both the nutrient analyzed and the sample replicate.
+Sometimes a variable may contain information that really makes up two variables.  For example, the following data frame has one column that indicates both the nutrient analyzed and the sample replicate. (Note that `dbl` is the letters dbl, short for "double", and not db1.)
 
 
 ```r
@@ -254,7 +254,7 @@ Voilà! One column has become two.  Now we are in a position to further tidy the
 
 #### Challenge {#challengeDataFormat}
 
-1. The `trees` data frame is in long format: every observation (count) is in its own row, and the tree species is specified by the variable `Species`. Convert this data frame to wide format, with counts for different species in different columns.
+1. The `trees` data frame is in long format: every observation (count) is in its own row, and the tree species is specified by the variable `Species`. Re-read in this data frame, then convert it to wide format, with counts for different species in different columns.
 
 
 

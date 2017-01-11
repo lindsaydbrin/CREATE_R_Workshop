@@ -1,5 +1,5 @@
 ---
-title: "Day 1 Scripting Challenge"
+title: "Scripting Challenge"
 output:
   html_document:
     highlight: tango
@@ -21,21 +21,27 @@ ___
 
 # Why, and what? {#motivation}
 
-Let's put together everything you've learned!  This lesson will give you practice with the contents of today's lesson, and give you an example of the kind of R script that you might write for your own work.
+Let's put together everything you've learned!  This lesson will give you practice with the contents of the lessons so far, and give you an example of the kind of R script that you might write for your own work.
 
 ___
 
 # Your mission {#mission}
 
-The data file `Fundybirds.csv` contains data on bird species counted in Fundy National Park during the Audubon Society's annual [Christmas Bird Count](http://www.audubon.org/conservation/science/christmas-bird-count).  Your goal is to write a new R script that does a basic analysis of these data.  
+The data file `Fundybirds.csv` contains data on bird species counted in Fundy National Park during the Audubon Society's annual [Christmas Bird Count](http://www.audubon.org/conservation/science/christmas-bird-count).  Your goal is to write a new R script that does a basic analysis of these data.
 
-Be sure to begin the script with commented lines with the file name, your name, the date, and a description of the script, and also comment liberally throughout the script to indicate what your code does!
+`Fundybirds.csv` is a list of birds that were sighted during the bird count. Each observation (row) in `Fundybirds.csv` represents one bird sighting. The dataset contains the following variables:
+
+**Column**      | **Description**
+----------------|----------------------
+CommonName      | Common name for the observed bird 
+ScientificName  | Scientific name for the observed bird
+Hour            | Hour during which the bird was counted
 
 Your script should do the following:
 
-* Read in the file `Fundybirds.csv`
+* Read in the file `Fundybirds.csv`.
 
-* Look at the structure of the data
+* Look at the structure of the data.
 
 * Create data frames that answer the following questions: (Hint: Use `dplyr` functions!)
 
@@ -43,34 +49,8 @@ Your script should do the following:
 	
 	+ Which birds were counted more than 10 times?
 
-* Make a table that shows how many species were counted each hour
+* Make a table that shows how many birds were counted each hour.
 
-* Plot this table using a barplot
+* Plot this table using a barplot.
 
-```{r, echo=FALSE, eval=FALSE}
-
-## ScriptingChallenge.R
-## LDBrin
-## September 2016
-##
-## This script analyzes bird count data from the 2015 Audubon Society Christmas Bird Count.
-## It assesses the number of times that each type of bird was counted, as well as how many were counted each hour.
-
-## Load required packages
-	library(dplyr)
-
-# Read in the file
-	Fundybirds <- read.csv(file="~/Documents/R/CREATE_R_Workshop/Data/Fundybirds.csv")
-
-# Look at the structure
-	str(Fundybirds)
-
-# How many times was each bird counted, and which birds were counted more than 10 times?
-	Fundybirds %>% group_by(CommonName) %>% summarize(Count=length(CommonName))
-	Fundybirds %>% group_by(CommonName) %>% summarize(Count=length(CommonName)) %>% filter(Count>10)
-
-# How many birds were counted in each hour?  Make a table and a barplot.
-	Fundybirds$Hour %>% table
-	Fundybirds$Hour %>% table %>% barplot(las=1, ylab="Count", xlab="Hour")
-```
-
+Be sure to begin the script with commented lines with the file name, your name, the date, and a description of the script, and also comment liberally throughout the script to indicate what your code does!

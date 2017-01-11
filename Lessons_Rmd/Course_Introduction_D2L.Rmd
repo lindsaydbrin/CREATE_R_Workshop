@@ -18,6 +18,7 @@ ___
 **Welcome to Introduction to R for Ecological Data Analysis!**
 
 R is a powerful, free, open-source, and widely used tool for working with data that can allow you to streamline your analysis process, increase reproducibility, catch and avoid mistakes, and access newly developed analyses and statistical approaches.  
+
 This course will provide you with the tools for reading in, manipulating, analyzing, and visualizing data in R.  For example, we will cover topics such as cleaning and organizing data, joining data sets, working with factors, writing functions, using for loops and if…else statements, etc.
 
 ___

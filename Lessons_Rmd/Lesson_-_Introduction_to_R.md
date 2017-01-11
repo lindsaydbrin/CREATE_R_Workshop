@@ -275,7 +275,7 @@ Vectors are just one of the different kinds of **data structures** that R uses. 
 
 ### Challenge
 
-7. What happens if you try to mix several different object types (character, numeric, integer, logical) into a single vector?  Why do you think this happens?
+7. What happens if you try to mix several different object classes (character, numeric, integer, logical) into a single vector?  Why do you think this happens?
 
 8. What is the class of the resulting vector in each of the following examples?
 

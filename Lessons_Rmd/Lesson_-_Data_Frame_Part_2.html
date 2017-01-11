@@ -180,8 +180,9 @@ $(document).ready(function () {
 <pre><code>## [1] 1 4 7</code></pre>
 <div id="challengeSequences" class="section level4">
 <h4>Challenge</h4>
+<p>Use <code>seq</code> to solve the following challenges.</p>
 <ol style="list-style-type: decimal">
-<li><p>Create a vector with 6 elements that counts up from 27.</p></li>
+<li><p>Create a vector with 6 elements that counts up from 27 (by 1), without specifying the <code>to</code> argument.</p></li>
 <li><p>Create a vector with 5 equally spaced elements between 100 and 200.</p></li>
 <li><p>Create a vector of every other number between 24 and 42.</p></li>
 <li><p>Create a vector of numbers less than 100 that are divisible by 5.</p></li>
@@ -228,6 +229,24 @@ trees_small</code></pre></div>
 <p>You can also exclude certain parts of a data frame by using a minus sign.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trees[, -<span class="dv">1</span>]   <span class="co"># The whole data frame, except the first column</span>
 trees[-<span class="kw">c</span>(<span class="dv">7</span>:<span class="dv">300</span>), ]  <span class="co"># Equivalent to head(trees)</span></code></pre></div>
+<div id="bracket-subsetting-with-logical-vectors" class="section level3">
+<h3>Bracket subsetting with logical vectors</h3>
+<p>In the above examples, rows and columns were selected using numeric values. You can also select either using logical vectors, as long as they are the correct length (i.e., the number of rows or columns). These logical vectors would typically be the result of a conditional statement. For example, you could select only the rows where the <code>Province</code> is <code>New Brunswick</code>. This would use the following conditional statement (run this code on your own):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trees$Province ==<span class="st"> &quot;New Brunswick&quot;</span></code></pre></div>
+<p>To subset <code>trees</code> and keep the rows where the <code>Province</code> is <code>New Brunswick</code>, you could use the following code, where the conditional statement is used to indicate which rows to keep:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trees_NB &lt;-<span class="st"> </span>trees[trees$Province ==<span class="st"> &quot;New Brunswick&quot;</span>, ] 
+<span class="kw">head</span>(trees_NB)</code></pre></div>
+<pre><code>##          Province        Site Plot                 Species Count
+## 211 New Brunswick Fredericton    1           Pinus strobus    21
+## 212 New Brunswick Fredericton    1             Acer rubrum    25
+## 213 New Brunswick Fredericton    1          Cornus florida    24
+## 214 New Brunswick Fredericton    1            Quercus alba    32
+## 215 New Brunswick Fredericton    1 Liriodendron tulipifera    15
+## 216 New Brunswick Fredericton    1        Tsuga canadensis    27</code></pre>
+<p>This is conceptually similar to using conditional statements to subset vectors, as in <em>Introduction to R</em>, where <code>TRUE</code> keeps an element and <code>FALSE</code> does not. However, with data frames, you need to specify values for both rows and columns - one more dimension than for vectors. In the above example, this is done by including the comma with an empty place afterward, to indicate all columns.</p>
+</div>
+<div id="selecting-columns" class="section level3">
+<h3>Selecting columns</h3>
 <p>Columns in a data frame can also be called by name, rather than using numeric values. There are several ways to do this:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trees[<span class="st">&quot;Species&quot;</span>]       <span class="co"># Result is a data.frame with only this column.</span>
 trees[, <span class="st">&quot;Species&quot;</span>]     <span class="co"># Result is a vector</span>
@@ -242,12 +261,13 @@ trees$Species          <span class="co"># Result is a vector</span></code></pre>
 <ol start="6" style="list-style-type: decimal">
 <li><p>Create a new data frame that contains only the 250th row of <code>trees</code>.</p></li>
 <li><p>Create a new data frame that includes the 10th through 20th rows of <code>trees</code>.</p></li>
-<li><p>Create a new data frame that only includes data where <code>Count</code> is equal to 30. (Hint: How would you identify which rows are the correct ones?)</p></li>
+<li><p>Create a new data frame that only includes data where <code>Count</code> is equal to 30. (Hint: How would you identify which rows are the correct ones? If you’re stumped, try looking back at <em>Conditional Subsetting</em> in <em>Introduction to R</em>!)</p></li>
 <li><p>The function <code>nrow()</code> on a data frame returns the number of rows. Use <code>nrow()</code> to make a data frame with only the last row of trees.</p></li>
 <li><p>Use <code>nrow()</code> again, in conjuction with <code>seq()</code>, to create a new data frame that includes every 10th row of <code>trees</code> starting at row 10 (10, 20, 30, …). (Hint: start by creating the appropriate sequence!)</p></li>
 <li><p>Now that you’ve seen how <code>nrow()</code> can be used to stand in for a row index, let’s combine that behavior with the <code>-</code> notation above to reproduce the behavior of <code>head(surveys)</code>. I.e., exclude the 7th through final row of the <code>surveys</code> dataset without explicitly specifying the final row number.</p></li>
 </ol>
 <hr>
+</div>
 </div>
 </div>
 </div>

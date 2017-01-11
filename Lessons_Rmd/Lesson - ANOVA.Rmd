@@ -12,6 +12,7 @@ layout: topic
 ---
 
 ```{r opts, echo = FALSE}
+setwd("~/Documents/R/CREATE_R_Workshop/Lessons_Rmd")
 
 # To output plots as .png figures, run this.
 
@@ -105,13 +106,13 @@ Now we can fit the model. We'll store it as a named object so that we can work w
 You can name this object however you want, but it's good to be consistent with your naming scheme throughout your code, so that you can easily identify what kind of object you are working with. There are multiple naming conventions used in R and R packages, as well as multiple style guides (e.g., see [here](https://journal.r-project.org/archive/2012-2/RJournal_2012-2_Baaaath.pdf)). In the case below, the `.` in the model name is only for convenient reading.  (There is some debate on when and how this `.` should be used. This is in part because the `.` has a specific meaning in other programming languages, whereas it is simply another character in an R variable name.)  
 
 ```{r}
-InvertsType.mod <- aov(Richness ~ Type, data=Inverts)
+InvertsType_mod <- aov(Richness ~ Type, data=Inverts)
 ```
 
 Now let's take a look at the model object with `summary`. 
 
 ```{r}
-summary(InvertsType.mod)
+summary(InvertsType_mod)
 ```
 
 This output gives us the results of an F-test with the null hypothesis that the groups are from the same statistical population, which would mean that their means do not vary. We can see that *p*<0.001, indicating that the groups are likely from different populations. Thus, species richness significantly varies with catchment type.
@@ -124,11 +125,11 @@ Of course, we can't use this model unless we know that we have satisfied the mod
 
 ```{r, out.width = '600 pt', fig.align='center'}
 par(mfrow=c(2,2))  # Set plot layout
-hist(resid(InvertsType.mod), las=1)  # Look at distribution of residuals
-qqnorm(resid(InvertsType.mod), las=1)  # Compare distribution of residuals to a normal distribution
-qqline(resid(InvertsType.mod))
-plot(fitted(InvertsType.mod), resid(InvertsType.mod), las=1)  # Do residuals vary by fitted values?
-plot(Inverts$Type, resid(InvertsType.mod), las=1)  # Do the residuals vary by group?
+hist(resid(InvertsType_mod), las=1)  # Look at distribution of residuals
+qqnorm(resid(InvertsType_mod), las=1)  # Compare distribution of residuals to a normal distribution
+qqline(resid(InvertsType_mod))
+plot(fitted(InvertsType_mod), resid(InvertsType_mod), las=1)  # Do residuals vary by fitted values?
+plot(Inverts$Type, resid(InvertsType_mod), las=1)  # Do the residuals vary by group?
 par(mfrow=c(1,1))  # Re-set plot layout
 ```
 
@@ -138,7 +139,7 @@ We can also make similar plots by making a function call to `plot` using the mod
 
 ```{r, out.width = '600pt', fig.align='center'}
 par(mfrow=c(2,2))  # Set plot layout for 4 plots
-plot(InvertsType.mod, las=1)  # Plot residuals for our ANOVA
+plot(InvertsType_mod, las=1)  # Plot residuals for our ANOVA
 par(mfrow=c(1,1))  # Re-set plot layout
 ```
 
@@ -151,7 +152,7 @@ These plots indicate that out model is appropriate for these data, and we can re
 We've interpreted the results to mean that species richness varies with catchment type. But, which catchment types differ from each other? To assess this, we can use a Tukey test with the function `TukeyHSD` (for Tukey's "Honestly Significant Difference" method).
 
 ```{r}
-TukeyHSD(InvertsType.mod)
+TukeyHSD(InvertsType_mod)
 ```
 
 The top part of the output tells us that we're using 95% confidence intervals. If for some reason we wanted to change this, we could use the argument `conf.level`, which defaults to 0.95.
@@ -207,8 +208,8 @@ We can still see the differences between catchment type, but it's difficult to t
 Implementing a two-way ANOVA is similar to implementing ANOVA, in that we will use the model function (`aov`). It is also similar to multiple regression, in terms of the way that we specify multiple factors or explanatory variables. Here, we will use * to include both main effects and their interaction.
 
 ```{r}
-Inverts2way.mod <- aov(Richness ~ Type * Country, data=Inverts)
-summary(Inverts2way.mod)  # F-test with Type I Sum of Squares (probably not appropriate!)
+Inverts2way_mod <- aov(Richness ~ Type * Country, data=Inverts)
+summary(Inverts2way_mod)  # F-test with Type I Sum of Squares (probably not appropriate!)
 ```
 
 Here is where it is important to remember that `summary` gives you results using Type I Sum of Squares! So, do not stop here to determine the significance of the independent variables.
@@ -231,10 +232,10 @@ If we want the results of an F-test using type III SS, we have several options -
 
 ```{r}
 # With drop1, the scope argument designates the terms to be dropped; the . means all of them.
-drop1(Inverts2way.mod, scope = ~., test="F")  
+drop1(Inverts2way_mod, scope = ~., test="F")  
 
 library("car")
-Anova(Inverts2way.mod, type="III")  # Specify Type III SS
+Anova(Inverts2way_mod, type="III")  # Specify Type III SS
 ```
 
 With either function, we get the *p*-value for the F test with the null hypothesis that the different groups are from the same statistical population and thus have the same means. Here, *p*<0.05 for catchment `Type`! So this indicates that there are significant differences in species richness in streams from different catchment types.   
@@ -247,7 +248,7 @@ To use this model, we need to check that its assumptions have been met. We will 
 
 ```{r, out.width = '600pt', fig.align='center'}
 par(mfrow=c(2,2))  # Set plot layout
-plot(Inverts2way.mod, las=1)
+plot(Inverts2way_mod, las=1)
 par(mfrow=c(1,1))  # Re-set plot layout
 ```
 
@@ -257,10 +258,12 @@ And as before, our residuals look fairly normal and homogeneous, so we can repor
 
 We may still wonder about the differences between levels of the significant factor, `Type`. With a 2-way ANOVA, we can apply a Tukey test using the function `lsmeans` in the package `lsmeans`, along with the function `cld`, which controls the output that is displayed. The first argument to `cld` is an object created by `lsmeans`. `lsmeans` requires us to specify the model as well as the variable to test (e.g., `Type`), and give us confidence intervals as output, which we could use to determine which groups differ. We can also use `cld` to figure this out for us. For `cld`, we can to specify the *p*-value as `alpha`, the post-hoc test to use as `adjust`, and whether to use letters instead of the default to numbers for comparing groups.
 
+If you have not already done so, be sure to install `lsmeans` and associated dependencies, i.e. with `install.packages("lsmeans", dependencies = TRUE)`.
+
 ```{r}
 library("lsmeans")
 # Which Types vary from the others, using a Tukey test?
-	cld(lsmeans(Inverts2way.mod, specs="Type"), alpha=0.05, adjust="tukey", Letters=letters) 
+	cld(lsmeans(Inverts2way_mod, specs="Type"), alpha=0.05, adjust="tukey", Letters=letters) 
 ```
 
 Take a look at the output under `.group`. Here we can see that the `Urban` streams have significantly different invertebrate species richness than the other catchment types. And, this approach gives us the added convenience of letters that can be used to denote significance on a figure!

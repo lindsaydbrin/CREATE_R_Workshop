@@ -194,25 +194,27 @@ Inverts &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span cla
 <p><img src="Images/LMImages/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /></p>
 <p>Despite the similarities in summary statistics, it is clear that blindly implementing simple linear regression would be a very poor choice! Linear regression does a good job of describing the relationship between x and y for (a), but not for (b) and (d), and in (c), a single outlier leads to a less appropriate linear regression fit. (For underlying data, see <code>anscombe</code>.)</p>
 <p>In conclusion: <em>plot your data!</em></p>
-<p>Let’s look at the relationship between richness and TOC in the Inverts dataset. We will start with a scatterplot of the two variables.</p>
+<p>If you want to get a broad overview of the relationships between your variables, you can start by running <code>plot()</code> on the full dataset, which will plot every variable against every other variable. Try this on your own for the <code>Inverts</code> dataset by running the following:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(Inverts)</code></pre></div>
+<p>For this lesson, let’s look at the relationship between richness and TOC. We will start with a scatterplot of the two variables.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(Richness ~<span class="st"> </span>TOC, <span class="dt">data=</span>Inverts, <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">las=</span><span class="dv">1</span>)</code></pre></div>
-<p><img src="Images/LMImages/unnamed-chunk-5-1.png" width="500pt" style="display: block; margin: auto;" /></p>
-<p>It looks like a linear regression would be a reasonable approach for this data set.</p>
+<p><img src="Images/LMImages/unnamed-chunk-6-1.png" width="500pt" style="display: block; margin: auto;" /></p>
+<p>It looks like a linear regression would be a reasonable approach to look at the relationship between these variables in this dataset.</p>
 </div>
 <div id="fitModel" class="section level2">
 <h2>Running a linear regression</h2>
-<p>For linear regression in R, we use the function <code>lm</code>. We call the function, and assign the resulting model to a variable, using this general syntax (where the data are in a data frame called <code>dataset</code>):</p>
+<p>For linear regression in R, we use the function <code>lm</code>. We call the function, and assign the resulting model to a variable, using this general syntax (where the data are in a data frame called <code>dataset</code>; <code>x.variable</code>, <code>y.variable</code>, and <code>dataset</code> would be substituted with the names of your x variable, y variable, and data frame respectively):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Linear regression of y variable versus x variable</span>
-    model &lt;-<span class="st"> </span><span class="kw">lm</span>(dataset$y.variable ~<span class="st"> </span>dataset$x.variable) 
+    model &lt;-<span class="st"> </span><span class="kw">lm</span>(dataset$y_variable ~<span class="st"> </span>dataset$x_variable) 
 
 <span class="co"># OR</span>
 
 <span class="co"># Same result, cleaner syntax</span>
-    model &lt;-<span class="st"> </span><span class="kw">lm</span>(y.variable ~<span class="st"> </span>x.variable, <span class="dt">data=</span>dataset) </code></pre></div>
+    model &lt;-<span class="st"> </span><span class="kw">lm</span>(y_variable ~<span class="st"> </span>x_variable, <span class="dt">data=</span>dataset) </code></pre></div>
 <p>So, for the Inverts data:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Inverts.lm &lt;-<span class="st"> </span><span class="kw">lm</span>(Richness ~<span class="st"> </span>TOC, <span class="dt">data =</span> Inverts)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Inverts_lm &lt;-<span class="st"> </span><span class="kw">lm</span>(Richness ~<span class="st"> </span>TOC, <span class="dt">data =</span> Inverts)</code></pre></div>
 <p>Looking at the model object will give us the information about the coefficients - i.e., the intercept and the slope of the model - along with the original model formula.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Inverts.lm</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Inverts_lm</code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = Richness ~ TOC, data = Inverts)
@@ -221,7 +223,7 @@ Inverts &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span cla
 ## (Intercept)          TOC  
 ##       16.91        58.25</code></pre>
 <p>To get more information about the linear regression, we can use the <code>summary</code> function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Inverts.lm)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Inverts_lm)</code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = Richness ~ TOC, data = Inverts)
@@ -247,25 +249,25 @@ Inverts &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span cla
 </div>
 <div id="checkAssumptions" class="section level2">
 <h2>Check model assumptions</h2>
-<p>To assess the residuals, we will look at a plot of the residuals against the fitted values, to see if there are any apparent patterns. We can access the residuals using <code>resid(Inverts.lm)</code>, and the fitted values using <code>fitted(Inverts.lm)</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">resid</span>(Inverts.lm) ~<span class="st"> </span><span class="kw">fitted</span>(Inverts.lm), <span class="dt">xlab=</span><span class="st">&quot;Fitted values&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Residuals&quot;</span>)</code></pre></div>
-<p><img src="Images/LMImages/unnamed-chunk-10-1.png" width="500pt" style="display: block; margin: auto;" /></p>
+<p>To assess the residuals, we will look at a plot of the residuals against the fitted values, to see if there are any apparent patterns. We can access the residuals using <code>resid(Inverts_lm)</code>, and the fitted values using <code>fitted(Inverts_lm)</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">resid</span>(Inverts_lm) ~<span class="st"> </span><span class="kw">fitted</span>(Inverts_lm), <span class="dt">xlab=</span><span class="st">&quot;Fitted values&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Residuals&quot;</span>)</code></pre></div>
+<p><img src="Images/LMImages/unnamed-chunk-11-1.png" width="500pt" style="display: block; margin: auto;" /></p>
 <p>Fortunately, it doesn’t look like the residuals are dependent on the fitted values.</p>
 <p>Now we’ll check the normality of the residuals. We can do that in two ways: first, through a histogram of the residuals, and second, with a QQ plot (more below). Remember that it is the residuals that need to be normal, not the underlying data!</p>
 <p>We use the function <code>hist</code> to make a histogram of the residuals. The groupings are calculated by default, but you can change this with the argument <code>breaks</code> if you’d like.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(<span class="kw">resid</span>(Inverts.lm), <span class="dt">xlab =</span> <span class="st">&quot;Residuals&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Histogram of residuals of Inverts.lm&quot;</span>)</code></pre></div>
-<p><img src="Images/LMImages/unnamed-chunk-11-1.png" width="500pt" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(<span class="kw">resid</span>(Inverts_lm), <span class="dt">xlab =</span> <span class="st">&quot;Residuals&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Histogram of residuals of Inverts_lm&quot;</span>)</code></pre></div>
+<p><img src="Images/LMImages/unnamed-chunk-12-1.png" width="500pt" style="display: block; margin: auto;" /></p>
 <p>The distribution of values looks relatively normal. There might be a slight skew, but given the relatively small sample size, the histogram does not give us evidence to reject normality.</p>
 <p>Now we’ll plot a QQ plot. A QQ plot compares the distribution of two given sets of data by plotting quantiles against each other, hence the Qs in QQ plot. With the <code>qqnorm</code> function, the input vector (here, the residuals of our linear regression model) is compared against normally distributed data. To do this, both data sets are sorted and then plotted against each other. If the input data set is normal, the points should fall along the line where x equals y. The function <code>qqline</code> plots that line, to make it easier to assess the data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qqnorm</span>(<span class="kw">resid</span>(Inverts.lm)) 
-<span class="kw">qqline</span>(<span class="kw">resid</span>(Inverts.lm))</code></pre></div>
-<p><img src="Images/LMImages/unnamed-chunk-12-1.png" width="500pt" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qqnorm</span>(<span class="kw">resid</span>(Inverts_lm)) 
+<span class="kw">qqline</span>(<span class="kw">resid</span>(Inverts_lm))</code></pre></div>
+<p><img src="Images/LMImages/unnamed-chunk-13-1.png" width="500pt" style="display: block; margin: auto;" /></p>
 <p>When the data do not fall on the line, the shape of their curve can tell you about the distribution of the data. In our case, the QQ plot indicates that the residuals are normally distributed.</p>
 </div>
 <div id="extractStatistics" class="section level2">
 <h2>Extracting summary statistics</h2>
 <p>If you’re working with lots of linear regressions at once, e.g. if you are calculating rates for a linear process for many samples, it can be helpful to automatically extract summary statistics on the linear regression. Some of these are easier to extract than others. Let’s take another look at the model summary output, along with the attributes of the model summary, using the function <code>attributes</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Inverts.lm)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Inverts_lm)</code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = Richness ~ TOC, data = Inverts)
@@ -284,7 +286,7 @@ Inverts &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span cla
 ## Residual standard error: 2.39 on 22 degrees of freedom
 ## Multiple R-squared:  0.969,  Adjusted R-squared:  0.9676 
 ## F-statistic: 687.3 on 1 and 22 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">attributes</span>(<span class="kw">summary</span>(Inverts.lm))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">attributes</span>(<span class="kw">summary</span>(Inverts_lm))</code></pre></div>
 <pre><code>## $names
 ##  [1] &quot;call&quot;          &quot;terms&quot;         &quot;residuals&quot;     &quot;coefficients&quot; 
 ##  [5] &quot;aliased&quot;       &quot;sigma&quot;         &quot;df&quot;            &quot;r.squared&quot;    
@@ -293,20 +295,20 @@ Inverts &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span cla
 ## $class
 ## [1] &quot;summary.lm&quot;</code></pre>
 <p>We can access the different attributes by name from the summary object. For example, let’s look at the adjusted r<sup>2</sup>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Inverts.lm)$adj.r.squared</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Inverts_lm)$adj.r.squared</code></pre></div>
 <pre><code>## [1] 0.9675749</code></pre>
 <p>Pulling out the regression equation and the p-value of the model take a few more steps. All of the values are in the <code>coefficients</code> table.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Inverts.lm)$coefficients</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(Inverts_lm)$coefficients</code></pre></div>
 <pre><code>##             Estimate Std. Error   t value     Pr(&gt;|t|)
 ## (Intercept) 16.91482   1.968642  8.592123 1.768433e-08
 ## TOC         58.25458   2.222021 26.216936 4.359055e-18</code></pre>
 <p>To pull out a particular value, you could access it by specifying its position in the table.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Get p-value for TOC, which is in the 2nd row and 4th column</span>
-<span class="kw">summary</span>(Inverts.lm)$coefficients[<span class="dv">2</span>, <span class="dv">4</span>]</code></pre></div>
+<span class="kw">summary</span>(Inverts_lm)$coefficients[<span class="dv">2</span>, <span class="dv">4</span>]</code></pre></div>
 <pre><code>## [1] 4.359055e-18</code></pre>
 <p>Alternatively, you can specify the names of the rows and columns.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Get p-value for TOC using row and column names</span>
-<span class="kw">summary</span>(Inverts.lm)$coefficients[<span class="st">&quot;TOC&quot;</span>, <span class="st">&quot;Pr(&gt;|t|)&quot;</span>]</code></pre></div>
+<span class="kw">summary</span>(Inverts_lm)$coefficients[<span class="st">&quot;TOC&quot;</span>, <span class="st">&quot;Pr(&gt;|t|)&quot;</span>]</code></pre></div>
 <pre><code>## [1] 4.359055e-18</code></pre>
 <p>For simple regression, the t-value and p-value for the linear fit between the two variables are the same as the t-value and p-value of the correlation between the two variables. Thus, you could also get the p-value by running a Pearson’s correlation, which you can do using the function <code>cor.test</code> with the method set to <code>&quot;pearson&quot;</code>. You can then extract the p-value from this test. For <code>cor.test</code>, you can specify the <code>x</code> and <code>y</code> vectors, or you can pass it a formula.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Pearson&#39;s correlation between TOC and Richness</span>
@@ -356,8 +358,8 @@ Inverts &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span cla
         <span class="kw">mtext</span>(<span class="dt">side=</span><span class="dv">1</span>, <span class="dt">line=</span><span class="dv">2</span>, <span class="dt">text=</span><span class="st">&quot;Total organic carbon (%)&quot;</span>, <span class="dt">cex=</span><span class="fl">1.2</span>)
     <span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">pos=</span><span class="dv">0</span>, <span class="dt">las=</span><span class="dv">1</span>, <span class="dt">cex.axis=</span><span class="fl">1.2</span>)  <span class="co"># Add y-axis; place it at x = 0</span>
         <span class="kw">mtext</span>(<span class="dt">side=</span><span class="dv">2</span>, <span class="dt">line=</span><span class="dv">2</span>, <span class="dt">text=</span><span class="st">&quot;Species richness&quot;</span>, <span class="dt">cex=</span><span class="fl">1.2</span>)
-<span class="kw">abline</span>(Inverts.lm) <span class="co"># Plot linear regression</span></code></pre></div>
-<p><img src="Images/LMImages/unnamed-chunk-24-1.png" width="500pt" style="display: block; margin: auto;" /></p>
+<span class="kw">abline</span>(Inverts_lm) <span class="co"># Plot linear regression</span></code></pre></div>
+<p><img src="Images/LMImages/unnamed-chunk-25-1.png" width="500pt" style="display: block; margin: auto;" /></p>
 <p>However, you can see that the line extends to the end of the plot margins, which can look awkward if you’ve specified the placement of your axes. An alternative approach is to draw a line with x and y coordinates of your choosing. For this plot, we might want to use x = 0.3 and 1.4. To calculate the appropriate y-values, we can use the <code>predict</code> function. This function uses the linear regression to calculate modeled values for the response variable based on the selected values for the explanatory variable. Once we have the y values, we can use the function <code>lines</code> to draw a line with specified x and y coordinates. We can use many of the same <code>par</code> arguments for <code>lines</code> as we can with <code>points</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(Richness ~<span class="st"> </span>TOC, <span class="dt">data=</span>Inverts, <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">1.6</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">120</span>)
          , <span class="dt">axes=</span>F, <span class="dt">ann=</span>F)  <span class="co"># Plot without axes</span>
@@ -367,9 +369,9 @@ Inverts &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span cla
         <span class="kw">mtext</span>(<span class="dt">side=</span><span class="dv">2</span>, <span class="dt">line=</span><span class="dv">2</span>, <span class="dt">text=</span><span class="st">&quot;Species richness&quot;</span>, <span class="dt">cex=</span><span class="fl">1.2</span>)
 
 <span class="co"># Calculate y values given specified x values, then plot x and y values</span>
-yvals &lt;-<span class="st"> </span><span class="kw">predict</span>(Inverts.lm, <span class="dt">newdata=</span><span class="kw">data.frame</span>(<span class="dt">TOC =</span> <span class="kw">c</span>(<span class="fl">0.3</span>, <span class="fl">1.4</span>)))
+yvals &lt;-<span class="st"> </span><span class="kw">predict</span>(Inverts_lm, <span class="dt">newdata=</span><span class="kw">data.frame</span>(<span class="dt">TOC =</span> <span class="kw">c</span>(<span class="fl">0.3</span>, <span class="fl">1.4</span>)))
 <span class="kw">lines</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="fl">0.3</span>, <span class="fl">1.4</span>), <span class="dt">y =</span> yvals, <span class="dt">col=</span><span class="st">&quot;mediumorchid&quot;</span>, <span class="dt">lwd=</span><span class="dv">2</span>)</code></pre></div>
-<p><img src="Images/LMImages/unnamed-chunk-25-1.png" width="500pt" style="display: block; margin: auto;" /></p>
+<p><img src="Images/LMImages/unnamed-chunk-26-1.png" width="500pt" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="multipleRegression" class="section level1">
@@ -379,14 +381,14 @@ yvals &lt;-<span class="st"> </span><span class="kw">predict</span>(Inverts.lm, 
 <h2>Look at your data!!</h2>
 <p>Again, it’s a good idea to look at your data! Let’s look at the relationship between species richness and current variability. (We won’t go into 3-dimensional graphs to look at all 3 variables.)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(Richness ~<span class="st"> </span>CurrentVariability, <span class="dt">data=</span>Inverts, <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">las=</span><span class="dv">1</span>)</code></pre></div>
-<p><img src="Images/LMImages/unnamed-chunk-26-1.png" width="500pt" style="display: block; margin: auto;" /></p>
+<p><img src="Images/LMImages/unnamed-chunk-27-1.png" width="500pt" style="display: block; margin: auto;" /></p>
 <p>It really doesn’t look like there’s a relationship between these two variables, does it - linear or otherwise. Nonetheless, we’ll proceed with a multiple regression model, to demonstrate the process.</p>
 </div>
 <div id="fitModel2" class="section level2">
 <h2>Fit the model</h2>
 <p>To do a multiple linear regression, we add variables to the formula in the <code>lm</code> function. As an example, let’s look at the relationship between the response variable <code>Richness</code> and the explanatory variables <code>TOC</code> and <code>CurrentVariability</code>. As with simple regression, we can look at the model with <code>summary</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Inverts2.lm &lt;-<span class="st"> </span><span class="kw">lm</span>(Richness ~<span class="st"> </span>TOC +<span class="st"> </span>CurrentVariability, <span class="dt">data=</span>Inverts)
-<span class="kw">summary</span>(Inverts2.lm)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Inverts2_lm &lt;-<span class="st"> </span><span class="kw">lm</span>(Richness ~<span class="st"> </span>TOC +<span class="st"> </span>CurrentVariability, <span class="dt">data=</span>Inverts)
+<span class="kw">summary</span>(Inverts2_lm)</code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = Richness ~ TOC + CurrentVariability, data = Inverts)
@@ -412,9 +414,9 @@ yvals &lt;-<span class="st"> </span><span class="kw">predict</span>(Inverts.lm, 
     <span class="kw">lm</span>(Richness ~<span class="st"> </span>TOC *<span class="st"> </span>CurrentVariability, <span class="dt">data=</span>Inverts)  
 
 <span class="co"># Specify main effects separately from the interaction</span>
-    <span class="kw">lm</span>(Richness ~<span class="st"> </span>TOC +<span class="st"> </span>CurrentVariability +<span class="st"> </span>TOC:CurrentVariability)  </code></pre></div>
+    <span class="kw">lm</span>(Richness ~<span class="st"> </span>TOC +<span class="st"> </span>CurrentVariability +<span class="st"> </span>TOC:CurrentVariability, <span class="dt">data =</span> Inverts)  </code></pre></div>
 <p>Let’s go back to the original model. If you want to do an F-test and compare F-values rather than t-values, you can use the <code>drop1</code> function, which looks at the effect on the entire model of adding the specified variable last. This will be more important in the next lesson on ANOVA. In short, for a linear regression, you get the same p-values as you do using <code>summary</code>, but <code>drop1</code> lets you pull out the F-values if you need them. In the function call, you give as arguments the original model, an argument specifying the terms to be considered for adding or dropping (<code>.~.</code> for all terms), and the test statistic of interest.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">drop1</span>(Inverts2.lm, .~., <span class="dt">test=</span><span class="st">&quot;F&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">drop1</span>(Inverts2_lm, .~., <span class="dt">test=</span><span class="st">&quot;F&quot;</span>)</code></pre></div>
 <pre><code>## Single term deletions
 ## 
 ## Model:
@@ -433,22 +435,22 @@ yvals &lt;-<span class="st"> </span><span class="kw">predict</span>(Inverts.lm, 
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set plot layout and margins</span>
     <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">8</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">2</span>))
 <span class="co"># Plot histogram</span>
-    <span class="kw">hist</span>(<span class="kw">resid</span>(Inverts2.lm))  
+    <span class="kw">hist</span>(<span class="kw">resid</span>(Inverts2_lm))  
 <span class="co"># Make QQ plot to check normality</span>
-    <span class="kw">qqnorm</span>(<span class="kw">resid</span>(Inverts2.lm))  
-    <span class="kw">qqline</span>(<span class="kw">resid</span>(Inverts2.lm))</code></pre></div>
-<p><img src="Images/LMImages/unnamed-chunk-30-1.png" width="600pt" style="display: block; margin: auto;" /></p>
+    <span class="kw">qqnorm</span>(<span class="kw">resid</span>(Inverts2_lm))  
+    <span class="kw">qqline</span>(<span class="kw">resid</span>(Inverts2_lm))</code></pre></div>
+<p><img src="Images/LMImages/unnamed-chunk-31-1.png" width="600pt" style="display: block; margin: auto;" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set plot layout and margins</span>
     <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">2</span>))  
 <span class="co"># Plot residuals against TOC (explanatory variable)</span>
-    <span class="kw">plot</span>(Inverts$TOC, <span class="kw">resid</span>(Inverts2.lm), <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">las=</span><span class="dv">1</span>)  
+    <span class="kw">plot</span>(Inverts$TOC, <span class="kw">resid</span>(Inverts2_lm), <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">las=</span><span class="dv">1</span>)  
 <span class="co"># Plot residuals against Current Variability (explanatory variable)</span>
-    <span class="kw">plot</span>(Inverts$CurrentVariability, <span class="kw">resid</span>(Inverts2.lm), <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">las=</span><span class="dv">1</span>)
+    <span class="kw">plot</span>(Inverts$CurrentVariability, <span class="kw">resid</span>(Inverts2_lm), <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">las=</span><span class="dv">1</span>)
 <span class="co"># Plot residuals against fitted values</span>
-    <span class="kw">plot</span>(<span class="kw">fitted</span>(Inverts2.lm), <span class="kw">resid</span>(Inverts2.lm), <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">las=</span><span class="dv">1</span>)  
+    <span class="kw">plot</span>(<span class="kw">fitted</span>(Inverts2_lm), <span class="kw">resid</span>(Inverts2_lm), <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">las=</span><span class="dv">1</span>)  
 <span class="co"># Reset plot layout and margins</span>
     <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">2</span>))  </code></pre></div>
-<p><img src="Images/LMImages/unnamed-chunk-30-2.png" width="600pt" style="display: block; margin: auto;" /></p>
+<p><img src="Images/LMImages/unnamed-chunk-31-2.png" width="600pt" style="display: block; margin: auto;" /></p>
 <p>The residuals look a little skewed in the histogram, but the QQ plot suggests that they are reasonably normal, and the plots of residuals against fitted values and explanatory variables suggests homogeneity. (Keep in mind that even with normally distributed data, these plots can look a little funny when <em>n</em>, sample size, is low.) So you can safely report your conclusion that species richness is significantly related to organic carbon and not to current variability.</p>
 <p>Realistically, though, you’d likely want to drop <code>CurrentVariability</code> from the model, since it is not adding any explanatory power. However, there is much discussion around the process of adding and removing model terms, and we will swiftly move on to ANOVA and not add to the debate!</p>
 <hr />

@@ -13,6 +13,8 @@ layout: topic
 ---
 
 ```{r opts, echo = FALSE}
+setwd("~/Documents/R/CREATE_R_Workshop/Lessons_Rmd")
+
 # To output plots as .png figures, run this.
 
 knitr::opts_chunk$set(

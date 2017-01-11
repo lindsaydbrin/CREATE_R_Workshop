@@ -1,7 +1,6 @@
 ---
 title: "Introduction to R"
 output:
-  pdf_document: default
   html_document:
     highlight: tango
     keep_md: yes
@@ -9,10 +8,13 @@ output:
     self_contained: no
     theme: cerulean
     toc: yes
+  pdf_document: default
 layout: topic
 ---
 
 ```{r opts, echo = FALSE}
+setwd("~/Documents/R/CREATE_R_Workshop/Lessons_Rmd")
+
 # To output plots as .png figures, run this.
 
 knitr::opts_chunk$set(
@@ -185,7 +187,7 @@ Vectors are just one of the different kinds of **data structures** that R uses. 
 
 ### Challenge
 
-7. What happens if you try to mix several different object types (character, numeric, integer, logical) into a single vector?  Why do you think this happens?
+7. What happens if you try to mix several different object classes (character, numeric, integer, logical) into a single vector?  Why do you think this happens?
 
 8. What is the class of the resulting vector in each of the following examples?
 

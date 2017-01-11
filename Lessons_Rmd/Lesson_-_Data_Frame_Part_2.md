@@ -59,7 +59,9 @@ seq(1, 8, by=3) # Sequence stops to stay below upper limit
 
 #### Challenge {#challengeSequences}
 
-1. Create a vector with 6 elements that counts up from 27.
+Use `seq` to solve the following challenges.
+
+1. Create a vector with 6 elements that counts up from 27 (by 1), without specifying the `to` argument.
 
 2. Create a vector with 5 equally spaced elements between 100 and 200.
 
@@ -136,6 +138,37 @@ trees[, -1]   # The whole data frame, except the first column
 trees[-c(7:300), ]  # Equivalent to head(trees)
 ```
 
+### Bracket subsetting with logical vectors
+
+In the above examples, rows and columns were selected using numeric values. You can also select either using logical vectors, as long as they are the correct length (i.e., the number of rows or columns).  These logical vectors would typically be the result of a conditional statement.  For example, you could select only the rows where the `Province` is `New Brunswick`. This would use the following conditional statement (run this code on your own):
+
+
+```r
+trees$Province == "New Brunswick"
+```
+
+To subset `trees` and keep the rows where the `Province` is `New Brunswick`, you could use the following code, where the conditional statement is used to indicate which rows to keep:
+
+
+```r
+trees_NB <- trees[trees$Province == "New Brunswick", ] 
+head(trees_NB)
+```
+
+```
+##          Province        Site Plot                 Species Count
+## 211 New Brunswick Fredericton    1           Pinus strobus    21
+## 212 New Brunswick Fredericton    1             Acer rubrum    25
+## 213 New Brunswick Fredericton    1          Cornus florida    24
+## 214 New Brunswick Fredericton    1            Quercus alba    32
+## 215 New Brunswick Fredericton    1 Liriodendron tulipifera    15
+## 216 New Brunswick Fredericton    1        Tsuga canadensis    27
+```
+
+This is conceptually similar to using conditional statements to subset vectors, as in *Introduction to R*, where `TRUE` keeps an element and `FALSE` does not.  However, with data frames, you need to specify values for both rows and columns - one more dimension than for vectors.  In the above example, this is done by including the comma with an empty place afterward, to indicate all columns.
+
+### Selecting columns
+
 Columns in a data frame can also be called by name, rather than using numeric values.  There are several ways to do this:
 
 
@@ -163,7 +196,7 @@ It is better to be explicit, and indicate the full name of the variable.  Beside
 
 7. Create a new data frame that includes the 10th through 20th rows of `trees`.
 
-8. Create a new data frame that only includes data where `Count` is equal to 30. (Hint: How would you identify which rows are the correct ones?)
+8. Create a new data frame that only includes data where `Count` is equal to 30. (Hint: How would you identify which rows are the correct ones? If you're stumped, try looking back at *Conditional Subsetting* in *Introduction to R*!)
 
 9. The function `nrow()` on a data frame returns the number of rows. Use `nrow()` to make a data frame with only the last row of trees.
 

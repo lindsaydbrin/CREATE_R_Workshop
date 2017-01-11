@@ -43,7 +43,9 @@ ___
 * [Day 1 Scripting Challenge](Lesson_-_Day_1_Scripting_Challenge.html)
 
 #### Computing
-* [Control structures](Lesson_-_Control_structures.html)
+* Control structures
+	- [if statements](Lesson_-_ControlStr_if.html)
+	- [for loops](Lesson_-_ControlStr_for.html)
 * [Writing functions](Lesson_-_Writing_functions.html)
 
 #### Data visualization

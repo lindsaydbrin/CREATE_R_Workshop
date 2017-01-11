@@ -12,6 +12,7 @@ layout: topic
 ---
 
 ```{r opts, echo = FALSE}
+setwd("~/Documents/R/CREATE_R_Workshop/Lessons_Rmd")
 
 # To output plots as .png figures, run this.
 
@@ -99,7 +100,7 @@ It looks like we have height and weight data for both apples and pears. Let's pl
 
 The `x` and `y` arguments in this function call are quite long, and somewhat difficult to read quickly. If you were making many plots of variables within `fruitData`, you might want a cleaner way to specify the variables to be plotted. 
 
-To do this, we can pass data to the `plot` function by specifying the data set with the `data` argument, and then specifying the x and y variables with only the variable names. This is the basic format:
+To do this, we can pass data to the `plot` function by specifying the data set with the `data` argument, and then specifying the x and y variables with only the variable names. This is the basic format (where `x`, `y`, and `yourDataFrame` would be substituted with the names of your x variable, y variable, and data frame respectively):
 
 ```{r, eval=FALSE, fig.align='center', out.width='600pt'}
 plot(y ~ x, data=yourDataFrame)
@@ -162,7 +163,7 @@ Here are some of the more commonly used parameters:
     + A number from 1-25, or a vector of numbers from 1-25 with length equal to the plotted vectors
 * `bg` - **b**ack**g**round color of the symbol, if applicable (pch between 21 and 25)
 * `cex` - **c**haracter **ex**pansion, or point size
-    + A number between 0 and 1, where 1 is full size
+    + Magnification relative to the default (1); can be greater or lesser than 1
 * `lty` - **l**ine **ty**pe
     + A number from 0 to 6, which specify options like solid, dotted, or dashed
 * `lwd` - **l**ine **w**i**d**th
@@ -200,8 +201,8 @@ We will start by plotting a blank plot that sets the plot bounds. We will do thi
 
 ```{r, fig.align='center', out.width='600pt'}
 plot(1, 1, xlim=c(0,5), ylim=c(0, 14), type="n", ann=FALSE, axes=FALSE)  # Make empty plot
-  axis(side=1, line=1, pos=0, las=1)  # Add x-axis
-  axis(side=2, line=1, pos=0, las=1)  # Add y-axis
+  axis(side=1, pos=0, las=1)  # Add x-axis
+  axis(side=2, pos=0, las=1)  # Add y-axis
   points(Ammonium ~ Nitrate, data=nutrients, pch=19, col="red")  # Add ammonium points
   points(Nitrite ~ Nitrate, data=nutrients, pch=19, col="blue")  # Add nitrite points
 ```
@@ -321,34 +322,68 @@ legend("topright", pch=22, col="black", pt.bg=gray.colors(2), legend=c("Treatmen
 
 # Outputting plots {#outputPlots}
 
-When we plot in R, the plot is drawn in a separate window, or plotting device. Unless we specify otherwise, in RStudio, this plot is the Plots window. You can export a plot in a variety of different formats, but this can become inconvenient as you make changes to your plot, and the relative dimensions of the plot may change depending on the size of your window or the exported file.   
+When we plot in R, the plot is drawn in a separate window, or graphics device. In RStudio, unless we specify otherwise, this graphics device is the Plots window.  You can export a plot in a variety of different formats, but this can become inconvenient as you make changes to your plot, and the relative dimensions of the plot may change depending on the size of your window or the exported file.   
 
-A more direct way to create an external figure is to open a file of the type that you prefer (pdf, png, etc.), and plot to it directly. The added benefit of this approach is that you can specify the dimensions of this file, as well as its layout, margins, and other characteristics, and know that they will be consistent every time.   
+A more direct way to create an external figure is to open a file of the type that you prefer (pdf, png, etc.), and plot to it directly.  Technically, this means that you are opening a separate graphics device, plotting to it, and then closing it.  One benefit of this approach is that you can specify the dimensions of this file, as well as its layout, margins, and other characteristics, and know that they will be consistent every time.   
 
 The way to open a file differs between a Mac and a PC. On a Mac, you can use the `quartz` function for all kinds of files, as long as you specify the file `type`. On a PC, you need use different functions for different file types; for a pdf, you can use `pdf`. (This function works on a Mac as well.) In either case, you will need to specify the name of the file with `file`, as well as its dimensions. You can also specify other characteristics, such as the font `pointsize`. 
 
-Creating an 8.5 x 11 file will be helpful for visualizing the plot on a standard sheet of paper. Even if you don't intend to print the plot, however, it is still useful to be able to specify dimensions, because (1) the relative dimensions of the plot and its contents (text size, point size, line width) will be the same time every time you plot it, and (2) you can more easily maintain a consistent design across multiple plots.
+Creating an 8.5 x 11 file will be helpful for visualizing the plot on a standard sheet of paper. Even if you don't intend to print the plot, however, it is still useful to be able to specify dimensions, because (1) the relative dimensions of the plot and its contents (text size, point size, line width) will be the same time every time you plot it, and (2) you can more easily maintain a consistent design across multiple plots.  
+
+For example, to open a pdf file, you can run one of the following functions:
 
 ```{r, eval=FALSE}
+# Use ONE of the following functions to open a new graphics device
+# (and only run it once, to avoid opening multiple files!).
+
 # On a Mac, use quartz() for many file types, and specify with type.
-	quartz(type="pdf", file="Figures/Nutrients.pdf", height=11, width=8.5, pointsize=14)
+	quartz(type="pdf", file="Figures/Fruits.pdf", height=11, width=8.5, pointsize=14)
 
 # On a PC, use pdf() to open a pdf file.
 # This function also works on a Mac.
-	pdf(file="Figures/Nutrients.pdf", height=11, width=8.5, pointsize=14)
+	pdf(file="Figures/Fruits.pdf", height=11, width=8.5, pointsize=14)
 	
 # In either case, be sure the file name is appropriate for your own file structure!
 ```
 
-Once you've opened your file, anything you plot will go to this file rather than to the plot window in RStudio. It is helpful to start by setting up the margins. You can do that with a call to `par`, by specifying the margins around each plot with `mar` ("margins") and for the entire document with `omi` ("outer margin in inches"). Both of these require a vector with four integers, specifying margins on all sides, starting at the bottom and going clockwise. If you want to plot multiple plots, you can also specify the number of rows and columns with `mfrow`, which takes a vector with two integers, of the form c(#rows, #cols). For example:   
+Once you've opened your file, anything you plot will go to this file rather than to the plot window in RStudio. 
+
+In this case, we'd like to put two different plots on the pdf page, so we need to tell R how to place the plots.  This involves two components: the placement of the plots in a grid, and the margins around each plot.  We can do both of these, as well as determine the margins for the overall document, with a call to `par()`. 
+
+Within the function `par()`, we can specify the margins around each plot with the argument `mar` ("margins") and for the entire document with the argument `omi` ("outer margin in inches"). Both of these require a vector with four integers, specifying margins on all sides, starting at the bottom and going clockwise. If you want to plot multiple plots, you can also specify the number of rows and columns with `mfrow`, which takes a vector with two integers, of the form c(#rows, #cols) (i.e., number of rows and then number of columns). (If you only want to plot one plot, you can skip the `mfrow` argument.) For example:   
 
 ```{r, eval=FALSE}
-par(omi=c(2,1,1,1), mar=c(4,5,0,0), mfrow=c(1,2))
+par(omi=c(2,1,1,1), mar=c(7,5,2,2), mfrow=c(2, 1))
 ```
 
-Next, make your plots.   
+This sets R up to create a document with plots in 2 rows and 1 columns (`mfrow`). The margin for the whole page (`omi`) is a bit bigger on the bottom than the other sides, and the margin for each figure (`mar`) is larger on the bottom and the left, to make room for the axes and axis labels.  Note that `par()` with `mfrow`, `mar`, and `omi` can be used within the RStudio graphics device as well, to put multiple plots on the same page layout.
 
-Once you are done, you need to close the plotting device using `dev.off()`. (You can check which devices are open with `dev.list()`.) Then, voila! Your plot is in pdf form.
+After you have opened your device and set up your margins and plot layout, it's time to make your plots, i.e. with `plot()` or other plotting functions.
+
+```{r, eval = FALSE}
+plot(fruitWeight ~ fruitHeight, data = fruitData %>% filter(fruitType == "Pear"), las = 1, pch = 19, col = "lightgreen")
+	mtext(text = "Pears", side = 3, line = 1)
+plot(fruitWeight ~ fruitHeight, data = fruitData %>% filter(fruitType == "Apple"), las = 1, pch = 19, col = "darkred")
+	mtext(text = "Apples", side = 3, line = 1)
+```
+
+Once you are done, you need to close the plotting device using `dev.off()`. 
+
+```{r, eval = FALSE}
+dev.off()
+```
+
+Then, voila! Your plot is in pdf form.  The above code will produce something like this:
+
+
+```{r, echo=FALSE, fig.align='center', out.width='600pt'}
+knitr::include_graphics("Images/Fruits.png")
+```
+
+
+(The above image is in .png form to sidestep issues with some browsers not rendering pdfs properly.)
+
+Below is an example of code for the entire process (opening the device, drawing the plots, and closing the device), to make a plot called `Nutrients.pdf` that has two side by side plots (1 row with 2 columns) showing `Ammonium` or `Nitrite` concentrations versus `Nitrate` concentrations.
 
 ```{r, eval=FALSE}
 # Make a pdf file with two plot panels: 
@@ -358,10 +393,14 @@ Once you are done, you need to close the plotting device using `dev.off()`. (You
 pdf(file="Figures/Nutrients.pdf", height=11, width=8.5, pointsize=12)
 
   # Specify outer margins, plot margins, and plot layout
+	# Note that the omi argument specified here gives a very large bottom margin,
+	#  since we want our two plots at the top of the page.
     par(omi=c(7,0.5,1,1), mar=c(5,5,0,0), mfrow=c(1,2))
 
   # Make ammonium plot
-    plot(100, 100, xlim=c(0,5), ylim=c(0, 14), xlab="", ylab="", axes=FALSE)
+  # It doesn't matter what values we plot in the plot() function, 
+  #		since type is set to "n" (no plotting), and the points are added with points().
+    plot(100, 100, xlim=c(0,5), ylim=c(0, 14), xlab="", ylab="", axes=FALSE, type = "n")
       axis(1, pos=0, las=1)
         mtext(text=expression("Nitrate concentration ("*mu*"mol L"^"-1"*")"), side=1, line=2) 
       axis(2, pos=0, las=1) 
@@ -369,7 +408,7 @@ pdf(file="Figures/Nutrients.pdf", height=11, width=8.5, pointsize=12)
       points(Ammonium ~ Nitrate, data=nutrients, pch=19, col="red")
 
   # Make nitrite plot
-    plot(100, 100, xlim=c(0,5), ylim=c(0, 14), xlab="", ylab="", axes=FALSE)
+    plot(100, 100, xlim=c(0,5), ylim=c(0, 14), xlab="", ylab="", axes=FALSE, type = "n")
       axis(1, pos=0, las=1)
         mtext(text=expression("Nitrate concentration ("*mu*"mol L"^"-1"*")"), side=1, line=2) 
       axis(2, pos=0, las=1) 
@@ -393,6 +432,8 @@ knitr::include_graphics("Images/Nutrients.png")
 <br>
 
 (The above image is in .png form to sidestep issues with some browsers not rendering pdfs properly.)
+
+You can run into problems when plotting to external graphics devices if you accidentally open more devices than you intend, or forget to close your devices. If you find that later plots are not being plotted properly, either within RStudio or to an external file, this may be because you have plotting devices open that you aren't aware of.  You can check which devices are open with `dev.list()`, and check which device is the current device (i.e., where your plots are being plotted) with `dev.cur()`.  You can close specific devices using `dev.off()` with the argument `which` indicating the number of the graphics device that you want to close.  I.e., if you want to close device 3, you can run `dev.off(which = 3)` or `dev.off(3)`.
 
 
 ___
