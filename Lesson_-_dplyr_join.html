@@ -121,6 +121,7 @@ button.code-folding-btn:focus {
 </style>
 
 
+
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
@@ -240,7 +241,7 @@ carbon</code></pre></div>
 ## 5         2         2      8.6     2.7     1.2   50.4
 ## 6         2         3      7.8     4.1     0.9   50.8</code></pre>
 <p>The argument <code>y</code> specifies the data frame from which to find data to add to <code>nutrients</code>. You can specify <code>x</code> as the data frame to act on, which would be <code>nutrients</code>, but we have passed it via <code>%&gt;%</code> instead. The last argument, <code>by</code>, specifies which columns to join by - i.e., the keys. The default is to do a natural join, which means that the function will use all columns that are present in both data frames.</p>
-<p>Let’s explore the the <code>by</code> argument a bit further. What happens if we do a left join using only one of the <code>by</code> variables specified above, e.g., <code>Treatment</code>? What has happened to give the results below?</p>
+<p>Let’s explore the <code>by</code> argument a bit further. What happens if we do a left join using only one of the <code>by</code> variables specified above, e.g., <code>Treatment</code>? What has happened to give the results below?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nutrients %&gt;%<span class="st"> </span>
 <span class="st">  </span><span class="kw">left_join</span>(<span class="dt">y=</span>carbon, <span class="dt">by=</span><span class="kw">c</span>(<span class="st">&quot;Treatment&quot;</span>))</code></pre></div>
 <pre><code>##    Treatment Replicate.x Ammonium Nitrate Nitrite Replicate.y Carbon
@@ -415,6 +416,7 @@ nutrients %&gt;%<span class="st"> </span>
 $(document).ready(function () {
   $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
 });
+
 
 </script>
 

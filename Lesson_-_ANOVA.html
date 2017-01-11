@@ -211,9 +211,9 @@ op &lt;-<span class="st"> </span><span class="kw">options</span>(<span class="dt
 ## &quot;contr.helmert&quot;    &quot;contr.poly&quot;</code></pre>
 <p>Now we can fit the model. We’ll store it as a named object so that we can work with it more easily later.</p>
 <p>You can name this object however you want, but it’s good to be consistent with your naming scheme throughout your code, so that you can easily identify what kind of object you are working with. There are multiple naming conventions used in R and R packages, as well as multiple style guides (e.g., see <a href="https://journal.r-project.org/archive/2012-2/RJournal_2012-2_Baaaath.pdf">here</a>). In the case below, the <code>.</code> in the model name is only for convenient reading. (There is some debate on when and how this <code>.</code> should be used. This is in part because the <code>.</code> has a specific meaning in other programming languages, whereas it is simply another character in an R variable name.)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">InvertsType.mod &lt;-<span class="st"> </span><span class="kw">aov</span>(Richness ~<span class="st"> </span>Type, <span class="dt">data=</span>Inverts)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">InvertsType_mod &lt;-<span class="st"> </span><span class="kw">aov</span>(Richness ~<span class="st"> </span>Type, <span class="dt">data=</span>Inverts)</code></pre></div>
 <p>Now let’s take a look at the model object with <code>summary</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(InvertsType.mod)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(InvertsType_mod)</code></pre></div>
 <pre><code>##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
 ## Type         2   2094  1046.8   11.23 0.000483 ***
 ## Residuals   21   1958    93.3                     
@@ -226,17 +226,17 @@ op &lt;-<span class="st"> </span><span class="kw">options</span>(<span class="dt
 <h2>Check model assumptions</h2>
 <p>Of course, we can’t use this model unless we know that we have satisfied the model’s assumptions! As with linear regression, we need to check the homogeneity and normality of the residuals. We will make the plots as before, starting with a histogram and a QQ plot of the residuals, and then comparing the residuals to the explanatory variable, <code>Type</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))  <span class="co"># Set plot layout</span>
-<span class="kw">hist</span>(<span class="kw">resid</span>(InvertsType.mod), <span class="dt">las=</span><span class="dv">1</span>)  <span class="co"># Look at distribution of residuals</span>
-<span class="kw">qqnorm</span>(<span class="kw">resid</span>(InvertsType.mod), <span class="dt">las=</span><span class="dv">1</span>)  <span class="co"># Compare distribution of residuals to a normal distribution</span>
-<span class="kw">qqline</span>(<span class="kw">resid</span>(InvertsType.mod))
-<span class="kw">plot</span>(<span class="kw">fitted</span>(InvertsType.mod), <span class="kw">resid</span>(InvertsType.mod), <span class="dt">las=</span><span class="dv">1</span>)  <span class="co"># Do residuals vary by fitted values?</span>
-<span class="kw">plot</span>(Inverts$Type, <span class="kw">resid</span>(InvertsType.mod), <span class="dt">las=</span><span class="dv">1</span>)  <span class="co"># Do the residuals vary by group?</span></code></pre></div>
+<span class="kw">hist</span>(<span class="kw">resid</span>(InvertsType_mod), <span class="dt">las=</span><span class="dv">1</span>)  <span class="co"># Look at distribution of residuals</span>
+<span class="kw">qqnorm</span>(<span class="kw">resid</span>(InvertsType_mod), <span class="dt">las=</span><span class="dv">1</span>)  <span class="co"># Compare distribution of residuals to a normal distribution</span>
+<span class="kw">qqline</span>(<span class="kw">resid</span>(InvertsType_mod))
+<span class="kw">plot</span>(<span class="kw">fitted</span>(InvertsType_mod), <span class="kw">resid</span>(InvertsType_mod), <span class="dt">las=</span><span class="dv">1</span>)  <span class="co"># Do residuals vary by fitted values?</span>
+<span class="kw">plot</span>(Inverts$Type, <span class="kw">resid</span>(InvertsType_mod), <span class="dt">las=</span><span class="dv">1</span>)  <span class="co"># Do the residuals vary by group?</span></code></pre></div>
 <p><img src="Images/ANOVA/unnamed-chunk-8-1.png" width="600 pt" style="display: block; margin: auto;" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))  <span class="co"># Re-set plot layout</span></code></pre></div>
 <p>These plots give us good news. The distribution of residuals doesn’t look extraordinarily normal in the histogram, but this could be an effect of small sample size, and the QQ plot suggests a mostly normal distribution with a few potentially outlying points. The bottom plots suggests that the residuals are comparable among groups (homogeneity). On the plot of the residuals versus the fitted values, the values on the x-axis might seem obscure at first - these are the means for the three groups (Agricultural, Forest, and Urban).</p>
 <p>We can also make similar plots by making a function call to <code>plot</code> using the model as input. In this case, the function will automatically point out potential outliers.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))  <span class="co"># Set plot layout for 4 plots</span>
-<span class="kw">plot</span>(InvertsType.mod, <span class="dt">las=</span><span class="dv">1</span>)  <span class="co"># Plot residuals for our ANOVA</span></code></pre></div>
+<span class="kw">plot</span>(InvertsType_mod, <span class="dt">las=</span><span class="dv">1</span>)  <span class="co"># Plot residuals for our ANOVA</span></code></pre></div>
 <p><img src="Images/ANOVA/unnamed-chunk-9-1.png" width="600pt" style="display: block; margin: auto;" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))  <span class="co"># Re-set plot layout</span></code></pre></div>
 <p>Now we can see that there are three points that are potential outliers. If these were real data, it could be useful to examine these specific points further to determine whether there is any reason not to include them in the analysis.</p>
@@ -245,7 +245,7 @@ op &lt;-<span class="st"> </span><span class="kw">options</span>(<span class="dt
 <div id="postHoc" class="section level2">
 <h2>Post-hoc testing</h2>
 <p>We’ve interpreted the results to mean that species richness varies with catchment type. But, which catchment types differ from each other? To assess this, we can use a Tukey test with the function <code>TukeyHSD</code> (for Tukey’s “Honestly Significant Difference” method).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">TukeyHSD</span>(InvertsType.mod)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">TukeyHSD</span>(InvertsType_mod)</code></pre></div>
 <pre><code>##   Tukey multiple comparisons of means
 ##     95% family-wise confidence level
 ## 
@@ -284,8 +284,8 @@ op &lt;-<span class="st"> </span><span class="kw">options</span>(<span class="dt
 <div id="fitModel2" class="section level2">
 <h2>Fit the model</h2>
 <p>Implementing a two-way ANOVA is similar to implementing ANOVA, in that we will use the model function (<code>aov</code>). It is also similar to multiple regression, in terms of the way that we specify multiple factors or explanatory variables. Here, we will use * to include both main effects and their interaction.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Inverts2way.mod &lt;-<span class="st"> </span><span class="kw">aov</span>(Richness ~<span class="st"> </span>Type *<span class="st"> </span>Country, <span class="dt">data=</span>Inverts)
-<span class="kw">summary</span>(Inverts2way.mod)  <span class="co"># F-test with Type I Sum of Squares (probably not appropriate!)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Inverts2way_mod &lt;-<span class="st"> </span><span class="kw">aov</span>(Richness ~<span class="st"> </span>Type *<span class="st"> </span>Country, <span class="dt">data=</span>Inverts)
+<span class="kw">summary</span>(Inverts2way_mod)  <span class="co"># F-test with Type I Sum of Squares (probably not appropriate!)</span></code></pre></div>
 <pre><code>##              Df Sum Sq Mean Sq F value  Pr(&gt;F)    
 ## Type          2 2093.6  1046.8  10.904 0.00079 ***
 ## Country       1    4.2     4.2   0.043 0.83731    
@@ -306,7 +306,7 @@ op &lt;-<span class="st"> </span><span class="kw">options</span>(<span class="dt
 <h4>…back to our model</h4>
 <p>If we want the results of an F-test using type III SS, we have several options - a good reminder that there are often multiple ways of doing the same thing in R! One option is to use the <code>drop1</code> function with an F test, which compares refitted models with different terms dropped. Another option is to use the <code>Anova</code> function in the package <code>car</code>, and specify <code>Type = III</code>. Both approaches will give you the same results for linear models, with only slightly different output due to their methods: <code>drop1</code> will give you AIC scores for the different models compared, and <code>Anova</code> will show you the significance of the intercept. If you don’t need either of these, choose the function you like better - e.g., based on which syntax feels more intuitive to you, or whether you have installed the <code>car</code> package (but, you can run <code>install.packages(&quot;car&quot;)</code> if not)<sup>1</sup>. We will show that both give the same statistics.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># With drop1, the scope argument designates the terms to be dropped; the . means all of them.</span>
-<span class="kw">drop1</span>(Inverts2way.mod, <span class="dt">scope =</span> ~., <span class="dt">test=</span><span class="st">&quot;F&quot;</span>)  </code></pre></div>
+<span class="kw">drop1</span>(Inverts2way_mod, <span class="dt">scope =</span> ~., <span class="dt">test=</span><span class="st">&quot;F&quot;</span>)  </code></pre></div>
 <pre><code>## Single term deletions
 ## 
 ## Model:
@@ -324,7 +324,7 @@ op &lt;-<span class="st"> </span><span class="kw">options</span>(<span class="dt
 <pre><code>## The following object is masked from &#39;package:dplyr&#39;:
 ## 
 ##     recode</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">Anova</span>(Inverts2way.mod, <span class="dt">type=</span><span class="st">&quot;III&quot;</span>)  <span class="co"># Specify Type III SS</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">Anova</span>(Inverts2way_mod, <span class="dt">type=</span><span class="st">&quot;III&quot;</span>)  <span class="co"># Specify Type III SS</span></code></pre></div>
 <pre><code>## Anova Table (Type III tests)
 ## 
 ## Response: Richness
@@ -344,7 +344,7 @@ op &lt;-<span class="st"> </span><span class="kw">options</span>(<span class="dt
 <h2>Check assumptions</h2>
 <p>To use this model, we need to check that its assumptions have been met. We will look at the model residuals as before.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))  <span class="co"># Set plot layout</span>
-<span class="kw">plot</span>(Inverts2way.mod, <span class="dt">las=</span><span class="dv">1</span>)</code></pre></div>
+<span class="kw">plot</span>(Inverts2way_mod, <span class="dt">las=</span><span class="dv">1</span>)</code></pre></div>
 <p><img src="Images/ANOVA/unnamed-chunk-16-1.png" width="600pt" style="display: block; margin: auto;" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))  <span class="co"># Re-set plot layout</span></code></pre></div>
 <p>And as before, our residuals look fairly normal and homogeneous, so we can report the model output.</p>
@@ -352,10 +352,11 @@ op &lt;-<span class="st"> </span><span class="kw">options</span>(<span class="dt
 <div id="postHoc2" class="section level2">
 <h2>Post-hoc testing</h2>
 <p>We may still wonder about the differences between levels of the significant factor, <code>Type</code>. With a 2-way ANOVA, we can apply a Tukey test using the function <code>lsmeans</code> in the package <code>lsmeans</code>, along with the function <code>cld</code>, which controls the output that is displayed. The first argument to <code>cld</code> is an object created by <code>lsmeans</code>. <code>lsmeans</code> requires us to specify the model as well as the variable to test (e.g., <code>Type</code>), and give us confidence intervals as output, which we could use to determine which groups differ. We can also use <code>cld</code> to figure this out for us. For <code>cld</code>, we can to specify the <em>p</em>-value as <code>alpha</code>, the post-hoc test to use as <code>adjust</code>, and whether to use letters instead of the default to numbers for comparing groups.</p>
+<p>If you have not already done so, be sure to install <code>lsmeans</code> and associated dependencies, i.e. with <code>install.packages(&quot;lsmeans&quot;, dependencies = TRUE)</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;lsmeans&quot;</span>)</code></pre></div>
 <pre><code>## Loading required package: estimability</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Which Types vary from the others, using a Tukey test?</span>
-    <span class="kw">cld</span>(<span class="kw">lsmeans</span>(Inverts2way.mod, <span class="dt">specs=</span><span class="st">&quot;Type&quot;</span>), <span class="dt">alpha=</span><span class="fl">0.05</span>, <span class="dt">adjust=</span><span class="st">&quot;tukey&quot;</span>, <span class="dt">Letters=</span>letters) </code></pre></div>
+    <span class="kw">cld</span>(<span class="kw">lsmeans</span>(Inverts2way_mod, <span class="dt">specs=</span><span class="st">&quot;Type&quot;</span>), <span class="dt">alpha=</span><span class="fl">0.05</span>, <span class="dt">adjust=</span><span class="st">&quot;tukey&quot;</span>, <span class="dt">Letters=</span>letters) </code></pre></div>
 <pre><code>## NOTE: Results may be misleading due to involvement in interactions</code></pre>
 <pre><code>##  Type         lsmean       SE df lower.CL upper.CL .group
 ##  Urban        53.875 3.464102 18 44.76064 62.98936  a    

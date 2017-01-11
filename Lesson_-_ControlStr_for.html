@@ -121,6 +121,7 @@ button.code-folding-btn:focus {
 </style>
 
 
+
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
@@ -225,10 +226,10 @@ for (colors in <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>
 <h2>But why would I want to use a for loop, you ask?</h2>
 <p>For loops can be useful for applying the same action to multiple objects. For example, let’s say that you have many data frames with the variable “Species_Names”, and you want to rename that column to simply be “Species.” Let’s read in files like this, with bird count data from several different months.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Read in bird count data</span>
-    birds_jan &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file=</span><span class="st">&quot;~/Documents/R/CREATE_R_Workshop/Data/birds_jan.csv&quot;</span>)    
-    birds_feb &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file=</span><span class="st">&quot;~/Documents/R/CREATE_R_Workshop/Data/birds_feb.csv&quot;</span>)    
-    birds_mar &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file=</span><span class="st">&quot;~/Documents/R/CREATE_R_Workshop/Data/birds_mar.csv&quot;</span>)    
-    birds_apr &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file=</span><span class="st">&quot;~/Documents/R/CREATE_R_Workshop/Data/birds_apr.csv&quot;</span>)    
+    birds_jan &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file=</span><span class="st">&quot;Data/birds_jan.csv&quot;</span>)    
+    birds_feb &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file=</span><span class="st">&quot;Data/birds_feb.csv&quot;</span>)    
+    birds_mar &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file=</span><span class="st">&quot;Data/birds_mar.csv&quot;</span>)    
+    birds_apr &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file=</span><span class="st">&quot;Data/birds_apr.csv&quot;</span>)    
 
 <span class="kw">head</span>(birds_jan)</code></pre></div>
 <pre><code>##           SpeciesNames Count
@@ -346,19 +347,19 @@ ExperimentFiles</code></pre></div>
 <div id="challengeforloop" class="section level4">
 <h4>Challenge</h4>
 <ol style="list-style-type: decimal">
-<li><p>Write a for loop that steps through a numeric vector and prints a number that is 4 times the number of the changing variable.</p></li>
-<li><p>The code within the brackets <code>{ }</code> of a for loop does not necessarily have to refer to the values in the controlling vector! Write a for loop that loops through 10 times, and each time, adds 1 to a given variable (<em>not</em> specified in the controlling vector) and then prints the value of that variable.</p></li>
-<li><p>Write a for loop that goes through the rows of the <code>trees</code> data frame and prints the value of <code>Count</code> if the <code>Species</code> is <code>Acer rubrum</code>.</p></li>
-<li>Write a for loop that goes through the <code>nutrients</code> data frame and prints the value of each <code>Nitrite</code> observation plus 1.
+<li><p>Write a for loop that steps through a numeric vector and prints a number that is 4 times the number of the numeric vector.</p></li>
+<li><p>The code within the brackets <code>{ }</code> of a for loop does not necessarily have to refer to the values in the controlling vector! The controlling vector can be there just to determine the number of times to go through the loop. Write a for loop that loops through 10 times, and each time, adds 1 to a given variable (specified <em>before</em> the for loop) and then prints the value of that variable. (I.e, the variable should increase in value with each loop.)</p></li>
+<li><p>Write a for loop that goes through the rows of the <code>trees</code> data frame and prints the value of <code>Count</code> if the <code>Species</code> is <code>Acer rubrum</code>. In this case, the for loop should be used to indicate which row of <code>trees</code> (or, which element of a variable within <code>trees</code>), to examine.</p></li>
+<li>Write a for loop that goes through the <code>nutrients</code> data frame and prints the value of each <code>Nitrite</code> observation plus 1. As above, the for loop effectively indicates which row to examine.
 <ul>
-<li>Next, create a vector called <code>nitrite_plus</code>, and modify your for loop to add the “Nitrite plus 1” values to the end of this vector.</li>
+<li>Next, create an empty vector called <code>nitrite_plus</code>. (You can do this with <code>c()</code>.) Then, modify your for loop so that it adds each “Nitrite plus 1” value to the end of this vector.</li>
 </ul></li>
 </ol>
 </div>
 <div id="bonus-challenge" class="section level4">
 <h4>Bonus challenge</h4>
 <ol start="5" style="list-style-type: decimal">
-<li>Write a for loop that goes through the <code>nutrients</code> data and prints out whether or not dissolved inorganic nitrogen (the sum of nitrate, ammonium, and nitrite) is greater than 12. Use the <code>dplyr</code> function <code>slice</code>, which lets you select rows of a data frame by their order.</li>
+<li>Write a for loop that goes through the <code>nutrients</code> data by row and prints out the result of a conditional statement testing whether or not dissolved inorganic nitrogen (the sum of nitrate, ammonium, and nitrite) is greater than 12. Use the <code>dplyr</code> function <code>slice</code>, which lets you select rows of a data frame by their order. (Try <code>slice(nutrients, 2)</code> with several numeric values, and look at the help file for <code>slice</code> for more information on this function.)</li>
 </ol>
 <br>
 <hr>
@@ -379,6 +380,7 @@ ExperimentFiles</code></pre></div>
 $(document).ready(function () {
   $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
 });
+
 
 </script>
 

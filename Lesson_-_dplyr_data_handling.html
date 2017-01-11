@@ -388,7 +388,7 @@ trees %&gt;%<span class="st"> </span>
 </div>
 <div id="tallying" class="section level2">
 <h2>Tallying</h2>
-<p>You may often want to know the number of observations found for each factor or combination of factors. One way to do this would be to use <code>group_by()</code> and <code>summarize()</code> along with <code>length()</code>, to figure out the length of the vector with elements from each group. However, <code>dplyr</code> also provides a function that does this directly: <code>tally()</code>. For example, if we wanted to know how many individual species counts were made in each province, we could do the following:</p>
+<p>You may often want to know the number of observations found for each factor or combination of factors in a data frame. <code>dplyr</code> provides a function that does this directly: <code>tally()</code>. For example, if we wanted to know how many individual species counts were made in each province, we could do the following:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trees %&gt;%
 <span class="st">    </span><span class="kw">group_by</span>(Province) %&gt;%
 <span class="st">    </span><span class="kw">tally</span>()</code></pre></div>
@@ -399,6 +399,17 @@ trees %&gt;%<span class="st"> </span>
 ## 2       Ontario   120
 ## 3        Quebec    90</code></pre>
 <p>In the above code, <code>tally()</code> is applied to each of the groups created by <code>group_by()</code>, and it counts the total number of records for each category.</p>
+<p>We could also do this with the <code>summarize()</code> function introduced above, by using it with the function <code>n()</code>, which counts the number of observations in a group.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trees %&gt;%
+<span class="st">    </span><span class="kw">group_by</span>(Province) %&gt;%
+<span class="st">    </span><span class="kw">summarize</span>(<span class="dt">Records =</span> <span class="kw">n</span>())</code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##        Province Records
+##           &lt;chr&gt;   &lt;int&gt;
+## 1 New Brunswick      90
+## 2       Ontario     120
+## 3        Quebec      90</code></pre>
+<p>Here, we have the same output as above, except that we’ve defined the variable that indicates the number of records for each province. Note that there are often multiple ways to accomplish the same task in R!</p>
 <div id="challenge-2" class="section level3">
 <h3>Challenge</h3>
 <p>For the following questions, use <code>dplyr</code> functions and pipes to display output that will answer the question.</p>
