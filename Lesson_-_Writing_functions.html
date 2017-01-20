@@ -235,7 +235,7 @@ $(document).ready(function () {
 <div id="returning-multiple-elements" class="section level2">
 <h2>Returning multiple elements</h2>
 <p>As mentioned above, if you want to return multiple elements, you can do so by combining them into one object. For example, if you want to return 2 values, you can create a vector with both elements, and then return the vector.</p>
-<p>Let’s say that we want to write a function that returns two sentences: one restating the number, and one stating the square root. We could do so as follows:</p>
+<p>Let’s say that we want to write a function that returns two sentences: one restating the number, and one stating the square root. We could do so with the following function, which makes use of the <code>paste()</code> function. The <code>paste()</code> function combines multiple arguments (character strings and/or evaluated variables) into a character string. (See <code>?paste</code> for more information.)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">squareRootSentence &lt;-<span class="st"> </span>function(x){
     sentence1 &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;The original number was &quot;</span>, x, <span class="st">&quot;.&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)
     sentence2 &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;The square root of &quot;</span>, x, <span class="st">&quot; is &quot;</span>, <span class="kw">sqrt</span>(x),<span class="st">&quot;.&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)
@@ -284,8 +284,8 @@ $(document).ready(function () {
 <div id="challengefn" class="section level4">
 <h4>Challenge</h4>
 <ol style="list-style-type: decimal">
-<li><p>Write a function that takes two arguments and adds them together.</p></li>
-<li><p>Write a function that converts a weight in kg to a weight in g.</p></li>
+<li><p>Write a function that takes two arguments, adds them together, and returns the result.</p></li>
+<li><p>Write a function that converts a weight in kg to a weight in g (and returns the weight in g).</p></li>
 <li><p>Write a function that converts a temperature in Fahrenheit to a temperature in Celsius.</p></li>
 <li><p>Write a function that returns the absolute value of a number without using the <code>abs</code> function.</p></li>
 <li><p>Dig deep and remember this from algebra class: When you have a quadratic equation of the form <em>ax<sup>2</sup></em> + <em>bx</em> + <em>c</em> = 0, you can find its roots using the quadratic formula: <em>x</em> = (-<em>b</em> ± sqrt(<em>b<sup>2</sup></em> - 4*<em>ac</em>) )/(2*<em>a</em>). Write a function to find both values of <em>x</em> given <em>a</em>, <em>b</em>, and <em>c</em>. Test your function by finding the roots of <em>x<sup>2</sup></em> + 5 <em>x</em> + 6.</p></li>

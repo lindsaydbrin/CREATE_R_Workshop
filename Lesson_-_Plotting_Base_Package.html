@@ -247,7 +247,7 @@ $(document).ready(function () {
 <li><code>bg</code> - <strong>b</strong>ack<strong>g</strong>round color of the symbol, if applicable (pch between 21 and 25)</li>
 <li><code>cex</code> - <strong>c</strong>haracter <strong>ex</strong>pansion, or point size
 <ul>
-<li>Magnification relative to the default (1); can be greater or lesser than 1</li>
+<li>Magnification relative to the default (1); can be greater or less than 1</li>
 </ul></li>
 <li><code>lty</code> - <strong>l</strong>ine <strong>ty</strong>pe
 <ul>
@@ -290,8 +290,8 @@ $(document).ready(function () {
   <span class="kw">points</span>(Nitrite ~<span class="st"> </span>Nitrate, <span class="dt">data=</span>nutrients, <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)  <span class="co"># Add nitrite points</span></code></pre></div>
 <p><img src="Images/BasePlotImages/unnamed-chunk-14-1.png" width="600pt" style="display: block; margin: auto;" /></p>
 <p>The <code>axis</code> function has many optional parameters. The help file (<code>?axis</code>) gives you a list, and also notes that other graphical <code>par</code>ameters can be passed to this function. The one required argument is <code>side</code>. Plot sides are represented by a number from 1 to 4, where 1 is the bottom, and the numbering goes clockwise around the plot (i.e., the left side is 2). This makes it straightforward to add a separate axis on the right side, i.e. by specifying <code>side=4</code>.</p>
-<p><code>Line</code> tells the function how far away from the axis to put the text. Line numbers start at the axis and move outward. Line numbers do not need to be whole numbers, and using decimals allows for some fine-tuned spacing.</p>
 <p>Another helpful argument is <code>pos</code> (position), which allows you to control where the axis is in terms of its intersection with the perpendicular axis. Try adding another y-axis at x=2 to understand how this works.</p>
+<p>We could also have accomplished something similar with the <code>line</code> argument, which tells the function how far into the margin, and therefore away from the plot, to put the axis. Line numbers start at the axis and move outward, and do not need to be whole numbers.</p>
 <p>Last, as above, <code>las</code> specifies the rotation of the tick labels, where 1 means parallel to the reading direction.</p>
 <p>Now that we have our plot, we can add axis labels using <code>mtext</code>. In particular, if we use the function <code>expression</code> rather than just a character string, we can incorporate text formatting like subscripts, superscripts, and greek letters. <code>expression</code> takes a vector of objects, such as strings (in quotes), or variables denoting Greek letters, and other symbols that determine how the components are connected. For example, you can use * for simple concatenation, ^ for a superscript, or enclose the text with [ ] for a subscript.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="dv">100</span>, <span class="dv">100</span>, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">5</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">14</span>), <span class="dt">xlab=</span><span class="st">&quot;&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;&quot;</span>, <span class="dt">axes=</span><span class="ot">FALSE</span>)  
