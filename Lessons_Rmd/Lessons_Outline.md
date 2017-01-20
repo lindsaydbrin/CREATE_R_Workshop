@@ -19,23 +19,23 @@ ___
 	- [Organization and R basics *(CRI version)*](Lesson_-_Organization_and_R_Basics.html)
 	- [Before we start *(Data Carpentry)*](http://www.datacarpentry.org/R-ecology-lesson/00-before-we-start.html)
 * Introduction to R
-	- [*Data Carpentry*](http://www.datacarpentry.org/R-ecology-lesson/01-intro-to-R.html)
 	- [*CRI version*](Lesson_-_Introduction_to_R.html)
+	- [*Data Carpentry*](http://www.datacarpentry.org/R-ecology-lesson/01-intro-to-R.html)
 
 #### Working with Data
 * Starting with data 
-	- [*Data Carpentry*](http://www.datacarpentry.org/R-ecology-lesson/02-starting-with-data.html)
 	- [*CRI version*](Lesson_-_Starting_with_data.html)
+	- [*Data Carpentry*](http://www.datacarpentry.org/R-ecology-lesson/02-starting-with-data.html)
 * The `data.frame` class
-	- [*Data Carpentry*](http://www.datacarpentry.org/R-ecology-lesson/03-data-frames.html)
 	- *CRI version*
 		- [The `data.frame` class - part 1](Lesson_-_Data_Frame_Part_1.html)
 		- [The `data.frame` class - part 2 (Substitute for second half of Data Carpentry lesson)](Lesson_-_Data_Frame_Part_2.html)
+	- [*Data Carpentry*](http://www.datacarpentry.org/R-ecology-lesson/03-data-frames.html)
 
 #### Data manipulation
 * Data manipulation using `dplyr` 
-	- [*Data Carpentry*](http://www.datacarpentry.org/R-ecology-lesson/04-dplyr.html)
 	- [*CRI version*](Lesson_-_dplyr_data_handling.html)
+	- [*Data Carpentry*](http://www.datacarpentry.org/R-ecology-lesson/04-dplyr.html)
 * [Reshaping data frames: `dplyr` reshape](Lesson_-_dplyr_reshape.html)
 * [Joining data frames: `dplyr` join](Lesson_-_dplyr_join.html)
 
