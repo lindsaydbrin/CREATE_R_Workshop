@@ -102,7 +102,7 @@ The R code will be structured like this:
 ```r
 if (test condition is true) { 
   run this line of code
-  } else if {
+  } else if (this other condition is true) {
     run this other line of code instead
   } else {
     run this line of code when none of the previous conditions are true

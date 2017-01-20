@@ -163,7 +163,7 @@ Here are some of the more commonly used parameters:
     + A number from 1-25, or a vector of numbers from 1-25 with length equal to the plotted vectors
 * `bg` - **b**ack**g**round color of the symbol, if applicable (pch between 21 and 25)
 * `cex` - **c**haracter **ex**pansion, or point size
-    + Magnification relative to the default (1); can be greater or lesser than 1
+    + Magnification relative to the default (1); can be greater or less than 1
 * `lty` - **l**ine **ty**pe
     + A number from 0 to 6, which specify options like solid, dotted, or dashed
 * `lwd` - **l**ine **w**i**d**th
@@ -209,9 +209,9 @@ plot(1, 1, xlim=c(0,5), ylim=c(0, 14), type="n", ann=FALSE, axes=FALSE)  # Make 
 
 The `axis` function has many optional parameters. The help file (`?axis`) gives you a list, and also notes that other graphical `par`ameters can be passed to this function. The one required argument is `side`. Plot sides are represented by a number from 1 to 4, where 1 is the bottom, and the numbering goes clockwise around the plot (i.e., the left side is 2). This makes it straightforward to add a separate axis on the right side, i.e. by specifying `side=4`.   
 
-`Line` tells the function how far away from the axis to put the text. Line numbers start at the axis and move outward. Line numbers do not need to be whole numbers, and using decimals allows for some fine-tuned spacing.
+Another helpful argument is `pos` (position), which allows you to control where the axis is in terms of its intersection with the perpendicular axis. Try adding another y-axis at x=2 to understand how this works. 
 
-Another helpful argument is `pos` (position), which allows you to control where the axis is in terms of its intersection with the perpendicular axis. Try adding another y-axis at x=2 to understand how this works.   
+We could also have accomplished something similar with the `line` argument, which tells the function how far into the margin, and therefore away from the plot, to put the axis. Line numbers start at the axis and move outward, and do not need to be whole numbers.
 
 Last, as above, `las` specifies the rotation of the tick labels, where 1 means parallel to the reading direction.
 

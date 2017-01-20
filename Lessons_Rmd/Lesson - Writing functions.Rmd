@@ -138,7 +138,7 @@ multiply(x = 12, y = 3)
 
 As mentioned above, if you want to return multiple elements, you can do so by combining them into one object.  For example, if you want to return 2 values, you can create a vector with both elements, and then return the vector.
 
-Let's say that we want to write a function that returns two sentences: one restating the number, and one stating the square root.  We could do so as follows:
+Let's say that we want to write a function that returns two sentences: one restating the number, and one stating the square root.  We could do so with the following function, which makes use of the `paste()` function. The `paste()` function combines multiple arguments (character strings and/or evaluated variables) into a character string.  (See `?paste` for more information.)
 
 ```{r}
 squareRootSentence <- function(x){
@@ -207,14 +207,14 @@ As a last tip, it often helps to keep your functions short and modular. This can
 
 #### Challenge {#challengefn}
 
-1. Write a function that takes two arguments and adds them together.
+1. Write a function that takes two arguments, adds them together, and returns the result.
 
 ```{r, echo=FALSE, eval=FALSE}
 addTwo <- function(a,b){ a + b }
 addTwo(4,5)
 ```
 
-2. Write a function that converts a weight in kg to a weight in g.
+2. Write a function that converts a weight in kg to a weight in g (and returns the weight in g).
 
 ```{r, echo=FALSE, eval=FALSE}
 kg2g <- function(x) { x*1000 }
@@ -271,7 +271,7 @@ statistics(c(3,5,2,NA))
 
 When you write a function, you can specify default values for specific arguments, which allows the function to run whether or not there are inputs for those arguments. For example, in the `plot` function, the default is to use `pch` = 19, which plots open circles for points, but you can specify a different `pch` value when you call the function. Similarly, the `log` function has `base` as an argument, but if you don't specify a base, it will default to *e* (`exp(1)`), and compute the natural log.   
 
-Defaults are defined by setting arguments equal to specific values in the initial function definition. To demonstrate, let's write a function that prints out a sentence about your favorite color.
+Defaults are defined by setting arguments equal to specific values in the initial function definition. To demonstrate, let's write a function that prints out a sentence about your favorite color. 
 
 ```{r}
 printFavColor <- function(colorname = "aquamarine") {

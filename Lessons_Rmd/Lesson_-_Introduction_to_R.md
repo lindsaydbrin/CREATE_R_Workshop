@@ -52,7 +52,13 @@ to create an object `weight_kg` that has the value of 55. You can check the envi
 
 You can choose nearly any name to give your object, like `x`, or `temperature`, or `mrPotatoHead.` It is a good idea for your names to describe the object.  It is also a good idea to use nouns to name variables (e.g., `process_rates` or `treeHeights`) and verbs to name functions (e.g., `plot_abundance_data` or `findTemperatureMean`).
 
-There are several limitations on naming objects.  You cannot start the name with a number: `klift4` is ok, but `4klift` is not. There are several names that are completely off limits because they are names of fundamental functions in R. (See [here](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Reserved.html) for the list of these reserved words.)  It's best to avoid names of other functions that already exist, even if they are technically allowed, so that you can continue to access those original functions. (You can check the help file to determine whether a function already exists.)  It is also a good idea to avoid using dots (`.`) in object names, because these dots mean something specific for certain methods in certain R functions, and also have meaning in other programming languages.  Some dots already exist in R function names for historical reasons, but it's still not a good idea to use them. Otherwise - do what makes sense to you, and be consistent!  
+There are several limitations on naming objects.  You cannot start the name with a number: `klift4` is ok, but `4klift` is not. There are several names that are completely off limits because they are names of fundamental functions in R. (See [here](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Reserved.html) for the list of these reserved words.)  It's best to avoid names of other functions that already exist, even if they are technically allowed, so that you can continue to access those original functions. (You can check the help file to determine whether a function already exists.)  
+
+It is also a good idea to avoid using dots (`.`) in object names, because these dots mean something specific for certain methods in certain R functions, and also have meaning in other programming languages.  Some dots already exist in R function names for historical reasons, but it's still not a good idea to use them. 
+
+Otherwise - do what makes sense to you, and be consistent with your choices!  
+
+Also, note that R is case sensitive - meaning that `myvariable` refers to a different object from `myVariable`. Having a consistent naming scheme with regard to capitalization will also be helpful!
 
 When we initially do the assignment, no result is printed to the screen. We can print the value to the console in several ways. At the time of assignment, we can surround the command in parentheses to see its result:
 

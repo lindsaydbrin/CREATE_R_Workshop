@@ -167,7 +167,7 @@ trees_sm <- trees %>%
 
 2. Use pipes and subsetting to determine how many species have fewer than 10 individuals in plot 2 in Saint John.
 
-3. Using pipes, subset `trees` to include only the observations from Fredericton, and only the columns indicating species and the number of each species counted. Assign the result to a new variable called `trees_Fredericton`.  Does it matter whether you use `filter()` or `select()` first?  Why or why not?
+3. Using pipes, subset `trees` to include only the observations from Fredericton, and only the columns indicating species and the number of individuals counted. Assign the result to a new variable called `trees_Fredericton`.  Does it matter whether you use `filter()` or `select()` first?  Why or why not?
 
 4. Using pipes, `filter()`, and `str()`, figure out how many observations there are in a subset of `trees` where the `Plot` number is 4 and each species has at least 10 trees in that plot.
 

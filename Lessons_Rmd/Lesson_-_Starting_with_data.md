@@ -104,6 +104,11 @@ Once created, factors can only contain a set of pre-defined values, which are kn
 
 ```r
 flavors <- factor(c("sweet", "savory", "savory", "sweet"))
+str(flavors)
+```
+
+```
+##  Factor w/ 2 levels "savory","sweet": 2 1 1 2
 ```
 
 R will assign 1 to the level `"savory"` and 2 to the level `"sweet"`. This happens because *savory* comes before *sweet* alphabetically.  It does not matter that `"sweet"` is the first element of the factor.  You can check the levels of a factor by using the function `levels()`, and the number of levels of a factor by using the function `nlevels()`.
